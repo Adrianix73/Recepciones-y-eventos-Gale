@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing:border-box;
+}
+/* VARIABLES GLOBALES EN CSS*/
+:root{
+    --bg: #F4EFE5;           /* backbround o fondo de la pagina */
+    --text-claro: #FFFFFF;   /* #FFFFFF; color del texto principal */
+}
+
+body{
+    font-family: 'Poppins', sans-serif; /*SI No funciona POPPINS - Defente SansSerif*/
+    color: var(--text-claro) /* color del texto */
+}
+
+/* Para móvil (por defecto) */
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/fondo-movil.avif');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Para tablet */
+@media (min-width: 768px) {
+  body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/fondo-tablet.avif');
+  }
+}
+
+/* Para desktop */
+@media (min-width: 1024px) {
+  body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/fondo-desktop.webp');
+  }
+}
+
+.container{
+    width: 100%;
+    height: 100vh; /* altura de la pantalla */
+    display: flex; /* para centrar el contenido */
+    flex-direction: column; /* para centrar el contenido verticalmente */
+    justify-content: center; /* para centrar el contenido verticalmente */
+    align-items: center; /* para centrar el contenido horizontalmente */
+}
+
+.login{
+    width: 150px;
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+label{
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: medium;
+    font-size: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    background-color: transparent;
+    width: 100%;
+    padding: 10px 5px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 2px solid white;
+    color: var(--text-claro);
+    font-weight: 500;
+    font-size: 18px;
+}
+
+button{
+    width: 100%;
+    padding: 10px;
+    background-color: #F7D9C4;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+    transition: all 0.3s ease;  
+}
+
+button:hover {
+    filter: brightness(0.75); /*Reduce el brillo del degradado al 75%, haciéndolo más oscuro sin cambiar los colores*/
+    transform: scale(1.05);
+}
+
+#errorMsg {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.menu-cliente {
+    margin-top: 20px;
+    width: 300px;
+    height: 50px;
+    padding: 10px 5px;
+}

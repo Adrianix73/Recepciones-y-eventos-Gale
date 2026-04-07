@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rincón de Rango - LOGIN</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container"> <!--Crea una clase contenedor_ div es un contenedor-->
+
+        <!--Imagen desde la carpeta local-->
+        <img src="img/logo-rdr-madera.webp" alt="usuario" class="login">
+
+        <form id="loginForm">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" placeholder="Ingrese usuario">
+
+            <label for="clave">Contraseña:</label>
+            <input type="password" id="clave" placeholder="Ingresa contraseña">
+
+            <button type="submit">Ingresar</button>
+
+            <p id="errorMsg"></p>
+
+        </form>
+
+        <button type="submit" class="menu-cliente">Ingresar como Cliente</button>
+
+    </div>
+    
+    <script src="js/app.js"></script>
+    
+</body>
+</html>
