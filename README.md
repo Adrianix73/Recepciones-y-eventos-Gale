@@ -1,68 +1,103 @@
-# Sistema de Gestión de Ventas y Reportes — Rincón de Rango
-Sistema web para la gestión de ventas y generación de reportes del restobar "El Rincón de Rango". Desarrollado como proyecto del curso de Java Web en SENATI — 3er ciclo de Ingeniería de Software.
+# Sistema de Gestión de Ventas y Reportes
+
+Sistema web para la gestión de Ventas de los productos que ofrece la empresa y para la gestión de Reportes de productos más vendidos,
+cuál es el método de pago más usado, cuantos fueron las ganancias (al día, semana y mes), entre otros.
+
+Desarrollo como proyecto final del curso de Java Web en SENATI
 
 ## Descripción del negocio
-**Razón Social:** Recepciones y Eventos Gale EIRL
 
-**RUC:** 20614373203
+__Empresa:__ Recepciones y Eventos Gale E.I.R.L.
 
-**Nombre Comercial:** El Rincón de Rango
+__Nombre comercial:__ El Rincón de Rango
 
-**Giro:** Restobar con servicio de comidas, bebidas y eventos con música en vivo los fines de semana
+__RUC:__ 20614373203
 
-**Tamaño:** MYPE (micro y pequeña empresa) con más de 10 trabajadores
+__Giro del negocio:__ Restobar - Establecimiento dedicado a la venta decomidas y bebidas, con atención en mesa mediante mozos
+y eventos con música en vivo los fines de semana.
 
-**Contexto:** El restobar opera de forma manual: los mozos anotan pedidos en papel, la comunicación con cocina es verbal o mediante papelitos, y el control de ventas e ingresos se lleva en cuadernos. Esto genera errores frecuentes, pérdida de información y dificultad para conocer las ganancias reales del negocio.
+__Tamaño:__ Microempresa con más de 10 trabajadores (mozos, cajero, cocineros, administrador y contador externo).
 
-**Justificación:** Se requiere un sistema digital que reemplace los registros manuales de ventas, permitiendo al administrador conocer con exactitud cuánto se vendió, qué productos son los más demandados y cuál es el ingreso real del negocio por día, semana o mes.
+__Contexto actual:__ El negocio opera de forma mayormente manual: los pedidos se anotan en papel o se comunican de voz a la cocina, 
+el inventario se controla en un cuaderno, y calcular las ganancias diarias resulta complicado y toma bastante tiempo. 
+Acepta múltiples métodos de pago (efectivo, tarjeta, Yape, Plin, transferencia), pero no cuenta con un sistema digital que
+centralice las ventas ni genere reportes automáticos.
 
-## Problema identificado y solución
-**Problema:** El restobar no cuenta con un registro digital de ventas. Todo se anota en papel o libreta, lo que provoca: pedidos olvidados, platos equivocados, dificultad para saber cuánto se vendió al final del día, pérdida de dinero sin trazabilidad y errores al cobrar. El dueño manifiesta que calcular sus ganancias "es complicado y le toma bastante tiempo".
+__Justificación del proyecto:__ El dueño reportó todos los problemas listados en la entrevista emitida para la obtención de datos: 
+pedidos olvidados, platos equivocados, falta de control de insumos, dificultad para conocer las ventas del día, pérdida de dinero e insumos, 
+demoras por mala comunicación y errores en cobros.
+Esto evidencia una necesidad urgente de digitalizar al menos el proceso de ventas y generación de reportes para 
+reducir pérdidas, errores y tiempos muertos.
 
-**Solución tecnológica:** Desarrollar un sistema web con Java Spring Boot y MariaDB que permita registrar ventas digitalmente, asociando productos consumidos, cantidades, precios, usuario responsable y método de pago. El sistema generará reportes de ventas por período, productos más vendidos y control de caja diario. Se justifica una solución web porque el local ya cuenta con computadora, tablet, celulares e impresora, además de internet estable.
+## Indetificar el problema y solución
 
-## Requerimientos Funcionales
+### Problema delimitado:
+
+El Rincón de Rango no cuenta con ningún sistema digital para registrar sus ventas. Todo el proceso, desde la 
+toma del pedido hasta el cobro, se realiza de forma manual (papel, voz, memoria), lo que genera:
+
+- Errores frecuentes en pedidos (platos equivocados, pedidos olvidados).
+- Imposibilidad de conocer las ventas reales al final del día, semana o mes (el dueño indica que "es complicado y toma bastante tiempo").
+- Pérdida de dinero e insumos sin poder rastrear el origen.
+- Errores en cobros y dificultad para cuadrar caja.
+
+En resumen: __No existe trazabilidad ni control sobre el flujo de ventas,__ lo que impide tomar 
+decisiones informadas y genera pérdidas económicas constantes.
+
+### Solución tecnológica propuesta:
+
+Desarrollar un __Sistema Web de Gestión de Ventas y Reportes__ que permita:
+
+1. Registrar digitalmente cada venta (productos, cantidades, precios, método de pago, mozo responsable).
+2. Generar reportes automáticos de ventas por día, semana y mes.
+3. Gestionar el catálogo de productos (platos y bebidas) con precios y disponibilidad.
+4. Controlar la caja diaria con resumen de ingresos por método de pago.
+
+__Justificación tecnológica:__ Al ser un sistema web, es accesible desde cualquier dispositivo que ya posee 
+el negocio (laptop, tablets, celulares) sin necesidad de instalar software adicional. El internet del local 
+es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de una solución basada en la nube/web o también solo local.
+
+## Requerimientos Funcionales (RF)
+
 | Código | Descripción |
 |---|---|
-| RF-01 | El sistema debe **registrar** una nueva venta asociando los productos consumidos, las cantidades, el precio unitario, el usuario responsable del registro y el método de pago utilizado |
-| RF-02 | El sistema debe **generar** reportes de ventas filtrados por rango de fechas, mostrando totales, cantidad de transacciones y desglose por método de pago |
-| RF-03 | El sistema debe **gestionar** el catálogo de productos permitiendo crear, editar, desactivar y reactivar platos con su categoría y precio |
-| RF-04 | El sistema debe **controlar** el arqueo de caja diario, calculando automáticamente el total de ingresos por cada método de pago |
-| RF-05 | El sistema debe **autenticar** a los usuarios mediante nombre y contraseña hasheada con BCrypt, asignando permisos según su rol (Admin, Mozo, Cajero) |
+| __RF-01__ | El sistema debe registrar una nueva venta asociando los productos consumidos, las cantidades, el precio unitario, el mozo responsable y el método de pago utilizado. |
+| __RF-02__ | El sistema debe generar reportes de ventas filtrados por día, semana y mes, mostrando totales de ingresos, cantidad de ventas y desglose por método de pago. |
+| __RF-03__ | El sistema debe gestionar el catálogo de productos (crear, editar, desactivar, reactivar y listar platos y bebidas) con su nombre, precio, categoría y estado de disponibilidad. |
+| __RF-04__ | El sistema debe controlar la apertura y cierre de caja diaria, calculando automáticamente el total de ingresos y el desglose por cada método de pago (efectivo, tarjeta, Yape, Plin, transferencia). |
+| __RF-05__ | El sistema debe autenticar a los usuarios mediante credenciales (usuario y contraseña hasheada) y restringir el acceso según su rol (administrador, cajero, mozo), permitiendo que solo el administrador acceda a los reportes de ventas y configuración del sistema. |
 
-## Requerimientos No Funcionales
+## Requerimientos No Funcionales (RNF)
+
 | Código | Tipo | Descripción |
 |---|---|---|
-| RNF-01 | Usabilidad | La interfaz debe ser intuitiva y permitir al mozo registrar una venta en menos de 1 minuto sin capacitación previa |
-| RNF-02 | Rendimiento | El sistema debe cargar y procesar cualquier operación en menos de 3 segundos |
-| RNF-03 | Seguridad | Las contraseñas se almacenan hasheadas con BCrypt; cada usuario accede únicamente a las funciones de su rol |
-| RNF-04 | Compatibilidad | El sistema debe ser responsive y funcionar correctamente en computadora, tablet y celular (dispositivos disponibles en el local) |
+| __RNF-01__ | __Usabilidad__ | La interfaz del sistema debe ser intuitiva y sencilla, permitiendo que un mozo sin experiencia técnica pueda registrar una venta en menos de 1 minuto y sin capacitación extensa. |
+| __RNF-02__ | __Rendimiento__ | El sistema debe cargar cualquier página y procesar el registro de una venta en un tiempo máximo de 3 segundos, incluso en horas punta con múltiples usuarios concurrentes (más de 10 trabajadores). |
+| __RNF-03__ | __Seguridad__ | El sistema debe almacenar las contraseñas hasheadas con BCrypt; cada usuario accede a las funciones de su rol. |
+| __RNF-04__ | __Compatibilidad__ | El sistema debe ser responsive y funcionar correctamente en los navegadores web de los dispositivos disponibles en el local (laptop, tablet y celulares), sin requerir instalación de software adicional. |
 
 ## Stack completo
-1. **Trello** — Gestión del proyecto (Kanban)
-2. **Draw.io** — Diagrama Entidad-Relación + Modelo Relacional
-3. **Figma** — Wireframe + Diseño UI/UX
-4. **MySQL Workbench** — Diseñar y administrar la base de datos
-5. **IntelliJ IDEA** — Frontend (HTML, CSS, JS) + Backend (Spring Boot)
-6. **XAMPP** — Servidor MariaDB + Tomcat
-7. **Postman** — Pruebas de API REST
-8. **Git + GitHub** — Control de versiones
+1. Trello = Gestión del proyecto (Kanban)
+2. Draw.io = Diagrama DER y MR
+3. Figma = Wireframe + Diseño UI/UX
+4. MySQL Workbench = Diseñar y administrar BD
+5. Intellij IDEA = Backend (Sping Boot)
+6. VS Code = Frontend (HTML/CSS/JS)
+7. XAMPP = Servidor Tomcat para correr la app
+8. Postman = Para pruebas de API REST
 
-## Tecnologías utilizadas
+## Tecnologias Utilizadas
 - Java 21
 - Spring Boot 3
 - MySQL 8
 - HTML5, CSS3, JavaScript
-- IntelliJ IDEA
+- Intellij IDEA
 - XAMPP (Tomcat)
 - MySQL Workbench
 - Figma (diseño UI/UX)
-- Draw.io (diagramas)
-
----
+- Draw.io (Diagramas)
 
 ## Estructura del proyecto
-
 ```
 JavaWeb-GotaGota/
 ├── backend/          → Spring Boot (Java)
@@ -75,98 +110,103 @@ JavaWeb-GotaGota/
 │   └── index.html
 ```
 
----
-
 ## Base de datos
-
 El sistema cuenta con 5 tablas principales:
 
 | Tabla | Descripción |
 |---|---|
-| CATEGORIA | Clasificación de los productos del menú (Entradas, Platos de Fondo, Bebidas, etc.) |
-| PRODUCTO | Platos y bebidas disponibles en el restobar con su precio y estado |
-| USUARIO | Personal del restobar con roles diferenciados (Admin, Mozo, Cajero) |
-| VENTA | Registro de cada transacción de venta realizada |
-| DETALLE_VENTA | Desglose de productos vendidos por cada venta con precio histórico |
+|Categoria | Grupo de productos que comparten características similares |
+| Producto | Plato, bebida, o servicio que se ofrece |
+| Usuario | Empleado con rol de funciones específicas (Mozo, Cajero y Administrador) |
+| Venta | Proceso de transferir el producto a cambio de un precio establecido |
+| Detalle_Venta | Descripciones y detalles relevantes de una venta |
 
-### Diagrama Entidad-Relación (DER)
-<img width="1220" height="664" alt="DER rango" src="https://github.com/user-attachments/assets/3f20dc0c-cfd9-4e10-9df0-a27a217b97cc" />
+## Diagrama Entidad-Relación (DER)
 
-### Modelo Relacional (MR)
-<img width="1087" height="722" alt="MR rango" src="https://github.com/user-attachments/assets/9b7cbb63-3996-4afd-8409-2fe43480d4f0" />
+<img width="1220" height="664" alt="DER rango" src="https://github.com/user-attachments/assets/3a95bfdd-b448-44ef-821f-317fbefbd790" />
 
+## Modelo Relacional (MR)
+
+<img width="1087" height="722" alt="MR rango" src="https://github.com/user-attachments/assets/9588206f-cf8c-4688-b1f6-e46c312dfa37" />
 
 ### Cardinalidades
-**CATEGORIA — PRODUCTO (1:N)** <br>
-Una categoría agrupa muchos productos, pero un producto pertenece a una sola categoría. <br>
-**USUARIO — VENTA (1:N)** <br>
-Un usuario puede registrar muchas ventas, pero una venta es registrada por un solo usuario. <br>
-**VENTA — DETALLE_VENTA (1:N)** <br>
-Una venta contiene muchos detalles (productos), pero cada detalle pertenece a una sola venta. <br>
-**PRODUCTO — DETALLE_VENTA (1:N)** <br>
-Un producto puede aparecer en muchos detalles de venta, pero cada detalle referencia a un solo producto.
+Categoría - Producto (1:N)
 
-| Entidad A | Relación | Entidad B | Cardinalidad |
+Una categoría puede tener muchos productos, pero un producto solo puede estar en una sola categoría.
+
+Usuario - Venta (1:N)
+
+Un usuario puede registrar muchas ventas, pero una venta solo puede haber sido registrada por un solo usuario.
+
+Venta - Detalle_Venta (1:N)
+
+Una venta puede tener muchos detalles (Detalle_Venta), pero un detalle (Detalle_Venta) solo puede estar en una sola venta.
+
+Producto - Detalle_Venta (1:N)
+
+Un producto puede estar muchos detalles (Detalle_Venta), pero un detalle (Detalle_Venta) solo puede tener en un solo producto.
+
+| Entidad A | Relacion | Entidad B | Cardinalidad |
 |---|---|---|---|
-| CATEGORIA | agrupa | PRODUCTO | 1:N |
-| USUARIO | registra | VENTA | 1:N |
-| VENTA | contiene | DETALLE_VENTA | 1:N |
-| PRODUCTO | aparece en | DETALLE_VENTA | 1:N |
+| Categoria | tiene | Producto | 1:N |
+| Usuario | registra | Venta | 1:N |
+| Venta | tiene | Detalle_Venta | 1:N |
+| Producto | tiene | Detalle_Venta | 1:N |
 
-### DDL (Creación de tablas)
-El sistema cuanta con 5 tablas principales:
+### Base de datos
+El sistema cuenta con 5 tablas principales:
 
 ```sql
-CREATE DATABASE restobar_db CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
+CREATE DATABASE restobar_db CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci; 
 USE restobar_db;
 
 CREATE TABLE categoria (
-    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
-    nombre_categoria VARCHAR(50) NOT NULL
+id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+nombre_categoria VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE producto (
-    id_producto INT PRIMARY KEY AUTO_INCREMENT,
-    id_categoria INT NOT NULL,
-    nombre_producto VARCHAR(100) NOT NULL,
-    precio_actual DECIMAL(10,2) NOT NULL,
-    descripcion TEXT,
-    fecha_desactivacion DATETIME NULL,
-    CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
-    CONSTRAINT uq_nombre_producto UNIQUE (nombre_producto)
+id_producto INT PRIMARY KEY AUTO_INCREMENT,
+id_categoria INT NOT NULL,
+nombre_producto VARCHAR(100) NOT NULL,
+precio_actual DECIMAL(10,2) NOT NULL,
+descripcion TEXT,
+fecha_desactivacion DATETIME DEFAULT NULL,
+CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
+CONSTRAINT uq_nombre_producto UNIQUE (nombre_producto)
 ) ENGINE = InnoDB;
 
 CREATE TABLE usuario (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(60),
-    apellido VARCHAR(40),
-    rol VARCHAR(20) NOT NULL,
-    clave VARCHAR(255) NOT NULL,
-    ultimo_login DATETIME NULL,
-    fecha_baja DATETIME NULL
+id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(60),
+apellido VARCHAR(40),
+rol VARCHAR(20) NOT NULL,
+clave VARCHAR(255) NOT NULL, -- Se aplicará Hash BCrypt
+ultimo_login DATETIME NULL,
+fecha_baja DATETIME DEFAULT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE venta (
-    id_venta INT PRIMARY KEY AUTO_INCREMENT,
-    id_usuario INT NOT NULL,
-    fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    total_venta DECIMAL(10,2) DEFAULT 0.00,
-    metodo_pago VARCHAR(30),
-    estado VARCHAR(20) DEFAULT 'pendiente',
-    CONSTRAINT fk_venta_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+id_venta INT PRIMARY KEY AUTO_INCREMENT,
+id_usuario INT NOT NULL,
+fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+total_venta DECIMAL(10,2) DEFAULT 0.00,
+metodo_pago VARCHAR(30),
+estado VARCHAR(20) DEFAULT 'pendiente',
+CONSTRAINT fk_venta_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 ) ENGINE = InnoDB;
 
 CREATE TABLE detalle_venta (
-    id_detalle_venta INT PRIMARY KEY AUTO_INCREMENT,
-    id_venta INT NOT NULL,
-    id_producto INT NOT NULL,
-    cantidad INT NOT NULL,
-    precio_unitario DECIMAL(10,2) NOT NULL,
-    subtotal DECIMAL(10,2) NOT NULL,
-    notas_especificas VARCHAR(255) NULL,
-    CONSTRAINT fk_detalle_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta),
-    CONSTRAINT fk_detalle_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-    CONSTRAINT chk_cantidad_positiva CHECK (cantidad > 0)
+id_detalle_venta INT PRIMARY KEY AUTO_INCREMENT,
+id_venta INT NOT NULL,
+id_producto INT NOT NULL,
+cantidad INT NOT NULL,
+precio_unitario DECIMAL(10,2) NOT NULL,
+subtotal DECIMAL(10,2) NOT NULL,
+notas_especificas VARCHAR(255) NULL,
+CONSTRAINT fk_detalle_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta),
+CONSTRAINT fk_detalle_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+CONSTRAINT chk_cantidad_positiva CHECK (cantidad > 0)
 ) ENGINE = InnoDB;
 
 -- INSERCIÓN DATOS REPRENSETATIVOS
@@ -221,50 +261,59 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 
 # Venta 4
 (4, 7, 1, 65.00, 65.00 );
-
 ```
-## Cómo correr el proyecto
+
+### Decisiones de Diseño
+- **Borrado lógico:** Los productos y usuarios no se eliminan. Se utilizan ```fecha_desactivacion``` (productos) y ```fecha_baja``` (usuarios) para desactivarlos, preservando la integridad histórica de ventas y reportes.
+- **Precio histórico:** El campo ```precio_unitario``` en detalle_venta almacena el precio al momento de la venta, independientemente de cambios futuros en ```precio_actual``` del producto.
+- **Seguridad:** Las contraseñas se almacenan hasheadas con BCrypt (hash irreversible con salt automático), nunca entexto plano
+
+## Como correr el proyecto
 ### Requisitos previos
-- Tener instalado IntelliJ IDEA
-- Tener instalado XAMPP (para MariaDB)
+- Tener instalado Intellij IDEA
+- Tener instalado XAMPP (para MySQL)
 - Tener instalado MySQL Workbench
 - Tener instalado JDK 21 o superior
 
 ### Backend
-1. Abrir la carpeta ```backend/``` en IntelliJ IDEA
-2. Configurar ```application.properties``` con los datos de MariaDB
+1. Abrir la carpeta ```backend/``` en Intellij IDEA
+2. Configurar ```application.properties``` con los datos de MySQL
 3. Iniciar XAMPP y activar MySQL
-4. Ejecutar ```RestobarApplication.java```
+4. Ejecutar ```restobar-rdrApplication.java```
 5. El backend corre en: ```http://localhost:8080```
 
 ### Frontend
-1. Abrir la carpeta ```frontend/``` en VS Code o IntelliJ
+1. Abrir la carpeta ```frontend/``` en VS Code
 2. Abrir ```index.html``` con Live Server
-3. El frontend se comunica con el backend vía fetch()
+3. El frontend se comunica con el backend via fetch()
 
-> El frontend y el backend corren por separado. El backend debe estar iniciado antes de abrir el frontend.
+>El frontend y el backend corren por separado. El backend debe estar iniciado antes de abrir el frontend
 
-### Configuración de base de datos
+### Configuracion de la base de datos
 
 ```
-spring.application.name=restobar-rdr
-# CONEXION A MARIADB
+spring.application.name=retobar-rdr
+# CONEXION A MYSQL
 spring.datasource.url=jdbc:mysql://localhost:3306/restobar_db
 spring.datasource.username=root
 spring.datasource.password=
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
-# JPA / HIBERNATE
+#JPA / HIBERNATE
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 
 # Puerto del servidor
 server.port=8080
-
-# Desactivar autoconfiguración de Spring Security
-spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 ```
 
-## Diagrama en Figma
-https://www.figma.com/design/VaGY5zk4hwqLfsuftBrOuK/WIREFRAME-empresa?node-id=0-1&t=ZyXuPgaqGjbarz02-1
+## DIAGRAMA DE FIGMA
+https://www.figma.com/design/VaGY5zk4hwqLfsuftBrOuK/Untitled?node-id=0-1&t=f5fw57nCb4pSx9Py-1
+
+
+
+
+
+
+
