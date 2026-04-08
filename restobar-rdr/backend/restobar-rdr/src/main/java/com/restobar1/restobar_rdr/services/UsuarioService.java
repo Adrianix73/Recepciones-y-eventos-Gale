@@ -39,4 +39,12 @@ public class UsuarioService {
             usuarioRepository.save(u);
         }
     }
+
+    public void activar (Long id){
+        Usuario u = usuarioRepository.findById(id).orElse(null);
+        if (u != null) {
+             u.setFechaBaja(null);
+            usuarioRepository.save(u);
+        }
+    }
 }

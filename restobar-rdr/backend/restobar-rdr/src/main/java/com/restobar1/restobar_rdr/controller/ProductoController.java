@@ -27,8 +27,13 @@ public class ProductoController {
         return productoService.guardar(producto);
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/{id}/desactivar")
     public void desactivar(@PathVariable Long id) {
         productoService.desactivar(id);
+    }
+
+    @PutMapping("/{id}/activar")
+    public void activar (@PathVariable Long id) {
+        productoService.activar(id);
     }
 }

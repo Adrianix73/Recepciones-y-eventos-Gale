@@ -27,8 +27,13 @@ public class UsuarioController {
         return usuarioService.guardar(usuario);
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/{id}/desactivar")
     public void desactivar(@PathVariable Long id) {
         usuarioService.desactivar(id);
+    }
+
+    @PutMapping("/{id}/activar")
+    public void activar(@PathVariable Long id) {
+        usuarioService.activar(id);
     }
 }

@@ -27,8 +27,8 @@ public class Producto {
 
     private String descripcion;
 
-    @Column(name = "fecha_desactivada")
-    private LocalDateTime fechaDesactivada;
+    @Column(name = "fecha_desactivacion")
+    private LocalDateTime fechaDesactivacion;
 
     public Long getId() {
         return id;
@@ -71,11 +71,11 @@ public class Producto {
     }
 
     public LocalDateTime getFechaDesactivada() {
-        return fechaDesactivada;
+        return fechaDesactivacion;
     }
 
-    public void setFechaDesactivada(LocalDateTime fechaDesactivada) {
-        this.fechaDesactivada = fechaDesactivada;
+    public void setFechaDesactivacion(LocalDateTime fechaDesactivacion) {
+        this.fechaDesactivacion = fechaDesactivacion;
     }
 
     // Getters y Setters

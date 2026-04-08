@@ -30,7 +30,15 @@ public class ProductoService {
     public void desactivar(Long id) {
         Producto p = productoRepository.findById(id).orElse(null);
         if (p != null) {
-            p.setFechaDesactivada(LocalDateTime.now());
+            p.setFechaDesactivacion(LocalDateTime.now());
+            productoRepository.save(p);
+        }
+    }
+
+    public void activar(Long id) {
+        Producto p = productoRepository.findById(id).orElse(null);
+        if (p != null) {
+            p.setFechaDesactivacion(null);
             productoRepository.save(p);
         }
     }
