@@ -230,10 +230,10 @@ INSERT INTO producto (id_categoria, nombre_producto, precio_actual, descripcion)
 
 -- USUARIO
 INSERT INTO usuario (nombre, apellido, rol, clave) VALUES 
-('Harry', 'Gale', 'Admin', '$2b$10$hash_ejemplo_seguro'),
-('Andrea', 'Vega', 'Cajero', '$2b$10$hash_cajero_ejemplo'),
-('Juan', 'Perez', 'Mozo', '$2b$10$hash_mozo_ejemplo'),
-('Carlos', 'Villa', 'Mozo', '$2b$10$hash_mozo2_ejemplo');
+('Harry', 'Gale', 'Admin', '$2a$12$eLwOU4MpOG6xYUFQnB0xquxn57T4ndezbL9eeJnlKcm1nt6d7ZiX6'),
+('Andrea', 'Vega', 'Cajero', '$2a$12$6/eZfqIvYnYhiiNPUhXOfu9z0pdgKDHlkK9RGmPLl4S1K5zHhC/im'),
+('Juan', 'Perez', 'Mozo', '$2a$12$XdJzPwj4SyUu0OLHiRfVueba/PLe914j.1.0nOAyOz5mJSojpNtI'),
+('Carlos', 'Villa', 'Mozo', '$2a$12$Btpl36.l5t5AFrkB7hYWG.PU7i5pMR.iYQzSvSVaSgkU.q5Y4jjLC');
 
 -- VENTA
 INSERT INTO venta (id_usuario, total_venta, metodo_pago, estado) VALUES 
