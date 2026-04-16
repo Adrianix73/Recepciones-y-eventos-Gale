@@ -1,0 +1,340 @@
+/* ============================================================
+   VARIABLES DE COLOR (tus colores de la paleta)
+   ============================================================ */
+:root {
+    --color-fondo: #F4EFE5;       /* Fondo general */
+    --color-sidebar-logo: #7C2222;/* Título del sidebar */
+    --color-acento: #712626;      /* Color principal marrón-rojizo */
+    --color-acento-hover: #7C2222;
+    --color-btn-fondo: #FFE2E2;   /* Fondo de botones */
+    --color-btn-texto: #712626;   /* Texto de botones */
+    --color-texto: #000000;       /* Texto general */
+    --color-thead: #925454;       /* Cabecera de tabla */
+    --color-thead-texto: #FFFFFF;
+    --color-fondo-main: #FDF5ED;    /* Crema muy claro para el fondo principal */  
+    --color-sidebar: #F4EFE5;       /* El Beige/Crema del sidebar */  
+    --color-texto-marron: #682D03;   /* Marrón oscuro para títulos y textos */  
+    --color-texto-acento: #712626;   /* Marrón rojizo para iconos y hover */  
+    --color-linea-separadora: #D4B1B1;
+}
+
+/* ============================================================
+   RESET Y BASE
+   ============================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* ============================================================
+   TOPBAR (solo móvil)
+   ============================================================ */
+.topbar {  
+    background-color: var(--color-sidebar);   /* Mismo beige del sidebar */  
+    border-bottom: 2px solid var(--color-linea-separadora); /* Línea divisora */  
+    position: sticky;  
+    top: 0;  
+    z-index: 200;  
+    width: 100%;  
+}  
+  
+.topbar span {  
+    color: var(--color-texto-marron);  
+    font-size: 1.1rem;  
+    font-weight: 800;  
+}  
+  
+/* Botón hamburguesa visible y con buen tamaño */  
+.hamburger {  
+    background: none;  
+    border: none;  
+    color: var(--color-texto-marron);  /* Ícono en marrón, no blanco */  
+    font-size: 1.5rem;                 /* Ícono más grande */  
+    padding: 5px 10px;  
+    cursor: pointer;  
+    line-height: 1;  
+}  
+  
+.hamburger:hover,  
+.hamburger:focus {  
+    color: var(--color-texto-acento);  
+    outline: none;  
+    box-shadow: none;                  /* Quita el outline azul de Bootstrap */  
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {  
+    width: 260px;  
+    height: 100vh;  
+    background-color: var(--color-sidebar);  
+    border-right: 1px solid rgba(0,0,0,0.05); /* Una línea muy sutil */  
+    padding: 20px 0;  
+    position: sticky;  
+    top: 0;  
+    flex-shrink: 0;  
+}  
+  
+/* Logo y Nombre del Negocio */  
+.sidebar-header {  
+    padding: 0 25px 30px 25px;  
+    display: flex;  
+    align-items: center;  
+    gap: 15px;  
+}  
+  
+.sidebar-logo-img {  
+    width: 50px;  
+    height: 50px;  
+    border-radius: 12px;  
+    object-fit: cover;  
+}  
+  
+.sidebar-business-name {  
+    color: var(--color-texto-marron);  
+    font-weight: 800;  
+    font-size: 1.1rem;  
+    line-height: 1.2;  
+    text-transform: uppercase;  
+}  
+  
+/* Títulos de categorías (Reportes, Actualizar datos) */  
+.sidebar-category-title {  
+    color: var(--color-texto-marron);  
+    font-weight: 700;  
+    font-size: 0.95rem;  
+    padding: 15px 25px 10px 25px;  
+    margin-bottom: 5px;  
+}  
+  
+/* Enlaces del Menú */  
+.sidebar-link {  
+    display: flex;  
+    align-items: center;  
+    padding: 10px 25px;  
+    color: var(--color-texto-marron);  
+    text-decoration: none;  
+    font-weight: 500;  
+    font-size: 1.05rem;  
+    transition: all 0.2s ease;  
+}  
+  
+/* Iconos del Menú */  
+.sidebar-link i {  
+    width: 30px; /* Ancho fijo para que todos los textos alineen igual */  
+    font-size: 1.3rem;  
+    color: var(--color-texto-acento); /* Iconos en color rojizo */  
+    transition: transform 0.2s;  
+}  
+  
+.sidebar-link:hover {  
+    background-color: rgba(113, 38, 38, 0.05); /* Un hover muy suave */  
+    color: var(--color-texto-acento);  
+}  
+  
+.sidebar-link:hover i {  
+    transform: scale(1.1);  
+}  
+  
+/* Enlace Activo */  
+.sidebar-link.activo {  
+    font-weight: 700;  
+    color: var(--color-texto-acento);  
+}  
+  
+/* Sección de abajo (Bugs, Ayuda, Cerrar) */  
+.sidebar-footer {  
+    margin-top: 30px;  
+    border-top: 1px solid var(--color-linea-separadora);  
+    padding-top: 20px;  
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+main {
+    background-color: var(--color-fondo);
+}
+
+/* Breadcrumb personalizado */
+.breadcrumb {
+    background: transparent;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-item a {
+    color: var(--color-acento);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--color-texto);
+}
+
+/* Separador del breadcrumb */
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--color-acento);
+}
+
+/* Título de sección */
+.titulo-seccion {
+    color: var(--color-acento);
+    font-weight: bold;
+}
+
+/* ============================================================
+   BOTONES - Sobreescribimos btn-primary de Bootstrap
+   Bootstrap usa !important en algunos casos, por eso usamos
+   selectores más específicos o también !important
+   ============================================================ */
+.btn-primary {
+    background-color: var(--color-btn-fondo) !important;
+    border-color: var(--color-acento) !important;
+    color: var(--color-btn-texto) !important;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-acento) !important;
+    color: #fff !important;
+}
+
+/* Botones de acción en la tabla (editar/eliminar) */
+.btn-accion {
+    background-color: var(--color-btn-fondo);
+    border: 1px solid var(--color-acento);
+    color: var(--color-btn-texto);
+}
+
+.btn-accion:hover {
+    background-color: var(--color-acento);
+    color: #fff;
+}
+
+/* ============================================================
+   TABLA - Sobreescribimos estilos de Bootstrap
+   ============================================================ */
+
+/* Cabecera de la tabla */
+.table thead th {
+    background-color: var(--color-thead);
+    color: var(--color-thead-texto);
+    border-color: var(--color-acento);
+    font-weight: 600;
+}
+
+/* Celdas del body */
+.table tbody td {
+    color: var(--color-texto);
+    vertical-align: middle; /* Centra verticalmente el contenido */
+    border-color: #e0d5c5;
+}
+
+/* Hover en filas (table-hover de Bootstrap usa esto) */
+.table-hover tbody tr:hover {
+    background-color: var(--color-btn-fondo);
+}
+
+/* Botón deshabilitado — visualmente "apagado" pero sin desaparecer */
+.btn-accion:disabled {
+    opacity: 0.4;        /* Más transparente */
+    cursor: not-allowed; /* Cursor de prohibido al pasar el mouse */
+    pointer-events: auto; /* Necesario para que el cursor funcione con disabled */
+}
+
+/* ============================================================
+   OVERLAY (fondo oscuro en móvil)
+   ============================================================ */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;           /* top/right/bottom/left = 0 */
+    background: rgba(0,0,0,0.5);
+    z-index: 300;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* ============================================================
+   RESPONSIVE - Sidebar en móvil
+   ============================================================ */
+@media (max-width: 767px) {  
+  
+    /* Sidebar oculto por defecto en móvil */  
+    .sidebar {  
+        position: fixed;  
+        left: -270px;        /* Fuera de pantalla */  
+        top: 0;  
+        height: 100vh;  
+        z-index: 400;  
+        transition: left 0.3s ease;  
+        overflow-y: auto;  
+    }  
+  
+    /* Cuando JS agrega esta clase, el sidebar aparece */  
+    .sidebar.sidebar-open {  
+        left: 0;  
+    }  
+  
+    /* El main ocupa todo el ancho en móvil */  
+    main {  
+        width: 100%;  
+        padding: 1rem !important;  
+    }  
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-content {
+    border: 1px solid var(--color-linea-separadora);
+    border-radius: 12px;
+}
+
+.modal-header {
+    background-color: var(--color-btn-fondo);
+    border-bottom: 1px solid var(--color-linea-separadora);
+    color: var(--color-texto-marron);
+}
+
+.modal-title {
+    color: var(--color-texto-marron);
+    font-weight: 700;
+}
+
+.modal-title i {
+    color: var(--color-acento);
+}
+
+.modal-body {
+    font-size: 1rem;
+    color: var(--color-texto);
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--color-linea-separadora);
+}
+
+/* Botón cancelar */
+.btn-cancelar {
+    background-color: transparent;
+    border: 1px solid var(--color-linea-separadora);
+    color: var(--color-texto-marron);
+}
+
+.btn-cancelar:hover {
+    background-color: var(--color-linea-separadora);
+    color: var(--color-texto-marron);
+}

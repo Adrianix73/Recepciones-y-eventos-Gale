@@ -27,6 +27,11 @@ public class UsuarioController {
         return usuarioService.guardar(usuario);
     }
 
+    @PutMapping
+    public Usuario editar(@PathVariable Long id, @RequestBody Usuario usuario) {
+        return usuarioService.act
+    }
+
     @PutMapping("/{id}/desactivar")
     public void desactivar(@PathVariable Long id) {
         usuarioService.desactivar(id);
