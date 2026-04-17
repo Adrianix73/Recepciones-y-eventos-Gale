@@ -1,3 +1,8 @@
+## Trello
+Más info en https://trello.com/b/SSyNjcTW/recepciones-y-eventos-gale-eirl
+
+<img width="1853" height="870" alt="trello" src="https://github.com/user-attachments/assets/53d827e3-a39f-47bb-a8e8-f8a03346e257" />
+
 # Sistema de Gestión de Ventas y Reportes
 
 Sistema web para la gestión de Ventas de los productos que ofrece la empresa y para la gestión de Reportes de productos más vendidos,
