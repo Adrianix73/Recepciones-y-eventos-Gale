@@ -70,7 +70,7 @@
         <a href="#" class="sidebar-link">
             <i class="fa-solid fa-circle-question"></i> Ayuda
         </a>
-        <a href="#" class="sidebar-link text-danger"> <!-- Clase Bootstrap text-danger -->
+        <a href="../index.html" class="sidebar-link text-danger"> <!-- Clase Bootstrap text-danger -->
             <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
         </a>
     </div>
@@ -106,7 +106,7 @@
                      btn = clase base obligatoria  
                      btn-primary = color azul por defecto (lo sobreescribimos en CSS)  
                      Otros ejemplos: btn-secondary, btn-danger, btn-success, btn-outline-primary -->  
-                <button class="btn btn-primary">  
+                <button class="btn btn-primary" onclick="abrirModalCrear()">  
                     <i class="fa-solid fa-plus me-1"></i> REGISTRAR  
                 </button>  
             </div>  
@@ -175,6 +175,63 @@
                 <!-- Confirmar: llama a la función JS -->
                 <button type="button" class="btn btn-primary" id="btn-si-editar-user">
                     <i class="fa-solid fa-check me-1"></i> Sí, editar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CREAR USUARIO -->
+<div class="modal fade" id="modalCrearUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa-solid fa-user-plus me-2"></i> Registrar Usuario
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="form-crear-usuario">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="crear-nombre" placeholder="Nombre">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="crear-apellido" placeholder="Apellido">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Rol</label>
+                            <select class="form-select" id="crear-rol">
+                                <option value="">Seleccionar rol...</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Cajero">Cajero</option>
+                                <option value="Mozo">Mozo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="crear-clave" placeholder="Contraseña">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Confirmar contraseña</label>
+                            <input type="password" class="form-control" id="crear-confirmar-clave" placeholder="Confirmar contraseña">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-confirmar-crear">
+                    <i class="fa-solid fa-check me-1"></i> Registrar
                 </button>
             </div>
 

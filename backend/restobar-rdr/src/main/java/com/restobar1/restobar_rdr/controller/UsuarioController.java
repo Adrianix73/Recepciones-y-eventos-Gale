@@ -2,6 +2,7 @@ package com.restobar1.restobar_rdr.controller;
 
 import com.restobar1.restobar_rdr.entity.Usuario;
 import com.restobar1.restobar_rdr.services.UsuarioService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,14 +23,24 @@ public class UsuarioController {
         return usuarioService.listarTodos();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
+        Usuario user = usuarioService.obtenerPorId(id);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+    }
+
     @PostMapping
     public Usuario crear(@RequestBody Usuario usuario ) {
         return usuarioService.guardar(usuario);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Usuario editar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return usuarioService.act
+        return usuarioService.actualizar(id, usuario);
     }
 
     @PutMapping("/{id}/desactivar")

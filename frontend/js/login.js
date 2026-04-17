@@ -30,7 +30,7 @@ document.getElementById("btnIngresar").addEventListener("click", () => { //El bo
     })
 
     .then(usuario => {
-        console.log("Usuario logueado:", usuario);
+        console.log("Usuario logueado:", usuario.rol);
         alert("¡Bienvenid@, " + usuario.nombre + "!");
 
         // Guardamos el nombre del usuario en la sesión del navegador para usarlo en otras páginas

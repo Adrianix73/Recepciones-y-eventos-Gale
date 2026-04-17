@@ -24,12 +24,17 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    public Usuario obtenerPorId(Long id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
+
     public Usuario guardar(Usuario usuario) {
     // Encripta la clave antes de guardar en la BD
         usuario.setClave(encoder.encode(usuario.getClave()));
         return usuarioRepository.save(usuario);
     }
 
+    // Función de actualizar a un usuario
     public Usuario actualizar(Long id, Usuario datos) {
         Usuario user = usuarioRepository.findById(id).orElse(null);
 
@@ -44,10 +49,9 @@ public class UsuarioService {
         if (datos.getClave() != null && !datos.getClave().isBlank()) {
             user.setClave(encoder.encode(datos.getClave()));
         }
-
         return usuarioRepository.save(user);
     }
-
+// Funciones de borrado lógico activar/desactivar
     public void desactivar(Long id) {
         Usuario user = usuarioRepository.findById(id).orElse(null);
         if (user != null) {

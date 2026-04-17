@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +13,14 @@
     <!-- Tu CSS -->
     <link rel="stylesheet" href="../css/editar-datos.css">
 </head>
+
 <body>
 
     <div class="editar-wrapper">
 
         <!-- ENCABEZADO -->
         <div class="editar-header">
-            <a href="#" class="btn-volver" onclick="history.back()">
+            <a href="dashboard-product.html" class="btn-volver">
                 <i class="fa-solid fa-arrow-left"></i> Volver
             </a>
             <div>
@@ -27,7 +29,7 @@
                 <p class="editar-subtitulo" id="editar-subtitulo">Cargando datos...</p>
             </div>
         </div>
-
+    
         <!-- FORMULARIO -->
         <div class="editar-card">
             <form id="form-editar">
@@ -44,22 +46,32 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Nombre del producto</label>
-                            <input type="text" class="form-control" id="campo-nombreProducto" placeholder="Nombre del producto">
+                            <input type="text" class="form-control" id="campo-nombreProducto"
+                                placeholder="Nombre del producto">
                         </div>
+                        <!-- Reemplaza el input de categoría por esto -->
                         <div class="col-md-6">
                             <label class="form-label">Categoría</label>
-                            <input type="text" class="form-control" id="campo-categoria" placeholder="Categoría">
+                            <select class="form-select" id="campo-categoria">
+                                <option value="">Seleccionar categoría...</option>
+                                <option value="1">Sopas</option>
+                                <option value="2">Entradas</option>
+                                <option value="3">Platos de Fondo</option>
+                                <option value="4">Bebidas</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Precio actual</label>
                             <div class="input-group">
                                 <span class="input-group-text">S/</span>
-                                <input type="number" step="0.01" class="form-control" id="campo-precioActual" placeholder="0.00">
+                                <input type="number" step="0.01" class="form-control" id="campo-precioActual"
+                                    placeholder="0.00">
                             </div>
                         </div>
                         <div class="col-md-8">
                             <label class="form-label">Descripción</label>
-                            <textarea class="form-control" id="campo-descripcion" rows="3" placeholder="Descripción del producto"></textarea>
+                            <textarea class="form-control" id="campo-descripcion" rows="3"
+                                placeholder="Descripción del producto"></textarea>
                         </div>
                     </div>
                 </div>
@@ -117,4 +129,5 @@
     <!-- Tu JS -->
     <script src="../js/editar-producto.js"></script>
 </body>
+
 </html>
