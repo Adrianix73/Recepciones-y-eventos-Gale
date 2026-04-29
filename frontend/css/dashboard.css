@@ -16,6 +16,11 @@
     --color-texto-marron: #682D03;   /* Marrón oscuro para títulos y textos */  
     --color-texto-acento: #712626;   /* Marrón rojizo para iconos y hover */  
     --color-linea-separadora: #D4B1B1;
+    --rdr-bg: #f6f0e6;        /* fondo crema */  
+    --rdr-accent: #7b3b3b;    /* marrón/guinda */  
+    --rdr-accent-2: #9a4a4a;  /* hover */  
+    --rdr-border: #d9c9bd;    /* borde suave */  
+    --rdr-text: #2b1b1b;
 }
 
 /* ============================================================
@@ -70,14 +75,117 @@ body {
     box-shadow: none;                  /* Quita el outline azul de Bootstrap */  
 }
 
+.filtros-bar{  
+  display: flex;  
+  gap: 12px;  
+  align-items: center;  
+  flex-wrap: wrap;  
+  margin: 10px 0 16px;  
+}  
+  
+/* Botones filtro */  
+.btn-filtro{  
+  display: inline-flex;  
+  align-items: center;  
+  gap: 8px;  
+  border: 1px solid var(--rdr-accent);  
+  color: var(--rdr-accent);  
+  background: #fff;  
+  padding: 8px 14px;  
+  border-radius: 999px;  
+  font-weight: 600;  
+  line-height: 1;  
+  transition: background .15s ease, color .15s ease, border-color .15s ease, transform .05s ease;  
+}  
+  
+.btn-filtro:hover{  
+  border-color: var(--rdr-accent-2);  
+  color: var(--rdr-accent-2);  
+  transform: translateY(-1px);  
+}  
+  
+.btn-filtro:active{  
+  transform: translateY(0);  
+}  
+  
+.btn-filtro.activo{  
+  background: var(--rdr-accent);  
+  color: #fff;  
+  border-color: var(--rdr-accent);  
+}  
+  
+.btn-filtro i{  
+  font-size: 0.95rem;  
+}  
+  
+/* Select categoría */  
+.select-categoria{  
+  min-width: 220px;  
+  border-radius: 12px;  
+  border: 1px solid var(--rdr-border);  
+  color: var(--rdr-text);  
+  background-color: #fff;  
+}  
+  
+.select-categoria:focus{  
+  border-color: var(--rdr-accent);  
+  box-shadow: 0 0 0 .2rem rgba(123, 59, 59, 0.18);  
+}  
+  
+/* =========================  
+   BUSCADOR  
+   ========================= */  
+.busqueda{  
+  min-width: 280px;  
+  max-width: 420px;  
+}  
+  
+.busqueda .input-group-text{  
+  background: #fff;  
+  border: 1px solid var(--rdr-border);  
+  border-right: 0;  
+  color: var(--rdr-accent);  
+  border-radius: 12px 0 0 12px;  
+}  
+  
+.busqueda input.form-control{  
+  border: 1px solid var(--rdr-border);  
+  border-left: 0;  
+  border-right: 0;  
+  border-radius: 0;  
+}  
+  
+.busqueda input.form-control:focus{  
+  border-color: var(--rdr-accent);  
+  box-shadow: 0 0 0 .2rem rgba(123, 59, 59, 0.18);  
+}  
+  
+.btn-limpiar-busqueda{  
+  border: 1px solid var(--rdr-border);  
+  border-left: 0;  
+  background: #fff;  
+  color: var(--rdr-accent);  
+  border-radius: 0 12px 12px 0;  
+}  
+  
+.btn-limpiar-busqueda:hover{  
+  color: var(--rdr-accent-2);  
+}  
+  
+/* Responsive: que el buscador tome ancho completo si falta espacio */  
+@media (max-width: 576px){  
+  .busqueda{ min-width: 100%; max-width: 100%; }  
+  .select-categoria{ min-width: 100%; }  
+}
+
 /* ============================================================
    SIDEBAR
    ============================================================ */
 .sidebar {  
-    width: 260px;  
+    width: 220px;  
     height: 100vh;  
     background-color: var(--color-sidebar);  
-    border-right: 1px solid rgba(0,0,0,0.05); /* Una línea muy sutil */  
+    border-right: 2px solid rgba(147, 75, 11, 0.527); /* Línea divisora del sidebar */  
     padding: 20px 0;  
     position: sticky;  
     top: 0;  

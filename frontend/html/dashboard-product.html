@@ -47,10 +47,7 @@
             <!-- Categoría: Reportes -->
             <div class="sidebar-category-title">Reportes:</div>
             <nav>
-                <a href="#" class="sidebar-link">Reporte diario</a>
-                <a href="#" class="sidebar-link">Reporte semanal</a>
-                <a href="#" class="sidebar-link">Reporte mensual</a>
-                <a href="#" class="sidebar-link">Reporte anual</a>
+                <a href="#" class="sidebar-link">Reportes</a>
             </nav>
 
             <!-- Categoría: Actualizar -->
@@ -61,6 +58,12 @@
                 </a>
                 <a href="dashboard-users.html" class="sidebar-link">
                     <i class="fa-solid fa-user-group"></i> Usuarios
+                </a>
+                <a href="dashboard-categories.html" class="sidebar-link">
+                    <i class="fa-solid fa-layer-group"></i> Categorías
+                </a>
+                <a href="dashboard-ventas.html" class="sidebar-link">
+                    <i class="fa-solid fa-tag"></i> Ventas
                 </a>
             </nav>
 
@@ -113,6 +116,40 @@
                 </button>
             </div>
 
+            <!-- FILTROS -->
+            <div class="d-flex gap-2 mb-3 flex-wrap">
+                <button class="btn btn-filtro activo" onclick="aplicarFiltro('activos', this)">
+                    <a><i class="fa-solid fa-check"></i> Disponibles</a>
+                </button>
+                <button class="btn btn-filtro" onclick="aplicarFiltro('inactivos', this)">
+                    <a><i class="fa-solid fa-times"></i> No disponibles</a>
+                </button>
+                <button class="btn btn-filtro" onclick="aplicarFiltro('todos', this)">
+                    <a><i class="fa-sharp fa-solid fa-border-all"></i> Todos</a>
+                </button>
+
+                <!-- Buscador por nombre -->
+                <div class="input-group busqueda">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" class="form-control" id="buscador-producto"
+                        placeholder="Buscar producto por nombre..." autocomplete="off">
+                    <button class="btn btn-limpiar-busqueda" type="button" id="btn-limpiar-busqueda" title="Limpiar">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Filtro por categoría -->
+                <select class="form-select w-auto" id="filtro-categoria" onchange="aplicarFiltroCategoria()">
+                    <option value="">Todas las categorías</option>
+                    <option value="Sopas">Sopas</option>
+                    <option value="Entradas">Entradas</option>
+                    <option value="Platos de Fondo">Platos de Fondo</option>
+                    <option value="Bebidas">Bebidas</option>
+                </select>
+            </div>
+
             <!-- ============================================================  
                  TABLA BOOTSTRAP  
                  table-responsive = hace la tabla scrolleable en pantallas pequeñas  
@@ -127,8 +164,8 @@
                             <th>Precio</th>
                             <th>Descripción</th>
                             <th class="text-center">Estado</th>
-                            <th>Fecha desactivada</th>
-                            <th class="text-center">Editar</th>
+                            <th class="col-fecha-retiro d-none">Fecha/hora retiro del menú</th>
+                            <th class="text-center">Opciones</th>
                         </tr>
                     </thead>
                     <tbody id="tabla-producto">
@@ -236,6 +273,52 @@
                     </button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ELIMINAR PRODUCTO -->
+    <div class="modal fade" id="modalEliminarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i> Retirar del menú
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-eliminar-mensaje"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">
+                        <i class="fa-solid fa-trash me-1"></i> Sí, retirar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RESTAURAR PRODUCTO -->
+    <div class="modal fade" id="modalRestaurarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-rotate-left me-2"></i> Restaurar producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-restaurar-mensaje"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn-confirmar-restaurar">
+                        <i class="fa-solid fa-check me-1"></i> Sí, restaurar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
