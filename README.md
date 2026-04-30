@@ -268,6 +268,14 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 (4, 7, 1, 65.00, 65.00 );
 ```
 
+## Evidencias del negocio
+### Foto del negocio
+<img width="797" height="390" alt="IMG_20260430_132631" src="https://github.com/user-attachments/assets/de7715ec-58cc-45fd-8329-66febac256db" />
+
+### Foto del problema
+<img width="1000" height="666" alt="Menu-elegante" src="https://github.com/user-attachments/assets/4fb46720-902a-487a-ac48-7d0bec237b8d" />
+
+
 ### Decisiones de Diseño
 - **Borrado lógico:** Los productos y usuarios no se eliminan. Se utilizan ```fecha_desactivacion``` (productos) y ```fecha_baja``` (usuarios) para desactivarlos, preservando la integridad histórica de ventas y reportes.
 - **Precio histórico:** El campo ```precio_unitario``` en detalle_venta almacena el precio al momento de la venta, independientemente de cambios futuros en ```precio_actual``` del producto.
