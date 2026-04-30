@@ -270,7 +270,9 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 
 ## Evidencias del negocio
 ### Foto del negocio
-<img width="797" height="390" alt="IMG_20260430_132631" src="https://github.com/user-attachments/assets/de7715ec-58cc-45fd-8329-66febac256db" />
+<img width="1600" height="1200" alt="letrero_3d_acrilico_pucallpa_002" src="https://github.com/user-attachments/assets/65c0401c-b846-4656-9634-90b5d9c9df66" />
+<img width="797" height="390" alt="IMG_20260430_132631" src="https://github.com/user-attachments/assets/3924a659-41f4-4d86-9dff-8f6d1cca9c01" />
+
 
 ### Foto del problema
 <img width="1000" height="666" alt="Menu-elegante" src="https://github.com/user-attachments/assets/4fb46720-902a-487a-ac48-7d0bec237b8d" />
