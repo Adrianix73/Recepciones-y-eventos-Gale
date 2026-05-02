@@ -12,6 +12,7 @@ id_categoria INT NOT NULL,
 nombre_producto VARCHAR(100) NOT NULL,
 precio_actual DECIMAL(10,2) NOT NULL,
 descripcion TEXT,
+imagen_url VARCHAR(255) DEFAULT NULL,
 fecha_desactivacion DATETIME DEFAULT NULL,
 CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
 CONSTRAINT uq_nombre_producto UNIQUE (nombre_producto)
