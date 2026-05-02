@@ -128,11 +128,11 @@ El sistema cuenta con 5 tablas principales:
 
 ## Diagrama Entidad-Relación (DER)
 
-<img width="1220" height="664" alt="DER rango" src="https://github.com/user-attachments/assets/3a95bfdd-b448-44ef-821f-317fbefbd790" />
+<img width="1300" height="665" alt="DER rango" src="https://github.com/user-attachments/assets/fb189f2a-149a-4752-943c-749b8c7cf075" />
 
 ## Modelo Relacional (MR)
 
-<img width="1087" height="722" alt="MR rango" src="https://github.com/user-attachments/assets/9588206f-cf8c-4688-b1f6-e46c312dfa37" />
+<img width="1000" height="667" alt="MR rango" src="https://github.com/user-attachments/assets/78be0836-a002-47ca-a324-bede291a476e" />
 
 ### Cardinalidades
 Categoría - Producto (1:N)
@@ -176,6 +176,7 @@ id_categoria INT NOT NULL,
 nombre_producto VARCHAR(100) NOT NULL,
 precio_actual DECIMAL(10,2) NOT NULL,
 descripcion TEXT,
+imagen_url VARCHAR(255) DEFAULT NULL,
 fecha_desactivacion DATETIME DEFAULT NULL,
 CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
 CONSTRAINT uq_nombre_producto UNIQUE (nombre_producto)
