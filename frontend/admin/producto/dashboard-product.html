@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../dashboard.css">
+</head>
+
+<body>
+
+    <!-- ============================================================  
+         TOPBAR - Solo visible en móvil (d-md-none = oculto en desktop)  
+         Bootstrap: d-flex = display flex | justify-content-between = espacio entre elementos  
+         ============================================================ -->
+    <div class="topbar d-flex d-md-none justify-content-between align-items-center px-3 py-2">
+        <span>Dashboard</span>
+        <button class="hamburger" id="btn-hamburger" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- OVERLAY (fondo oscuro al abrir sidebar en móvil) -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- ============================================================  
+         LAYOUT PRINCIPAL: sidebar + main lado a lado  
+         Bootstrap: d-flex = pone los hijos en fila horizontal  
+         ============================================================ -->
+    <div class="d-flex">
+
+        <!-- ============================================================  
+             SIDEBAR  
+             Bootstrap NO tiene sidebar nativo, lo hacemos con CSS propio  
+             pero usamos clases de Bootstrap para padding, texto, etc.  
+             ============================================================ -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Encabezado con Logo -->
+            <div class="sidebar-header">
+                <img src="../../../img/logo-rdr-madera.webp" alt="Logo" class="sidebar-logo-img">
+                <div class="sidebar-business-name">El Rincón <br> de Rango</div>
+            </div>
+
+            <!-- Categoría: Reportes -->
+            <div class="sidebar-category-title">Reportes:</div>
+            <nav>
+                <a href="#" class="sidebar-link">Reportes</a>
+            </nav>
+
+            <!-- Categoría: Actualizar -->
+            <div class="sidebar-category-title">Actualizar datos:</div>
+            <nav>
+                <a href="dashboard-product.html" class="sidebar-link activo">
+                    <i class="fa-solid fa-box-open"></i> Productos
+                </a>
+                <a href="../usuario/dashboard-users.html" class="sidebar-link">
+                    <i class="fa-solid fa-user-group"></i> Usuarios
+                </a>
+                <a href="../categoria/dashboard-categoria.html" class="sidebar-link">
+                    <i class="fa-solid fa-layer-group"></i> Categorías
+                </a>
+                <a href="../venta/dashboard-ventas.html" class="sidebar-link">
+                    <i class="fa-solid fa-tag"></i> Ventas
+                </a>
+            </nav>
+
+            <!-- Footer del Sidebar -->
+            <div class="sidebar-footer">
+                <a href="#" class="sidebar-link">
+                    <i class="fa-solid fa-bug"></i> Reportar bug
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fa-solid fa-circle-question"></i> Ayuda
+                </a>
+                <a href="../index.html" class="sidebar-link text-danger"> <!-- Clase Bootstrap text-danger -->
+                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+
+        <!-- ============================================================  
+             CONTENIDO PRINCIPAL  
+             Bootstrap: flex-grow-1 = ocupa todo el espacio restante  
+             ============================================================ -->
+        <main class="flex-grow-1 p-4">
+            <!-- p-4 = padding de 4 unidades en todos los lados -->
+
+            <!-- BREADCRUMB con Bootstrap -->
+            <!-- Bootstrap tiene componente breadcrumb nativo -->
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <!-- breadcrumb-item = estilo de cada elemento -->
+                    <!-- active = el elemento actual (sin enlace) -->
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                    <li class="breadcrumb-item active">Productos</li>
+                </ol>
+            </nav>
+
+            <!-- ============================================================  
+                 CABECERA DE SECCIÓN  
+                 Bootstrap: d-flex = flex | justify-content-between = extremos  
+                 align-items-center = centrado vertical | mb-3 = margin bottom 3  
+                 ============================================================ -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0 titulo-seccion">REPORTE DE PRODUCTOS</h4>
+
+                <!-- ✅ BOTÓN BOOTSTRAP  
+                     btn = clase base obligatoria  
+                     btn-primary = color azul por defecto (lo sobreescribimos en CSS)  
+                     Otros ejemplos: btn-secondary, btn-danger, btn-success, btn-outline-primary -->
+                <button class="btn btn-primary" onclick="abrirModalCrear()">
+                    <i class="fa-solid fa-plus me-1"></i> REGISTRAR
+                </button>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="d-flex gap-2 mb-3 flex-wrap">
+                <button class="btn btn-filtro activo" onclick="aplicarFiltro('activos', this)">
+                    <a><i class="fa-solid fa-check"></i> Disponibles</a>
+                </button>
+                <button class="btn btn-filtro" onclick="aplicarFiltro('inactivos', this)">
+                    <a><i class="fa-solid fa-times"></i> No disponibles</a>
+                </button>
+                <button class="btn btn-filtro" onclick="aplicarFiltro('todos', this)">
+                    <a><i class="fa-sharp fa-solid fa-border-all"></i> Todos</a>
+                </button>
+
+                <!-- Buscador por nombre -->
+                <div class="input-group busqueda">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" class="form-control" id="buscador-producto"
+                        placeholder="Buscar producto por nombre..." autocomplete="off">
+                    <button class="btn btn-limpiar-busqueda" type="button" id="btn-limpiar-busqueda" title="Limpiar">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Filtro por categoría -->
+                <select class="form-select w-auto" id="filtro-categoria" onchange="aplicarFiltroCategoria()">
+                    <option value="">Todas las categorías</option>
+                    <option value="Sopas">Sopas</option>
+                    <option value="Entradas">Entradas</option>
+                    <option value="Platos de Fondo">Platos de Fondo</option>
+                    <option value="Bebidas">Bebidas</option>
+                </select>
+            </div>
+
+            <!-- ============================================================  
+                 TABLA BOOTSTRAP  
+                 table-responsive = hace la tabla scrolleable en pantallas pequeñas  
+                 ============================================================ -->
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Categoría</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Estado</th>
+                            <th class="col-fecha-retiro d-none">Fecha/hora retiro del menú</th>
+                            <th class="text-center">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-producto">
+                        <!-- ✅ Vacío — JS lo llena automáticamente -->
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+        <!-- FIN main -->
+
+    </div>
+    <!-- FIN d-flex (layout principal) -->
+
+    <!-- ============================================================
+     MODAL DE ADVERTENCIA - Bootstrap
+     modal = clase base | fade = animación de entrada
+     ============================================================ -->
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <!-- modal-dialog-centered = centrado vertical en pantalla -->
+            <div class="modal-content">
+
+                <!-- CABECERA del modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                        Advertencia
+                    </h5>
+                    <!-- Botón X para cerrar — data-bs-dismiss lo maneja Bootstrap solo -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <!-- CUERPO del modal -->
+                <div class="modal-body">
+                    ¿Estás seguro de querer editar a este producto?
+                </div>
+
+                <!-- PIE del modal — botones de acción -->
+                <div class="modal-footer">
+                    <!-- Cancelar: data-bs-dismiss cierra el modal automáticamente -->
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+
+                    <!-- Confirmar: llama a la función JS -->
+                    <button type="button" class="btn btn-primary" id="btn-si-editar-prod">
+                        <i class="fa-solid fa-check me-1"></i> Sí, editar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CREAR PRODUCTO -->
+    <div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-box-open me-2"></i> Registrar Producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="form-crear-producto">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Categoría</label>
+                                <select class="form-select" id="crear-categoria">
+                                    <option value="">Seleccionar categoría...</option>
+                                    <option value="1">Sopas</option>
+                                    <option value="2">Entradas</option>
+                                    <option value="3">Platos de Fondo</option>
+                                    <option value="4">Bebidas</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="crear-nombre" placeholder="Nombre">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Precio</label>
+                                <input type="number" class="form-control" id="crear-precio" placeholder="Precio"
+                                    step="0.01">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Descripción</label>
+                                <input type="text" class="form-control" id="crear-descripcion"
+                                    placeholder="Descripción">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btn-confirmar-crear">
+                        <i class="fa-solid fa-check me-1"></i> Registrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ELIMINAR PRODUCTO -->
+    <div class="modal fade" id="modalEliminarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i> Retirar del menú
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-eliminar-mensaje"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">
+                        <i class="fa-solid fa-trash me-1"></i> Sí, retirar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RESTAURAR PRODUCTO -->
+    <div class="modal fade" id="modalRestaurarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-rotate-left me-2"></i> Restaurar producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-restaurar-mensaje"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn-confirmar-restaurar">
+                        <i class="fa-solid fa-check me-1"></i> Sí, restaurar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (al final del body, necesario para componentes interactivos) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../shared/sidebar.js"></script>
+    <script src="dashboard-product.js"></script>
+
+</body>
+
+</html>

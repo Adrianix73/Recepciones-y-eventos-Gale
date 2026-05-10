@@ -27,6 +27,9 @@ public class Producto {
 
     private String descripcion;
 
+    @Column(name = "imagen_url")
+    private String imagen;
+
     @Column(name = "fecha_desactivacion")
     private LocalDateTime fechaDesactivacion;
 
@@ -70,7 +73,15 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public LocalDateTime getFechaDesactivada() {
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public LocalDateTime getFechaDesactivacion() {
         return fechaDesactivacion;
     }
 

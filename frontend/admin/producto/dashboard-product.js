@@ -154,9 +154,9 @@ function aplicarFiltros() {
 
     // Filtro estado
     if (filtroEstadoActual === "activos") {
-        datos = datos.filter(p => p.fechaDesactivada === null || p.fechaDesactivada === undefined);
+        datos = datos.filter(p => p.fechaDesactivacion === null || p.fechaDesactivacion === undefined);
     } else if (filtroEstadoActual === "inactivos") {
-        datos = datos.filter(p => p.fechaDesactivada !== null && p.fechaDesactivada !== undefined);
+        datos = datos.filter(p => p.fechaDesactivacion !== null && p.fechaDesactivacion !== undefined);
     }
 
     // Filtro categoría
@@ -192,8 +192,8 @@ function renderTabla(datos) {
     }
 
     datos.forEach(producto => {
-        const estaActivo = producto.fechaDesactivada === null ||
-                           producto.fechaDesactivada === undefined;
+        const estaActivo = producto.fechaDesactivacion === null ||
+                           producto.fechaDesactivacion === undefined;
 
         // Badge de estado
         const badge = estaActivo
@@ -228,7 +228,7 @@ function renderTabla(datos) {
             <td>${producto.descripcion ?? "—"}</td>
             <td class="text-center">${badge}</td>
             <td class="col-fecha-retiro ${filtroEstadoActual !== 'inactivos' ? 'd-none' : ''}">
-                ${producto.fechaDesactivada ?? "—"}
+                ${producto.fechaDesactivacion ?? "—"}
             </td>
             <td class="text-center">${botones}</td>
         `;

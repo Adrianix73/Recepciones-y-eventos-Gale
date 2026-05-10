@@ -38,11 +38,11 @@ document.getElementById("btnIngresar").addEventListener("click", () => { //El bo
 
         // Redireción según rol
         if (usuario.rol === "Admin") {
-            window.location.href = "html/dashboard-product.html";
+            window.location.href = "../admin//producto/dashboard-product.html";
         } else if (usuario.rol === "Cajero") {
-            window.location.href = "html/caja.html";
+            window.location.href = "../cajero/caja.html";
         } else {
-            window.location.href = "html/menu-usuario.html";
+            window.location.href = "../mozo/menu-usuario.html";
         }
     })
 
