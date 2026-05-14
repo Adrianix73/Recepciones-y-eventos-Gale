@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../dashboard.css">
 </head>
 
-<body data-page="categorias">
+<body data-page="ventas">
 
     <!-- ============================================================  
          TOPBAR - Solo visible en móvil (d-md-none = oculto en desktop)  
@@ -53,7 +53,7 @@
                     <!-- breadcrumb-item = estilo de cada elemento -->
                     <!-- active = el elemento actual (sin enlace) -->
                     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                    <li class="breadcrumb-item active">Categorías</li>
+                    <li class="breadcrumb-item active">Ventas</li>
                 </ol>
             </nav>
 
@@ -63,7 +63,7 @@
                  align-items-center = centrado vertical | mb-3 = margin bottom 3  
                  ============================================================ -->
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0 titulo-seccion">REPORTE DE CATEGORÍAS</h4>
+                <h4 class="mb-0 titulo-seccion">REPORTE DE VENTAS</h4>
 
                 <!-- ✅ BOTÓN BOOTSTRAP  
                      btn = clase base obligatoria  
@@ -82,8 +82,8 @@
                     <span class="input-group-text">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
-                    <input type="text" class="form-control" id="buscador-categoria"
-                        placeholder="Buscar categoría por nombre..." autocomplete="off">
+                    <input type="text" class="form-control" id="buscador-venta"
+                        placeholder="Buscar venta por nombre..." autocomplete="off">
                     <button class="btn btn-limpiar-busqueda" type="button" id="btn-limpiar-busqueda" title="Limpiar">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
@@ -100,11 +100,11 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Categoría</th>
+                            <th>Producto</th>
                             <th class="text-center">Opciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-categoria">
+                    <tbody id="tabla-venta">
                         <!-- ✅ Vacío — JS lo llena automáticamente -->
                     </tbody>
                 </table>
@@ -120,7 +120,7 @@
      MODAL DE ADVERTENCIA - Bootstrap
      modal = clase base | fade = animación de entrada
      ============================================================ -->
-    <div class="modal fade" id="modalEditarCategoria" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modalEditarVenta" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <!-- modal-dialog-centered = centrado vertical en pantalla -->
             <div class="modal-content">
@@ -137,7 +137,7 @@
 
                 <!-- CUERPO del modal -->
                 <div class="modal-body">
-                    ¿Estás seguro de querer editar a esta categoría?
+                    ¿Estás seguro de querer editar a esta venta?
                 </div>
 
                 <!-- PIE del modal — botones de acción -->
@@ -148,7 +148,7 @@
                     </button>
 
                     <!-- Confirmar: llama a la función JS -->
-                    <button type="button" class="btn btn-primary" id="btn-si-editar-categoria">
+                    <button type="button" class="btn btn-primary" id="btn-si-editar-venta">
                         <i class="fa-solid fa-check me-1"></i> Sí, editar
                     </button>
                 </div>
@@ -157,20 +157,20 @@
         </div>
     </div>
 
-    <!-- MODAL CREAR CATEGORÍA -->
-    <div class="modal fade" id="modalCrearCategoria" tabindex="-1" aria-hidden="true">
+    <!-- MODAL CREAR VENTA -->
+    <div class="modal fade" id="modalCrearVenta" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="fa-solid fa-box-open me-2"></i> Registrar Categoría
+                        <i class="fa-solid fa-box-open me-2"></i> Registrar Venta
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body">
-                    <form id="form-crear-categoria">
+                    <form id="form-crear-venta">
                             
                                 <label class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="crear-nombre" placeholder="Nombre">                          

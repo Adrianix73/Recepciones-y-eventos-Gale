@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../dashboard.css">
 </head>
-<body>
+<body data-page="usuarios">
 
     <!-- ============================================================  
          TOPBAR - Solo visible en móvil (d-md-none = oculto en desktop)  
@@ -35,50 +35,7 @@
              Bootstrap NO tiene sidebar nativo, lo hacemos con CSS propio  
              pero usamos clases de Bootstrap para padding, texto, etc.  
              ============================================================ -->  
-       <aside class="sidebar" id="sidebar">
-    <!-- Encabezado con Logo -->
-    <div class="sidebar-header">
-        <img src="../../../img/logo-rdr-madera.webp" alt="Logo" class="sidebar-logo-img">
-        <div class="sidebar-business-name">El Rincón <br> de Rango</div>
-    </div>
-
-    <!-- Categoría: Reportes -->
-    <div class="sidebar-category-title">Reportes:</div>
-    <nav>
-        <a href="#" class="sidebar-link">Reportes</a>
-    </nav>
-
-    <!-- Categoría: Actualizar -->
-    <div class="sidebar-category-title">Actualizar datos:</div>
-    <nav>
-        <a href="../producto/dashboard-product.html" class="sidebar-link">
-            <i class="fa-solid fa-box-open"></i> Productos
-        </a>
-        <a href="dashboard-users.html" class="sidebar-link activo">
-            <i class="fa-solid fa-user-group"></i> Usuarios
-        </a>
-        </a>
-                <a href="../categoria/dashboard-categoria.html" class="sidebar-link">
-                    <i class="fa-solid fa-layer-group"></i> Categorías
-                </a>
-                <a href="../venta/dashboard-ventas.html" class="sidebar-link">
-                    <i class="fa-solid fa-tag"></i> Ventas
-                </a>
-    </nav>
-
-    <!-- Footer del Sidebar -->
-    <div class="sidebar-footer">
-        <a href="#" class="sidebar-link">
-            <i class="fa-solid fa-bug"></i> Reportar bug
-        </a>
-        <a href="#" class="sidebar-link">
-            <i class="fa-solid fa-circle-question"></i> Ayuda
-        </a>
-        <a href="../../../index.html" class="sidebar-link text-danger"> <!-- Clase Bootstrap text-danger -->
-            <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-        </a>
-    </div>
-</aside> 
+       <aside class="sidebar" id="sidebar"></aside> 
   
         <!-- ============================================================  
              CONTENIDO PRINCIPAL  
