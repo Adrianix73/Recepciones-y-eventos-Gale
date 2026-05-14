@@ -104,13 +104,13 @@ es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de u
 
 ## Estructura del proyecto
 ```
-JavaWeb-GotaGota/
+Recepciones-y-eventos-Gale-E.I.R.L./
 ├── backend/          → Spring Boot (Java)
 │   ├── src/
 │   ├── pom.xml
 │   └── ...
 ├── frontend/         → HTML, CSS, JS
-│   ├── css/
+│   ├── html/
 │   ├── js/
 │   └── index.html
 ```
@@ -306,7 +306,7 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 ### Configuracion de la base de datos
 
 ```
-spring.application.name=retobar-rdr
+spring.application.name=restobar-rdr
 # CONEXION A MYSQL
 spring.datasource.url=jdbc:mysql://localhost:3306/restobar_db
 spring.datasource.username=root
