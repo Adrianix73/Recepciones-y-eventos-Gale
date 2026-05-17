@@ -12,10 +12,6 @@
 
 <body data-page="ventas">
 
-    <!-- ============================================================  
-         TOPBAR - Solo visible en móvil (d-md-none = oculto en desktop)  
-         Bootstrap: d-flex = display flex | justify-content-between = espacio entre elementos  
-         ============================================================ -->
     <div class="topbar d-flex d-md-none justify-content-between align-items-center px-3 py-2">
         <span>Dashboard</span>
         <button class="hamburger" id="btn-hamburger" aria-label="Abrir menú">
@@ -23,26 +19,13 @@
         </button>
     </div>
 
-    <!-- OVERLAY (fondo oscuro al abrir sidebar en móvil) -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- ============================================================  
-         LAYOUT PRINCIPAL: sidebar + main lado a lado  
-         Bootstrap: d-flex = pone los hijos en fila horizontal  
-         ============================================================ -->
     <div class="d-flex">
 
-        <!-- ============================================================  
-             SIDEBAR  
-             Bootstrap NO tiene sidebar nativo, lo hacemos con CSS propio  
-             pero usamos clases de Bootstrap para padding, texto, etc.  
-             ============================================================ -->
         <aside class="sidebar" id="sidebar"></aside>
 
-        <!-- ============================================================  
-             CONTENIDO PRINCIPAL  
-             Bootstrap: flex-grow-1 = ocupa todo el espacio restante  
-             ============================================================ -->
+        <!-- CONTENIDO PRINCIPAL   -->
         <main class="flex-grow-1 p-4">
             <!-- p-4 = padding de 4 unidades en todos los lados -->
 
@@ -57,18 +40,10 @@
                 </ol>
             </nav>
 
-            <!-- ============================================================  
-                 CABECERA DE SECCIÓN  
-                 Bootstrap: d-flex = flex | justify-content-between = extremos  
-                 align-items-center = centrado vertical | mb-3 = margin bottom 3  
-                 ============================================================ -->
+            <!-- CABECERA DE SECCIÓN   -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="mb-0 titulo-seccion">REPORTE DE VENTAS</h4>
 
-                <!-- ✅ BOTÓN BOOTSTRAP  
-                     btn = clase base obligatoria  
-                     btn-primary = color azul por defecto (lo sobreescribimos en CSS)  
-                     Otros ejemplos: btn-secondary, btn-danger, btn-success, btn-outline-primary -->
                 <button class="btn btn-primary" onclick="abrirModalCrear()">
                     <i class="fa-solid fa-plus me-1"></i> REGISTRAR
                 </button>
@@ -77,24 +52,9 @@
             <!-- FILTROS -->
             <div class="d-flex gap-2 mb-3 flex-wrap">
 
-                <!-- Buscador por nombre -->
-                <div class="input-group busqueda">
-                    <span class="input-group-text">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                    <input type="text" class="form-control" id="buscador-venta"
-                        placeholder="Buscar venta por nombre..." autocomplete="off">
-                    <button class="btn btn-limpiar-busqueda" type="button" id="btn-limpiar-busqueda" title="Limpiar">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
             </div>
 
-            <!-- ============================================================  
-                 TABLA BOOTSTRAP  
-                 table-responsive = hace la tabla scrolleable en pantallas pequeñas  
-                 ============================================================ -->
+            <!-- TABLA -->
             <div class="table-responsive">
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -105,7 +65,7 @@
                         </tr>
                     </thead>
                     <tbody id="tabla-venta">
-                        <!-- ✅ Vacío — JS lo llena automáticamente -->
+                        <!-- Vacío — JS lo llena automáticamente -->
                     </tbody>
                 </table>
             </div>
@@ -116,10 +76,7 @@
     </div>
     <!-- FIN d-flex (layout principal) -->
 
-    <!-- ============================================================
-     MODAL DE ADVERTENCIA - Bootstrap
-     modal = clase base | fade = animación de entrada
-     ============================================================ -->
+    <!-- MODAL DE ADVERTENCIA -->
     <div class="modal fade" id="modalEditarVenta" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <!-- modal-dialog-centered = centrado vertical en pantalla -->

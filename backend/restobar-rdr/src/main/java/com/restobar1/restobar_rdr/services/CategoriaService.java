@@ -27,6 +27,15 @@ public class CategoriaService {
         return categoriaRepository.save(categoria);
     }
 
+    public Categoria editar(Long id, Categoria categoriaActualizada) {
+        Categoria categoriaExistente = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + id));
+
+        categoriaExistente.setNombreCategoria(categoriaActualizada.getNombreCategoria());
+
+        return categoriaRepository.save(categoriaExistente);
+    }
+
     public void  eliminar(Long id) {
         boolean tieneProductos = productoRepository.existsByCategoria_Id(id);
 

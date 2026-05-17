@@ -6,13 +6,16 @@ let idProductoAEditar   = null;
 let idProductoEliminar  = null;
 let idProductoRestaurar = null;
 let filtroEstadoActual  = "activos";
+let todasLasCategorias = [];
 let todosLosProductos   = [];
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
     cargarProductos();
+    cargarCategorias();
 
-    // ── BUSCADOR: filtra mientras escribes ───────────────────────
+    // ── BUSCADOR: filtra mientras se escribe ───────────────────────
 const inputBuscar = document.getElementById("buscador-producto");
 const btnLimpiar = document.getElementById("btn-limpiar-busqueda");
 
@@ -67,6 +70,7 @@ btnLimpiar.addEventListener("click", () => {
             document.getElementById("form-crear-producto").reset();
             alert("Producto registrado correctamente.");
             cargarProductos();
+            cargarCategorias(); // Para actualizar el filtro de categorías por si se agregó una nueva
         })
         .catch(() => alert("Error al registrar el producto."));
     });
@@ -142,6 +146,45 @@ window.aplicarFiltro = function(tipo, btn) {
 
     aplicarFiltros();
 };
+
+function cargarCategorias() {
+    fetch("http://localhost:8080/api/categorias")
+        .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+        .then(data => {
+            todasLasCategorias = data;
+            llenarSelectCategorias(data);
+        })
+        .catch(() => {
+            console.error("Error al cargar categorías");
+        });
+}
+
+// Actualización de las categorías en los selects de filtro y creación
+function llenarSelectCategorias(categorias) {
+    const selectFiltro = document.getElementById("filtro-categoria");
+    const selectCrear = document.getElementById("crear-categoria");
+
+    const valorFiltroActual = selectFiltro.value;
+    const valorCrearActual = selectCrear.value;
+
+    selectFiltro.innerHTML = `<option value="">Todas las categorías</option>`;
+    selectCrear.innerHTML = `<option value="">Seleccionar categoría...</option>`;
+
+    categorias.forEach(categoria => {
+        const optionFiltro = document.createElement("option");
+        optionFiltro.value = categoria.nombreCategoria;
+        optionFiltro.textContent = categoria.nombreCategoria;
+        selectFiltro.appendChild(optionFiltro);
+
+        const optionCrear = document.createElement("option");
+        optionCrear.value = categoria.id;
+        optionCrear.textContent = categoria.nombreCategoria;
+        selectCrear.appendChild(optionCrear);
+    });
+
+    selectFiltro.value = valorFiltroActual;
+    selectCrear.value = valorCrearActual;
+}
 
 window.aplicarFiltroCategoria = function() {
     aplicarFiltros();
@@ -266,6 +309,7 @@ window.restaurarProducto = function(btn) {
 };
 
 window.abrirModalCrear = function() {
+    cargarCategorias();
     bootstrap.Modal.getOrCreateInstance(
         document.getElementById("modalCrearProducto")
     ).show();
