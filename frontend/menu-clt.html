@@ -4,39 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>EcoMarket - Página Principal</title>
-
-      <!-- ESTA LÍNEA ES PARA LOS ICONOS -->
+    <title>Menú Digital Rincón de Rango</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <link rel="stylesheet" href="shared/menu.css">
 </head>
 <body>
-<header>
-        <img src="img/logo-rdr-madera.webp" alt="Logo" class="logo" width="120px">
 
-        <div class="categoria">
-            <select name="categorias" id="categorias">
-                <option value="categoria">Categorías</option>
-            </select>
-        </div>
-
-        <div class="buscador">
-            <input type="text" id="input-buscar" placeholder="Buscar frutas, verduras y más...">
-            <button type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>  
-        </div>
-
-        <div class="cuenta">
-        <button type="submit" id="loginInicial">
-            <i class="fa-solid fa-user"></i>
-        </button>
-        </div>
-
-    </header>
+<header id="header"></header>
 
     <main>
-
         <!--Sección de sopas-->
     <div class="container" id="sopas">
         <h1>Sopas</h1>
@@ -83,7 +59,8 @@
     <script src="js/app.js"></script>
 
     <footer id="footer"></footer>
-     
+
+<script src="../../shared/header.js"></script>
 <script src="../../shared/footer.js"></script>
 
 </body>

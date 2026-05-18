@@ -1,0 +1,36 @@
+/* ============================================================
+   VARIABLES — paleta unificada del proyecto
+   ============================================================ */
+:root {
+  /* Fondos */
+  --color-fondo:        #F4EFE5;
+  --color-fondo-main:   #FDF5ED;
+  --color-sidebar:      #F4EFE5;
+
+  /* Acento principal (marrón-rojizo) */
+  --color-acento:       #712626;
+  --color-acento-hover: #7C2222;
+
+  /* Textos */
+  --color-texto:        #000000;
+  --color-texto-marron: #682D03;
+
+  /* Botones */
+  --color-btn-fondo:    #FFE2E2;
+  --color-btn-texto:    #712626;
+
+  /* Tabla */
+  --color-thead:        #925454;
+  --color-thead-texto:  #FFFFFF;
+
+  /* Bordes y separadores */
+  --color-borde:        #d9c9bd;
+  --color-separador:    #D4B1B1;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  object-fit: cover;
+}
