@@ -51,3 +51,7 @@ document.getElementById("btnIngresar").addEventListener("click", () => { //El bo
         alert("Error: " + error.message);
     });
 });
+
+document.getElementById("btn-volver").addEventListener("click", () => {
+    window.location.href = "../index.html";
+});
