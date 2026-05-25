@@ -87,7 +87,7 @@
                         </tr>
                     </thead>
                     <tbody id="tabla-producto">
-                        <!-- ✅ Vacío — JS lo llena automáticamente -->
+                        <!-- Vacío — JS lo llena automáticamente -->
                     </tbody>
                 </table>
             </div>
@@ -98,46 +98,63 @@
     </div>
     <!-- FIN d-flex (layout principal) -->
 
-    <!-- ============================================================
-     MODAL DE ADVERTENCIA - Bootstrap
-     MODAL EDITAR
-     ============================================================ -->
-    <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <!-- modal-dialog-centered = centrado vertical en pantalla -->
-            <div class="modal-content">
+    <!-- MODAL EDITAR PRODUCTO -->
+<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
 
-                <!-- CABECERA del modal -->
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
-                        Advertencia
-                    </h5>
-                    <!-- Botón X para cerrar — data-bs-dismiss lo maneja Bootstrap solo -->
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fa-solid fa-pen-to-square me-2"></i>
+          Editar Producto
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
 
-                <!-- CUERPO del modal -->
-                <div class="modal-body">
-                    ¿Estás seguro de querer editar a este producto?
-                </div>
+      <div class="modal-body">
+        <form id="form-editar-producto">
+          <div class="row g-3">
 
-                <!-- PIE del modal — botones de acción -->
-                <div class="modal-footer">
-                    <!-- Cancelar: data-bs-dismiss cierra el modal automáticamente -->
-                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
-                    </button>
-
-                    <!-- Confirmar: llama a la función JS -->
-                    <button type="button" class="btn btn-primary" id="btn-si-editar-prod">
-                        <i class="fa-solid fa-check me-1"></i> Sí, editar
-                    </button>
-                </div>
-
+            <div class="col-md-6">
+              <label class="form-label">Categoría</label>
+              <select class="form-select" id="editar-categoria">
+                <option value="">Seleccionar categoría...</option>
+              </select>
             </div>
-        </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="editar-nombre" placeholder="Nombre">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Precio</label>
+              <input type="number" class="form-control" id="editar-precio"
+                     placeholder="Precio" step="0.01">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Descripción</label>
+              <input type="text" class="form-control" id="editar-descripcion"
+                     placeholder="Descripción">
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+          <i class="fa-solid fa-xmark me-1"></i> Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-confirmar-editar">
+          <i class="fa-solid fa-floppy-disk me-1"></i> Guardar cambios
+        </button>
+      </div>
+
     </div>
+  </div>
+</div>
 
     <!-- MODAL CREAR PRODUCTO -->
     <div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-hidden="true">
@@ -191,7 +208,7 @@
         </div>
     </div>
 
-    <!-- MODAL ELIMINAR PRODUCTO -->
+    <!-- MODAL ADVERTENCIA ELIMINAR PRODUCTO -->
     <div class="modal fade" id="modalEliminarProducto" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -214,7 +231,7 @@
         </div>
     </div>
 
-    <!-- MODAL RESTAURAR PRODUCTO -->
+    <!-- MODAL ADVERTENCIA RESTAURAR PRODUCTO -->
     <div class="modal fade" id="modalRestaurarProducto" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

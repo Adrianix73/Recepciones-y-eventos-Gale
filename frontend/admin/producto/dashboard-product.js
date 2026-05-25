@@ -32,12 +32,37 @@ btnLimpiar.addEventListener("click", () => {
 });
 
     // ── MODAL EDITAR ──────────────────────────────────────────
-    document.getElementById("btn-si-editar-prod").addEventListener("click", () => {
-        bootstrap.Modal.getInstance(
-            document.getElementById("modalEditarProducto")
-        ).hide();
-        window.location.href = `editar-producto.html?id=${idProductoAEditar}`;
-    });
+document.getElementById("btn-confirmar-editar").addEventListener("click", () => {
+  const nombre     = document.getElementById("editar-nombre").value.trim();
+  const precio     = document.getElementById("editar-precio").value.trim();
+  const descripcion = document.getElementById("editar-descripcion").value.trim();
+  const categoriaId = document.getElementById("editar-categoria").value;
+
+  if (!nombre || !precio || !categoriaId) {
+    alert("Nombre, precio y categoría son obligatorios.");
+    return;
+  }
+
+  fetch(`http://localhost:8080/api/productos/${idProductoAEditar}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nombreProducto: nombre,
+      precioActual:   parseFloat(precio),
+      descripcion:    descripcion,
+      categoria:      { id: parseInt(categoriaId) }
+    })
+  })
+  .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+  .then(() => {
+    bootstrap.Modal.getInstance(
+      document.getElementById("modalEditarProducto")
+    ).hide();
+    document.getElementById("form-editar-producto").reset();
+    cargarProductos();
+  })
+  .catch(() => alert("Error al guardar los cambios."));
+});
 
     // ── MODAL CREAR ───────────────────────────────────────────
     document.getElementById("btn-confirmar-crear").addEventListener("click", () => {
@@ -70,12 +95,12 @@ btnLimpiar.addEventListener("click", () => {
             document.getElementById("form-crear-producto").reset();
             alert("Producto registrado correctamente.");
             cargarProductos();
-            cargarCategorias(); // Para actualizar el filtro de categorías por si se agregó una nueva
+            cargarCategorias();
         })
         .catch(() => alert("Error al registrar el producto."));
     });
 
-    // ── MODAL ELIMINAR ────────────────────────────────────────
+    // ── MODAL ELIMINAR (DESACTIVAR) ────────────────────────────────────────
     document.getElementById("btn-confirmar-eliminar").addEventListener("click", () => {
         fetch(`http://localhost:8080/api/productos/${idProductoEliminar}/desactivar`, {
             method: "PUT"
@@ -90,7 +115,7 @@ btnLimpiar.addEventListener("click", () => {
         .catch(() => alert("Error al retirar el producto."));
     });
 
-    // ── MODAL RESTAURAR ───────────────────────────────────────
+    // ── MODAL RESTAURAR (ACTIVAR) ───────────────────────────────────────
     document.getElementById("btn-confirmar-restaurar").addEventListener("click", () => {
         fetch(`http://localhost:8080/api/productos/${idProductoRestaurar}/activar`, {
             method: "PUT"
@@ -284,10 +309,32 @@ function renderTabla(datos) {
 // ACCIONES
 // ============================================================
 window.editarProducto = function(btn) {
-    idProductoAEditar = btn.dataset.id;
-    bootstrap.Modal.getOrCreateInstance(
+  idProductoAEditar = btn.dataset.id;
+
+  // Llena el select de categorías del modal editar
+  const selectEditar = document.getElementById("editar-categoria");
+  selectEditar.innerHTML = `<option value="">Seleccionar categoría...</option>`;
+  todasLasCategorias.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = c.nombreCategoria;
+    selectEditar.appendChild(opt);
+  });
+
+  // Trae los datos actuales del producto y los pone en los inputs
+  fetch(`http://localhost:8080/api/productos/${idProductoAEditar}`)
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(p => {
+      document.getElementById("editar-nombre").value      = p.nombreProducto ?? "";
+      document.getElementById("editar-precio").value      = p.precioActual   ?? "";
+      document.getElementById("editar-descripcion").value = p.descripcion    ?? "";
+      document.getElementById("editar-categoria").value   = p.categoria?.id  ?? "";
+
+      bootstrap.Modal.getOrCreateInstance(
         document.getElementById("modalEditarProducto")
-    ).show();
+      ).show();
+    })
+    .catch(() => alert("Error al cargar los datos del producto."));
 };
 
 window.eliminarProducto = function(btn) {

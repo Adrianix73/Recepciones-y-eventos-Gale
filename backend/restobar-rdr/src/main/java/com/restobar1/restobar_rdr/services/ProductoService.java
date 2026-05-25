@@ -10,16 +10,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
 
-    // Carpeta donde se guardan las imágenes
-    private static final String CARPETA_IMAGENES = "uploads/productos";
+    private static final Path CARPETA_IMAGENES = Paths.get("uploads", "productos");
 
     public ProductoService(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
@@ -35,42 +36,34 @@ public class ProductoService {
         return productoRepository.findById(id).orElse(null);
     }
 
-    // ── CREAR (CON IMAGEN) ──────────────────────────────────────
-    public Producto guardar(
-            String nombreProducto,
-            Double precioActual,
-            String descripcion,
-            Long categoriaId,
-            MultipartFile imagen
-    ) throws IOException {
+    // ── CREAR PRODUCTO (SOLO DATOS) ───────────────────────────
+    public Producto guardar(String nombreProducto,
+                            Double precioActual,
+                            String descripcion,
+                            Long categoriaId) {
 
-        Producto p = new Producto();
-        p.setNombreProducto(nombreProducto);
-        p.setPrecioActual(precioActual);
-        p.setDescripcion(descripcion);
+        validarDatos(nombreProducto, precioActual, categoriaId);
 
-        Categoria cat = new Categoria();
-        cat.setId(categoriaId);
-        p.setCategoria(cat);
+        Producto producto = new Producto();
+        producto.setNombreProducto(nombreProducto);
+        producto.setPrecioActual(precioActual);
+        producto.setDescripcion(descripcion);
 
-        // Guarda la imagen si viene
-        if (imagen != null && !imagen.isEmpty()) {
-            String rutaImagen = guardarArchivo(imagen);
-            p.setImagen(rutaImagen);
-        }
+        Categoria categoria = new Categoria();
+        categoria.setId(categoriaId);
+        producto.setCategoria(categoria);
 
-        return productoRepository.save(p);
+        return productoRepository.save(producto);
     }
 
-    // ── EDITAR (CON IMAGEN) ─────────────────────────────────────
-    public Producto actualizar(
-            Long id,
-            String nombreProducto,
-            Double precioActual,
-            String descripcion,
-            Long categoriaId,
-            MultipartFile imagen
-    ) throws IOException {
+    // ── EDITAR PRODUCTO (SOLO DATOS) ──────────────────────────
+    public Producto actualizar(Long id,
+                               String nombreProducto,
+                               Double precioActual,
+                               String descripcion,
+                               Long categoriaId) {
+
+        validarDatos(nombreProducto, precioActual, categoriaId);
 
         Producto existente = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
@@ -79,44 +72,136 @@ public class ProductoService {
         existente.setPrecioActual(precioActual);
         existente.setDescripcion(descripcion);
 
-        if (categoriaId != null) {
-            Categoria cat = new Categoria();
-            cat.setId(categoriaId);
-            existente.setCategoria(cat);
-        }
-
-        // Solo reemplaza la imagen si se subió una nueva
-        if (imagen != null && !imagen.isEmpty()) {
-            String rutaImagen = guardarArchivo(imagen);
-            existente.setImagen(rutaImagen);
-        }
+        Categoria categoria = new Categoria();
+        categoria.setId(categoriaId);
+        existente.setCategoria(categoria);
 
         return productoRepository.save(existente);
     }
 
+    // ── SUBIR IMAGEN ──────────────────────────────────────────
+    public Producto subirImagen(Long id, MultipartFile imagen) throws IOException {
+        return guardarOReemplazarImagen(id, imagen);
+    }
+
+    // ── REEMPLAZAR IMAGEN ─────────────────────────────────────
+    public Producto reemplazarImagen(Long id, MultipartFile imagen) throws IOException {
+        return guardarOReemplazarImagen(id, imagen);
+    }
+
+    // ── OBTENER RUTA DE IMAGEN POR ID ─────────────────────────
+    public Path obtenerRutaImagen(Long id) throws IOException {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        if (!Files.exists(CARPETA_IMAGENES)) {
+            return null;
+        }
+
+        try (Stream<Path> archivos = Files.list(CARPETA_IMAGENES)) {
+            return archivos
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().startsWith(producto.getId() + "."))
+                    .findFirst()
+                    .orElse(null);
+        }
+    }
+
     // ── DESACTIVAR ────────────────────────────────────────────
     public void desactivar(Long id) {
-        Producto p = productoRepository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        p.setFechaDesactivacion(LocalDateTime.now());
-        productoRepository.save(p);
+        producto.setFechaDesactivacion(LocalDateTime.now());
+        productoRepository.save(producto);
     }
 
     // ── ACTIVAR ───────────────────────────────────────────────
     public void activar(Long id) {
-        Producto p = productoRepository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        p.setFechaDesactivacion(null);
-        productoRepository.save(p);
+        producto.setFechaDesactivacion(null);
+        productoRepository.save(producto);
     }
 
-    // ── HELPER: guarda el archivo y devuelve la ruta ──────────
-    private String guardarArchivo(MultipartFile archivo) throws IOException {
-        String nombreArchivo = System.currentTimeMillis() + "_" + archivo.getOriginalFilename();
-        Path ruta = Paths.get(CARPETA_IMAGENES + nombreArchivo);
-        Files.createDirectories(ruta.getParent());
-        Files.write(ruta, archivo.getBytes());
-        return "/" + CARPETA_IMAGENES + nombreArchivo;
+    // ── HELPER PRINCIPAL DE IMAGEN ────────────────────────────
+    private Producto guardarOReemplazarImagen(Long id, MultipartFile imagen) throws IOException {
+        validarImagen(imagen);
+
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        Files.createDirectories(CARPETA_IMAGENES);
+
+        eliminarImagenAnterior(id);
+
+        String extension = obtenerExtensionValida(imagen.getOriginalFilename());
+        String nombreArchivo = id + extension;
+        Path rutaArchivo = CARPETA_IMAGENES.resolve(nombreArchivo);
+
+        Files.copy(imagen.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
+
+        // Guardamos una referencia útil para el frontend.
+        // Así luego podrás usar producto.getImagen() si quieres.
+        producto.setImagen("/api/productos/" + id + "/imagen");
+
+        return productoRepository.save(producto);
     }
 
+    private void validarDatos(String nombreProducto, Double precioActual, Long categoriaId) {
+        if (nombreProducto == null || nombreProducto.isBlank()) {
+            throw new IllegalArgumentException("El nombre del producto es obligatorio.");
+        }
+
+        if (precioActual == null) {
+            throw new IllegalArgumentException("El precio actual es obligatorio.");
+        }
+
+        if (categoriaId == null) {
+            throw new IllegalArgumentException("La categoría es obligatoria.");
+        }
+    }
+
+    private void validarImagen(MultipartFile imagen) {
+        if (imagen == null || imagen.isEmpty()) {
+            throw new IllegalArgumentException("Debe seleccionar una imagen.");
+        }
+    }
+
+    private String obtenerExtensionValida(String nombreArchivo) {
+        if (nombreArchivo == null || !nombreArchivo.contains(".")) {
+            throw new IllegalArgumentException("El archivo no tiene una extensión válida.");
+        }
+
+        String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".")).toLowerCase();
+
+        return switch (extension) {
+            case ".jpg", ".jpeg" -> ".jpg";
+            case ".png" -> ".png";
+            case ".webp" -> ".webp";
+            case ".gif" -> ".gif";
+            case ".avif" -> ".avif";
+            default -> throw new IllegalArgumentException("Formato de imagen no permitido.");
+        };
+    }
+
+    private void eliminarImagenAnterior(Long id) throws IOException {
+        if (!Files.exists(CARPETA_IMAGENES)) {
+            return;
+        }
+
+        List<Path> archivosAEliminar;
+
+        try (Stream<Path> archivos = Files.list(CARPETA_IMAGENES)) {
+            archivosAEliminar = archivos
+                    .filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().startsWith(id + "."))
+                    .toList();
+        }
+
+        for (Path archivo : archivosAEliminar) {
+            Files.deleteIfExists(archivo);
+        }
+    }
 }

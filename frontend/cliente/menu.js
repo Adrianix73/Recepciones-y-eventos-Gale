@@ -8,8 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoriasContainer = document.getElementById('categorias-container');
   const menuStatus          = document.getElementById('menu-status');
   const noResults           = document.getElementById('search-no-results');
-  const searchInput    = document.getElementById('header-search');  
-  const clearBtn    = document.getElementById('header-search-clear');
+  const searchInput    = document.getElementById('header-search');
   const categoryFilter = document.getElementById('header-categorias');
 
   const modalEl          = document.getElementById('product-modal');
@@ -150,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return `
       <div class="col">
-        <div class="card h-100 product-card">
+        <div class="card h-100 product-card" data-producto-id="${p.id}">
           <div class="product-image-wrap">
             <img
               src="${img}"
@@ -166,12 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
               ${escapeHtml(p.descripcion || 'Sin descripción.')}
             </p>
             <p class="product-price mb-0">${formatearPrecio(p.precioActual)}</p>
-          </div>
-
-          <div class="card-footer bg-transparent border-0 p-3 pt-0">
-            <button class="btn-detail" data-producto-id="${p.id}">
-              Ver detalle
-            </button>
           </div>
         </div>
       </div>
@@ -221,4 +214,4 @@ document.addEventListener('DOMContentLoaded', () => {
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#039;');
   }
-});
+}); 
