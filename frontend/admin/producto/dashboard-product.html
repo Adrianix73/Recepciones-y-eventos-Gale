@@ -100,113 +100,159 @@
 
     <!-- MODAL EDITAR PRODUCTO -->
 <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
-
       <div class="modal-header">
         <h5 class="modal-title">
-          <i class="fa-solid fa-pen-to-square me-2"></i>
-          Editar Producto
+          <i class="fa-solid fa-pen-to-square me-2"></i>Editar Producto
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
 
       <div class="modal-body">
-        <form id="form-editar-producto">
-          <div class="row g-3">
+        <form id="form-editar-producto" class="row g-3">
+          <div class="col-md-6">
+            <label for="editar-categoria" class="form-label">Categoría</label>
+            <select id="editar-categoria" class="form-select" required>
+              <option value="">Seleccionar categoría...</option>
+            </select>
+          </div>
 
-            <div class="col-md-6">
-              <label class="form-label">Categoría</label>
-              <select class="form-select" id="editar-categoria">
-                <option value="">Seleccionar categoría...</option>
-              </select>
+          <div class="col-md-6">
+            <label for="editar-nombre" class="form-label">Nombre</label>
+            <input type="text" id="editar-nombre" class="form-control" maxlength="100" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="editar-precio" class="form-label">Precio</label>
+            <input type="number" id="editar-precio" class="form-control" min="0" step="0.01" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="editar-descripcion" class="form-label">Descripción</label>
+            <textarea id="editar-descripcion" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label d-block">Imagen del producto</label>
+
+            <div class="producto-upload">
+              <input type="file" id="editar-imagen" class="d-none" accept="image/*" />
+
+              <div id="editar-upload-zone" class="producto-upload__zone" tabindex="0">
+                <div id="editar-upload-placeholder" class="producto-upload__placeholder">
+                  <i class="fa-regular fa-image producto-upload__icon"></i>
+                  <p class="producto-upload__title">Arrastra una imagen aquí</p>
+                  <span class="producto-upload__subtitle">o haz clic para reemplazar la actual</span>
+                </div>
+
+                <div id="editar-preview-box" class="producto-upload__preview d-none">
+                  <img id="editar-preview-img" src="" alt="Vista previa" />
+                  <div class="producto-upload__meta">
+                    <span id="editar-preview-name"></span>
+                    <small id="editar-preview-help">Si no seleccionas una nueva imagen, se conservará la actual.</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="producto-upload__actions">
+                <button type="button" class="btn btn-sm btn-accion" id="editar-btn-seleccionar">
+                  <i class="fa-solid fa-upload me-1"></i>Elegir imagen
+                </button>
+                <button type="button" class="btn btn-sm btn-cancelar d-none" id="editar-btn-quitar-imagen">
+                  Quitar selección nueva
+                </button>
+              </div>
             </div>
-
-            <div class="col-md-6">
-              <label class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="editar-nombre" placeholder="Nombre">
-            </div>
-
-            <div class="col-md-6">
-              <label class="form-label">Precio</label>
-              <input type="number" class="form-control" id="editar-precio"
-                     placeholder="Precio" step="0.01">
-            </div>
-
-            <div class="col-md-6">
-              <label class="form-label">Descripción</label>
-              <input type="text" class="form-control" id="editar-descripcion"
-                     placeholder="Descripción">
-            </div>
-
           </div>
         </form>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
-          <i class="fa-solid fa-xmark me-1"></i> Cancelar
-        </button>
-        <button type="button" class="btn btn-primary" id="btn-confirmar-editar">
-          <i class="fa-solid fa-floppy-disk me-1"></i> Guardar cambios
-        </button>
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-guardar-edicion">Guardar cambios</button>
       </div>
-
     </div>
   </div>
 </div>
 
     <!-- MODAL CREAR PRODUCTO -->
     <div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fa-solid fa-utensils me-2"></i>Registrar Producto
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
 
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fa-solid fa-box-open me-2"></i> Registrar Producto
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-body">
+        <form id="form-crear-producto" class="row g-3">
+          <div class="col-md-6">
+            <label for="crear-categoria" class="form-label">Categoría</label>
+            <select id="crear-categoria" class="form-select" required>
+              <option value="">Seleccionar categoría...</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="crear-nombre" class="form-label">Nombre</label>
+            <input type="text" id="crear-nombre" class="form-control" maxlength="100" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="crear-precio" class="form-label">Precio</label>
+            <input type="number" id="crear-precio" class="form-control" min="0" step="0.01" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="crear-descripcion" class="form-label">Descripción</label>
+            <textarea id="crear-descripcion" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label d-block">Imagen del producto <span class="text-muted">(opcional)</span></label>
+
+            <div class="producto-upload">
+              <input type="file" id="crear-imagen" class="d-none" accept="image/*" />
+
+              <div id="crear-upload-zone" class="producto-upload__zone" tabindex="0">
+                <div id="crear-upload-placeholder" class="producto-upload__placeholder">
+                  <i class="fa-regular fa-image producto-upload__icon"></i>
+                  <p class="producto-upload__title">Arrastra una imagen aquí</p>
+                  <span class="producto-upload__subtitle">o haz clic para seleccionarla</span>
                 </div>
 
-                <div class="modal-body">
-                    <form id="form-crear-producto">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Categoría</label>
-                                <select class="form-select" id="crear-categoria">
-                                    <option value="">Seleccionar categoría...</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="crear-nombre" placeholder="Nombre">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Precio</label>
-                                <input type="number" class="form-control" id="crear-precio" placeholder="Precio"
-                                    step="0.01">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Descripción</label>
-                                <input type="text" class="form-control" id="crear-descripcion"
-                                    placeholder="Descripción">
-                            </div>
-                        </div>
-                    </form>
+                <div id="crear-preview-box" class="producto-upload__preview d-none">
+                  <img id="crear-preview-img" src="" alt="Vista previa" />
+                  <div class="producto-upload__meta">
+                    <span id="crear-preview-name"></span>
+                    <small>Si guardas sin imagen, el producto se registra igual.</small>
+                  </div>
                 </div>
+              </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
-                    </button>
-                    <button type="button" class="btn btn-primary" id="btn-confirmar-crear">
-                        <i class="fa-solid fa-check me-1"></i> Registrar
-                    </button>
-                </div>
-
+              <div class="producto-upload__actions">
+                <button type="button" class="btn btn-sm btn-accion" id="crear-btn-seleccionar">
+                  <i class="fa-solid fa-upload me-1"></i>Elegir imagen
+                </button>
+                <button type="button" class="btn btn-sm btn-cancelar d-none" id="crear-btn-quitar-imagen">
+                  Quitar selección
+                </button>
+              </div>
             </div>
-        </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-confirmar-crear">Registrar</button>
+      </div>
     </div>
+  </div>
+</div>
 
     <!-- MODAL ADVERTENCIA ELIMINAR PRODUCTO -->
     <div class="modal fade" id="modalEliminarProducto" tabindex="-1" aria-hidden="true">
