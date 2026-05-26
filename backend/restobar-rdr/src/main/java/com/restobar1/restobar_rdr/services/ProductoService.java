@@ -6,7 +6,11 @@ import com.restobar1.restobar_rdr.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -90,21 +94,17 @@ public class ProductoService {
     }
 
     // ── OBTENER RUTA DE IMAGEN POR ID ─────────────────────────
-    public Path obtenerRutaImagen(Long id) throws IOException {
-        Producto producto = productoRepository.findById(id)
+    public Path obtenerRutaImagen(Long id) {
+        productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        if (!Files.exists(CARPETA_IMAGENES)) {
+        Path rutaImagen = CARPETA_IMAGENES.resolve(id + ".webp");
+
+        if (!Files.exists(rutaImagen)) {
             return null;
         }
 
-        try (Stream<Path> archivos = Files.list(CARPETA_IMAGENES)) {
-            return archivos
-                    .filter(Files::isRegularFile)
-                    .filter(path -> path.getFileName().toString().startsWith(producto.getId() + "."))
-                    .findFirst()
-                    .orElse(null);
-        }
+        return rutaImagen;
     }
 
     // ── DESACTIVAR ────────────────────────────────────────────
@@ -133,17 +133,29 @@ public class ProductoService {
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         Files.createDirectories(CARPETA_IMAGENES);
-
         eliminarImagenAnterior(id);
 
-        String extension = obtenerExtensionValida(imagen.getOriginalFilename());
-        String nombreArchivo = id + extension;
+        BufferedImage bufferedImage;
+
+        try (InputStream inputStream = imagen.getInputStream()) {
+            bufferedImage = ImageIO.read(inputStream);
+        }
+
+        if (bufferedImage == null) {
+            throw new IllegalArgumentException("El archivo subido no es una imagen válida o no es compatible.");
+        }
+
+        String nombreArchivo = id + ".webp";
         Path rutaArchivo = CARPETA_IMAGENES.resolve(nombreArchivo);
 
-        Files.copy(imagen.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
+        try (OutputStream outputStream = Files.newOutputStream(rutaArchivo)) {
+            boolean convertido = ImageIO.write(bufferedImage, "webp", outputStream);
 
-        // Guardamos una referencia útil para el frontend.
-        // Así luego podrás usar producto.getImagen() si quieres.
+            if (!convertido) {
+                throw new IllegalStateException("No se pudo convertir la imagen a formato WebP.");
+            }
+        }
+
         producto.setImagen("/api/productos/" + id + "/imagen");
 
         return productoRepository.save(producto);
@@ -167,41 +179,22 @@ public class ProductoService {
         if (imagen == null || imagen.isEmpty()) {
             throw new IllegalArgumentException("Debe seleccionar una imagen.");
         }
-    }
 
-    private String obtenerExtensionValida(String nombreArchivo) {
-        if (nombreArchivo == null || !nombreArchivo.contains(".")) {
-            throw new IllegalArgumentException("El archivo no tiene una extensión válida.");
+        String contentType = imagen.getContentType();
+
+        if (contentType == null) {
+            throw new IllegalArgumentException("No se pudo identificar el tipo de archivo.");
         }
 
-        String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".")).toLowerCase();
-
-        return switch (extension) {
-            case ".jpg", ".jpeg" -> ".jpg";
-            case ".png" -> ".png";
-            case ".webp" -> ".webp";
-            case ".gif" -> ".gif";
-            case ".avif" -> ".avif";
-            default -> throw new IllegalArgumentException("Formato de imagen no permitido.");
-        };
+        if (!contentType.equals("image/jpeg")
+                && !contentType.equals("image/png")
+                && !contentType.equals("image/webp")) {
+            throw new IllegalArgumentException("Solo se permiten imágenes JPG, PNG o WEBP.");
+        }
     }
 
     private void eliminarImagenAnterior(Long id) throws IOException {
-        if (!Files.exists(CARPETA_IMAGENES)) {
-            return;
-        }
-
-        List<Path> archivosAEliminar;
-
-        try (Stream<Path> archivos = Files.list(CARPETA_IMAGENES)) {
-            archivosAEliminar = archivos
-                    .filter(Files::isRegularFile)
-                    .filter(path -> path.getFileName().toString().startsWith(id + "."))
-                    .toList();
-        }
-
-        for (Path archivo : archivosAEliminar) {
-            Files.deleteIfExists(archivo);
-        }
+        Path rutaImagen = CARPETA_IMAGENES.resolve(id + ".webp");
+        Files.deleteIfExists(rutaImagen);
     }
 }
