@@ -1,2 +1,3 @@
-# Imágenes de productos subidas localmente
-backend/restobar-rdr/uploads/productos/
+# Ignorar contenido de uploads pero mantener la carpeta
+restobar1/backend/uploads/productos/*
+!restobar1/backend/uploads/productos/.gitkeep
