@@ -27,8 +27,11 @@ public class Producto {
 
     private String descripcion;
 
-    @Column(name = "fecha_desactivada")
-    private LocalDateTime fechaDesactivada;
+    @Column(name = "imagen_url")
+    private String imagen;
+
+    @Column(name = "fecha_desactivacion")
+    private LocalDateTime fechaDesactivacion;
 
     public Long getId() {
         return id;
@@ -70,12 +73,20 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public LocalDateTime getFechaDesactivada() {
-        return fechaDesactivada;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setFechaDesactivada(LocalDateTime fechaDesactivada) {
-        this.fechaDesactivada = fechaDesactivada;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public LocalDateTime getFechaDesactivacion() {
+        return fechaDesactivacion;
+    }
+
+    public void setFechaDesactivacion(LocalDateTime fechaDesactivacion) {
+        this.fechaDesactivacion = fechaDesactivacion;
     }
 
     // Getters y Setters

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../dashboard.css">
+</head>
+<body data-page="usuarios">
+
+    <!-- ============================================================  
+         TOPBAR - Solo visible en móvil (d-md-none = oculto en desktop)  
+         Bootstrap: d-flex = display flex | justify-content-between = espacio entre elementos  
+         ============================================================ -->  
+    <div class="topbar d-flex d-md-none justify-content-between align-items-center px-3 py-2">  
+    <span>Dashboard</span>  
+    <button class="hamburger" id="btn-hamburger" aria-label="Abrir menú">  
+        <i class="fa-solid fa-bars"></i>  
+    </button>  
+</div>
+  
+    <!-- OVERLAY (fondo oscuro al abrir sidebar en móvil) -->  
+    <div class="overlay" id="overlay"></div>  
+  
+    <!-- ============================================================  
+         LAYOUT PRINCIPAL: sidebar + main lado a lado  
+         Bootstrap: d-flex = pone los hijos en fila horizontal  
+         ============================================================ -->  
+    <div class="d-flex">  
+  
+        <!-- ============================================================  
+             SIDEBAR  
+             Bootstrap NO tiene sidebar nativo, lo hacemos con CSS propio  
+             pero usamos clases de Bootstrap para padding, texto, etc.  
+             ============================================================ -->  
+       <aside class="sidebar" id="sidebar"></aside> 
+  
+        <!-- ============================================================  
+             CONTENIDO PRINCIPAL  
+             Bootstrap: flex-grow-1 = ocupa todo el espacio restante  
+             ============================================================ -->  
+        <main class="flex-grow-1 p-4">  
+            <!-- p-4 = padding de 4 unidades en todos los lados -->  
+  
+            <!-- BREADCRUMB con Bootstrap -->  
+            <!-- Bootstrap tiene componente breadcrumb nativo -->  
+            <nav aria-label="breadcrumb" class="mb-3">  
+                <ol class="breadcrumb">  
+                    <!-- breadcrumb-item = estilo de cada elemento -->  
+                    <!-- active = el elemento actual (sin enlace) -->  
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>  
+                    <li class="breadcrumb-item active">Empleados</li>  
+                </ol>  
+            </nav>  
+  
+            <!-- ============================================================  
+                 CABECERA DE SECCIÓN  
+                 Bootstrap: d-flex = flex | justify-content-between = extremos  
+                 align-items-center = centrado vertical | mb-3 = margin bottom 3  
+                 ============================================================ -->  
+            <div class="d-flex justify-content-between align-items-center mb-3">  
+                <h4 class="mb-0 titulo-seccion">REPORTE DE EMPLEADOS</h4>  
+  
+                <!-- BOTÓN BOOTSTRAP  
+                     btn = clase base obligatoria  
+                     btn-primary = color azul por defecto (lo sobreescribimos en CSS)  
+                     Otros ejemplos: btn-secondary, btn-danger, btn-success, btn-outline-primary -->  
+                <button class="btn btn-primary" onclick="abrirModalCrear()">  
+                    <i class="fa-solid fa-plus me-1"></i> REGISTRAR  
+                </button>  
+            </div>  
+  
+            <!-- ============================================================  
+                 TABLA BOOTSTRAP  
+                 table-responsive = hace la tabla scrolleable en pantallas pequeñas  
+                 ============================================================ -->  
+            <div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Rol</th>
+                <th>Último inicio de sesión</th>
+                <th class="text-center">Estado</th>
+                <th>Fecha/hora de retiro</th>
+                <th class="text-center">Opciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-usuario">
+            <!-- Vacío — JS lo llena automáticamente -->
+        </tbody>
+    </table>
+</div>
+  
+        </main>  
+        <!-- FIN main -->  
+  
+    </div>  
+    <!-- FIN d-flex (layout principal) -->  
+
+    <!-- ============================================================
+     MODAL DE ADVERTENCIA - Bootstrap
+     modal = clase base | fade = animación de entrada
+     ============================================================ -->
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- modal-dialog-centered = centrado vertical en pantalla -->
+        <div class="modal-content">
+
+            <!-- CABECERA del modal -->
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                    Advertencia
+                </h5>
+                <!-- Botón X para cerrar — data-bs-dismiss lo maneja Bootstrap solo -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <!-- CUERPO del modal -->
+            <div class="modal-body">
+                ¿Estás seguro de querer editar a este empleado?
+            </div>
+
+            <!-- PIE del modal — botones de acción -->
+            <div class="modal-footer">
+                <!-- Cancelar: data-bs-dismiss cierra el modal automáticamente -->
+                <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                </button>
+
+                <!-- Confirmar: llama a la función JS -->
+                <button type="button" class="btn btn-primary" id="btn-si-editar-user">
+                    <i class="fa-solid fa-check me-1"></i> Sí, editar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CREAR USUARIO -->
+<div class="modal fade" id="modalCrearUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa-solid fa-user-plus me-2"></i> Registrar Usuario
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="form-crear-usuario">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="crear-nombre" placeholder="Nombre">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="crear-apellido" placeholder="Apellido">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Rol</label>
+                            <select class="form-select" id="crear-rol">
+                                <option value="">Seleccionar rol...</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Cajero">Cajero</option>
+                                <option value="Mozo">Mozo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="crear-clave" placeholder="Contraseña">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Confirmar contraseña</label>
+                            <input type="password" class="form-control" id="crear-confirmar-clave" placeholder="Confirmar contraseña">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-confirmar-crear">
+                    <i class="fa-solid fa-check me-1"></i> Registrar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+  
+    <!--  Bootstrap JS (al final del body, necesario para componentes interactivos) -->  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../shared/sidebar.js"></script>
+    <script src="dashboard-users.js"></script>
+
+</body>
+</html>

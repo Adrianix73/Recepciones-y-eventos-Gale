@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../dashboard.css">
+</head>
+
+<body data-page="productos">
+
+    <div class="topbar d-flex d-md-none justify-content-between align-items-center px-3 py-2">
+        <span>Dashboard</span>
+        <button class="hamburger" id="btn-hamburger" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="d-flex">
+
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="flex-grow-1 p-4">
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                    <li class="breadcrumb-item active">Productos</li>
+                </ol>
+            </nav>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0 titulo-seccion">REPORTE DE PRODUCTOS</h4>
+
+                <button class="btn btn-primary" onclick="abrirModalCrear()">
+                    <i class="fa-solid fa-plus me-1"></i> REGISTRAR
+                </button>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="d-flex gap-2 mb-3 flex-wrap">
+                <button class="btn btn-filtro activo" onclick="aplicarFiltro('activos', this)">
+                    <a><i class="fa-solid fa-check"></i> Disponibles</a>
+                </button>
+                <button class="btn btn-filtro" onclick="aplicarFiltro('inactivos', this)">
+                    <a><i class="fa-solid fa-times"></i> No disponibles</a>
+                </button>
+                <button class="btn btn-filtro" onclick="aplicarFiltro('todos', this)">
+                    <a><i class="fa-sharp fa-solid fa-border-all"></i> Todos</a>
+                </button>
+
+                <!-- Buscador por nombre -->
+                <div class="input-group busqueda">
+                    <span class="input-group-text">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" class="form-control" id="buscador-producto"
+                        placeholder="Buscar producto por nombre..." autocomplete="off">
+                    <button class="btn btn-limpiar-busqueda" type="button" id="btn-limpiar-busqueda" title="Limpiar">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Filtro por categoría -->
+                <select class="form-select w-auto" id="filtro-categoria" onchange="aplicarFiltroCategoria()">
+                    <option value="">Todas las categorías</option>
+                </select>
+            </div>
+
+            <!-- TABLA BOOTSTRAP-->
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Categoría</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Estado</th>
+                            <th class="col-fecha-retiro d-none">Fecha/hora retiro del menú</th>
+                            <th class="text-center">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-producto">
+                        <!-- Vacío — JS lo llena automáticamente -->
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+        <!-- FIN main -->
+
+    </div>
+    <!-- FIN d-flex (layout principal) -->
+
+    <!-- MODAL EDITAR PRODUCTO -->
+<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fa-solid fa-pen-to-square me-2"></i>Editar Producto
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form-editar-producto" class="row g-3">
+          <div class="col-md-6">
+            <label for="editar-categoria" class="form-label">Categoría</label>
+            <select id="editar-categoria" class="form-select" required>
+              <option value="">Seleccionar categoría...</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="editar-nombre" class="form-label">Nombre</label>
+            <input type="text" id="editar-nombre" class="form-control" maxlength="100" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="editar-precio" class="form-label">Precio</label>
+            <input type="number" id="editar-precio" class="form-control" min="0" step="0.01" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="editar-descripcion" class="form-label">Descripción</label>
+            <textarea id="editar-descripcion" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label d-block">Imagen del producto</label>
+
+            <div class="producto-upload">
+              <input type="file" id="editar-imagen" class="d-none" accept="image/*" />
+
+              <div id="editar-upload-zone" class="producto-upload__zone" tabindex="0">
+                <div id="editar-upload-placeholder" class="producto-upload__placeholder">
+                  <i class="fa-regular fa-image producto-upload__icon"></i>
+                  <p class="producto-upload__title">Arrastra una imagen aquí</p>
+                  <span class="producto-upload__subtitle">o haz clic para reemplazar la actual</span>
+                </div>
+
+                <div id="editar-preview-box" class="producto-upload__preview d-none">
+                  <img id="editar-preview-img" src="" alt="Vista previa" />
+                  <div class="producto-upload__meta">
+                    <span id="editar-preview-name"></span>
+                    <small id="editar-preview-help">Si no seleccionas una nueva imagen, se conservará la actual.</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="producto-upload__actions">
+                <button type="button" class="btn btn-sm btn-accion" id="editar-btn-seleccionar">
+                  <i class="fa-solid fa-upload me-1"></i>Elegir imagen
+                </button>
+                <button type="button" class="btn btn-sm btn-cancelar d-none" id="editar-btn-quitar-imagen">
+                  Quitar selección nueva
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-guardar-edicion">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- MODAL CREAR PRODUCTO -->
+    <div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fa-solid fa-utensils me-2"></i>Registrar Producto
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form-crear-producto" class="row g-3">
+          <div class="col-md-6">
+            <label for="crear-categoria" class="form-label">Categoría</label>
+            <select id="crear-categoria" class="form-select" required>
+              <option value="">Seleccionar categoría...</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="crear-nombre" class="form-label">Nombre</label>
+            <input type="text" id="crear-nombre" class="form-control" maxlength="100" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="crear-precio" class="form-label">Precio</label>
+            <input type="number" id="crear-precio" class="form-control" min="0" step="0.01" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="crear-descripcion" class="form-label">Descripción</label>
+            <textarea id="crear-descripcion" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label d-block">Imagen del producto <span class="text-muted">(opcional)</span></label>
+
+            <div class="producto-upload">
+              <input type="file" id="crear-imagen" class="d-none" accept="image/*" />
+
+              <div id="crear-upload-zone" class="producto-upload__zone" tabindex="0">
+                <div id="crear-upload-placeholder" class="producto-upload__placeholder">
+                  <i class="fa-regular fa-image producto-upload__icon"></i>
+                  <p class="producto-upload__title">Arrastra una imagen aquí</p>
+                  <span class="producto-upload__subtitle">o haz clic para seleccionarla</span>
+                </div>
+
+                <div id="crear-preview-box" class="producto-upload__preview d-none">
+                  <img id="crear-preview-img" src="" alt="Vista previa" />
+                  <div class="producto-upload__meta">
+                    <span id="crear-preview-name"></span>
+                    <small>Si guardas sin imagen, el producto se registra igual.</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="producto-upload__actions">
+                <button type="button" class="btn btn-sm btn-accion" id="crear-btn-seleccionar">
+                  <i class="fa-solid fa-upload me-1"></i>Elegir imagen
+                </button>
+                <button type="button" class="btn btn-sm btn-cancelar d-none" id="crear-btn-quitar-imagen">
+                  Quitar selección
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btn-confirmar-crear">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- MODAL ADVERTENCIA ELIMINAR PRODUCTO -->
+    <div class="modal fade" id="modalEliminarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i> Retirar del menú
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-eliminar-mensaje"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">
+                        <i class="fa-solid fa-trash me-1"></i> Sí, retirar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ADVERTENCIA RESTAURAR PRODUCTO -->
+    <div class="modal fade" id="modalRestaurarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-rotate-left me-2"></i> Restaurar producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-restaurar-mensaje"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-success" id="btn-confirmar-restaurar">
+                        <i class="fa-solid fa-check me-1"></i> Sí, restaurar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (al final del body, necesario para componentes interactivos) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../shared/sidebar.js"></script>
+    <script src="dashboard-product.js"></script>
+
+</body>
+
+</html>

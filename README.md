@@ -1,3 +1,8 @@
+## Trello
+Más info en https://trello.com/b/SSyNjcTW/recepciones-y-eventos-gale-eirl
+
+<img width="1853" height="870" alt="trello" src="https://github.com/user-attachments/assets/53d827e3-a39f-47bb-a8e8-f8a03346e257" />
+
 # Sistema de Gestión de Ventas y Reportes
 
 Sistema web para la gestión de Ventas de los productos que ofrece la empresa y para la gestión de Reportes de productos más vendidos,
@@ -99,13 +104,13 @@ es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de u
 
 ## Estructura del proyecto
 ```
-JavaWeb-GotaGota/
+Recepciones-y-eventos-Gale-E.I.R.L./
 ├── backend/          → Spring Boot (Java)
 │   ├── src/
 │   ├── pom.xml
 │   └── ...
 ├── frontend/         → HTML, CSS, JS
-│   ├── css/
+│   ├── html/
 │   ├── js/
 │   └── index.html
 ```
@@ -123,11 +128,11 @@ El sistema cuenta con 5 tablas principales:
 
 ## Diagrama Entidad-Relación (DER)
 
-<img width="1300" height="665" alt="DER rango" src="https://github.com/user-attachments/assets/626172da-bc19-49a8-82f0-564e5570df31" />
+<img width="1300" height="665" alt="DER rango" src="https://github.com/user-attachments/assets/fb189f2a-149a-4752-943c-749b8c7cf075" />
 
 ## Modelo Relacional (MR)
 
-<img width="1000" height="667" alt="MR rango" src="https://github.com/user-attachments/assets/feef27c1-eeb3-4866-b271-71fe9909a7bb" />
+<img width="1000" height="667" alt="MR rango" src="https://github.com/user-attachments/assets/78be0836-a002-47ca-a324-bede291a476e" />
 
 ### Cardinalidades
 Categoría - Producto (1:N)
@@ -264,6 +269,14 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 (4, 7, 1, 65.00, 65.00 );
 ```
 
+## Evidencias del negocio
+### Foto del negocio
+<img width="1600" height="1200" alt="letrero_3d_acrilico_pucallpa_002" src="https://github.com/user-attachments/assets/65c0401c-b846-4656-9634-90b5d9c9df66" />
+
+### Foto del problema
+<img width="1000" height="666" alt="Menu-elegante" src="https://github.com/user-attachments/assets/4fb46720-902a-487a-ac48-7d0bec237b8d" />
+
+
 ### Decisiones de Diseño
 - **Borrado lógico:** Los productos y usuarios no se eliminan. Se utilizan ```fecha_desactivacion``` (productos) y ```fecha_baja``` (usuarios) para desactivarlos, preservando la integridad histórica de ventas y reportes.
 - **Precio histórico:** El campo ```precio_unitario``` en detalle_venta almacena el precio al momento de la venta, independientemente de cambios futuros en ```precio_actual``` del producto.
@@ -293,7 +306,7 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 ### Configuracion de la base de datos
 
 ```
-spring.application.name=retobar-rdr
+spring.application.name=restobar-rdr
 # CONEXION A MYSQL
 spring.datasource.url=jdbc:mysql://localhost:3306/restobar_db
 spring.datasource.username=root

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../editar-datos.css">
+</head>
+<body>
+
+    <div class="editar-wrapper">
+
+        <!-- ENCABEZADO -->
+        <div class="editar-header">
+            <a href="dashboard-users.html" class="btn-volver" onclick="history.back()">
+                <i class="fa-solid fa-arrow-left"></i> Volver
+            </a>
+            <div>
+                <h4 class="editar-titulo" id="editar-titulo">Editar Usuario</h4>
+                <p class="editar-subtitulo" id="editar-subtitulo">Cargando datos...</p>
+            </div>
+        </div>
+
+        <!-- FORMULARIO -->
+        <div class="editar-card">
+            <form id="form-editar">
+
+                <div id="seccion-usuario">
+                    <div class="seccion-titulo">
+                        <i class="fa-solid fa-user me-2"></i> Datos del Usuario
+                    </div>
+
+                    <p class="nota-formulario">Modifique solo lo que necesite.</p>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="campo-nombre" placeholder="Nombre">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="campo-apellido" placeholder="Apellido">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Rol</label>
+                            <input type="text" class="form-control" id="campo-rol" placeholder="Rol">
+                        </div>
+                    </div>
+
+                    <!-- ============================================================
+                         BLOQUE CAMBIO DE CONTRASEÑA
+                         Cuadro con contorno para indicar que ambos campos van juntos
+                         ============================================================ -->
+                    <div class="cambio-clave">
+                        <div class="cambio-clave-titulo">
+                            <i class="fa-solid fa-lock me-2"></i> Cambio de contraseña
+                        </div>
+
+                        <p class="nota-formulario">
+                            Si desea modificar la contraseña, es obligatorio confirmarla en el campo inferior.
+                        </p>
+
+                        <div class="row g-3">
+
+                            <!-- Nueva contraseña -->
+                            <div class="col-md-6">
+                                <label class="form-label">Nueva contraseña</label>
+                                <div class="input-password">
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="campo-clave"
+                                        placeholder="Nueva contraseña">
+                                    <button
+                                        type="button"
+                                        class="btn-ojo"
+                                        onclick="togglePassword('campo-clave', this)">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Confirmar contraseña -->
+                            <div class="col-md-6">
+                                <label class="form-label">Confirmar nueva contraseña</label>
+                                <div class="input-password">
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="campo-confirmar-clave"
+                                        placeholder="Confirmar nueva contraseña">
+                                    <button
+                                        type="button"
+                                        class="btn-ojo"
+                                        onclick="togglePassword('campo-confirmar-clave', this)">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FIN cambio-clave -->
+
+                </div>
+
+                <!-- BOTONES -->
+                <div class="editar-footer">
+                    <button type="button" class="btn btn-cancelar" onclick="history.back()">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-guardar" id="btn-abrir-modal-guardar">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Guardar cambios
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="modalConfirmarGuardar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                        Confirmar cambios
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="modal-mensaje"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-guardar" id="btn-confirmar-guardar">
+                        <i class="fa-solid fa-check me-1"></i> Sí, guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/editar-users.js"></script>
+    <script src="../js/ojito.js"></script>
+</body>
+</html>

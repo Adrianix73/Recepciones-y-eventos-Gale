@@ -1,0 +1,258 @@
+/* ============================================================
+   VARIABLES
+   ============================================================ */
+:root {
+  --color-acento:       #712626;
+  --color-acento-hover: #8b3131;
+  --color-fondo-main:   #fdf5ed;
+  --color-borde:        #e4d6c8;
+  --color-sombra:       rgba(0, 0, 0, 0.08);
+}
+
+body {
+  background: var(--color-fondo-main);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ── NAVBAR ──────────────────────────────────────────────── */
+.menu-navbar {
+  background: #fff;
+  border-bottom: 1px solid var(--color-borde);
+  box-shadow: 0 2px 8px var(--color-sombra);
+}
+
+/* Limita el ancho y centra el contenido con margen lateral */  
+.menu-navbar-container {  
+  max-width: 1200px;  
+  width: 100%;  
+  margin: 0 auto;  
+  padding: 0 1.5rem;  
+}
+
+.menu-navbar .navbar-collapse {  
+  flex-grow: 1;  
+}
+
+.menu-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.menu-brand-name {
+  font-weight: 700;
+  color: var(--color-acento);
+  font-size: 1.05rem;
+}
+
+.menu-search-group {  
+  flex: 1 1 auto;
+  min-width: 240px;
+  max-width: none;
+}  
+
+.menu-search-group .form-control {  
+  min-width: 0;  
+}
+  
+.menu-select-group {  
+  flex: 0 0 220px;  
+  width: 220px;  
+}
+
+.menu-icon-color {  
+  color: var(--color-acento);  
+} 
+
+.menu-btn-login {  
+  background: var(--color-acento);  
+  color: #fff;  
+  border-radius: 10px;  
+  padding: 8px 16px;  
+  font-weight: 600;  
+  white-space: nowrap;  
+  flex-shrink: 0;  
+}  
+  
+.menu-btn-login:hover {  
+  background: var(--color-acento-hover);  
+  color: #fff;  
+}
+
+/* Botón hamburguesa */  
+.menu-toggler {  
+  color: var(--color-acento);  
+  font-size: 1.3rem;  
+  padding: 6px 10px;  
+  border-radius: 8px;  
+  transition: background 0.2s ease;  
+}  
+  
+.menu-toggler:hover,  
+.menu-toggler:focus {  
+  background: #ffe2e2;  
+  outline: none;  
+  box-shadow: none;  
+}    
+
+/* ── BOTÓN LIMPIAR  */  
+.menu-search-clear {  
+  cursor: pointer;  
+  border-radius: 0 8px 8px 0 !important;  
+  transition: background 0.15s ease;  
+  align-items: center;  
+  justify-content: center;  
+}  
+  
+.menu-search-clear:hover {  
+  background: #ffe2e2 !important;  
+}  
+  
+.menu-search-clear:hover .menu-icon-color {  
+  color: var(--color-acento-hover);  
+}
+
+/* Quitar borde doble en inputs del navbar */
+.input-group .form-control:focus,
+.input-group .form-select:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+
+@media (max-width: 767.98px) {  
+  .menu-search-group,  
+  .menu-select-group {  
+    width: 100%;  
+    flex: 1 1 100%;  
+  }  
+  
+  .menu-btn-login {  
+    width: 100%;  
+  }  
+}
+
+/* ── HERO ────────────────────────────────────────────────── */
+.menu-eyebrow {
+  color: var(--color-acento);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.menu-title {
+  color: var(--color-acento);
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.menu-color {
+  color: var(--color-acento) !important;
+}
+
+/* ── BADGE DE CATEGORÍA ──────────────────────────────────── */
+.menu-badge {
+  background: #ffe2e2;
+  color: var(--color-acento);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid #efc4c4;
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+/* ── TÍTULO DE SECCIÓN ───────────────────────────────────── */
+.categoria-title {
+  color: var(--color-acento);
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* ── CARDS ───────────────────────────────────────────────── */
+.product-card {
+  border: 1px solid var(--color-borde) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 6px 18px var(--color-sombra);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.product-card:active {
+  transform: scale(0.98);
+}
+
+.product-image-wrap {
+  height: 160px;
+  background: #fffaf5;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.product-price {
+  color: var(--color-acento);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+/*--------------------------------------------------------------- */
+  
+.input-group .form-control:focus,  
+.input-group .form-select:focus {  
+  box-shadow: none;  
+  border-color: #dee2e6;  
+}
+
+/* ── MAIN — mínimo de altura para que el footer baje ─────── */  
+main.menu-main {  
+  min-height: calc(100vh - 140px); /* 140px ≈ navbar + footer */  
+}
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.menu-footer {  
+  background: #fff;  
+  border-top: 1px solid var(--color-borde);  
+}  
+  
+.menu-footer-container {  
+  max-width: 1200px;  
+  width: 100%;  
+  margin: 0 auto;  
+  padding: 1.25rem 1.5rem;  
+}  
+  
+.menu-social-link {  
+  color: var(--color-acento);  
+  transition: color 0.2s ease;  
+}  
+  
+.menu-social-link:hover {  
+  color: var(--color-acento-hover);  
+}  
+  
+.menu-footer-divider {  
+  border-color: var(--color-borde);  
+}  
+  
+.menu-footer-brand {  
+  color: var(--color-acento);  
+  font-size: 1rem;  
+}
