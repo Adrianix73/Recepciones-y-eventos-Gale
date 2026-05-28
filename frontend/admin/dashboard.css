@@ -486,7 +486,7 @@ UPLOAD DE IMAGEN DE PRODUCTO
   display: flex;
   flex-direction: column;
   gap: 6px;
-  color: #f1f8e9;
+  color: var(--color-btn-texto);
   min-width: 0;
 }
 
@@ -496,7 +496,7 @@ UPLOAD DE IMAGEN DE PRODUCTO
 }
 
 .producto-upload__meta small {
-  color: #d7efdc;
+  color: var(--color-btn-texto);
   line-height: 1.35;
 }
 
