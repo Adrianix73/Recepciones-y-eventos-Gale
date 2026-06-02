@@ -1,0 +1,95 @@
+.admin-filters {
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.admin-filters__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+}
+
+.admin-filters__row + .admin-filters__row {
+  margin-top: 1rem;
+}
+
+.admin-filters__search {
+  flex: 1 1 320px;
+}
+
+.admin-filters__group {
+  flex: 1 1 240px;
+}
+
+.admin-filters__label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.admin-filters__search-box {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.admin-filters__search-box .form-control {
+  flex: 1 1 auto;
+}
+
+.admin-filters__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btn-filtro-admin {
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  color: #495057;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-filtro-admin:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.btn-filtro-admin.activo {
+  background-color: #212529;
+  color: #fff;
+  border-color: #212529;
+}
+
+.admin-confirm-modal .modal-content,
+.admin-confirm-modal {
+  border-radius: 1rem;
+}
+
+@media (max-width: 768px) {
+  .admin-filters__search-box {
+    flex-direction: column;
+  }
+
+  .admin-filters__group,
+  .admin-filters__search {
+    flex: 1 1 100%;
+  }
+
+  .admin-filters__status {
+    width: 100%;
+  }
+
+  .btn-filtro-admin {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}

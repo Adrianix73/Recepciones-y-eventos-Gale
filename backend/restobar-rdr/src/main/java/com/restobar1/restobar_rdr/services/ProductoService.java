@@ -176,6 +176,7 @@ public class ProductoService {
 
         String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".")).toLowerCase();
 
+        //pruevita del github..---
         return switch (extension) {
             case ".jpg", ".jpeg" -> ".jpg";
             case ".png" -> ".png";

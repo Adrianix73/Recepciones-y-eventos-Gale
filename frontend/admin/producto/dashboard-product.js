@@ -4,79 +4,74 @@
 const API_BASE = "http://localhost:8080/api";
 
 // ============================================================
-// VARIABLES GLOBALES
+// ESTADO GLOBAL DEL MÓDULO
 // ============================================================
-let filtroNombre = "";
 let idProductoAEditar = null;
-let idProductoEliminar = null;
-let idProductoRestaurar = null;
-let filtroEstadoActual = "activos";
-let todasLasCategorias = [];
 let todosLosProductos = [];
+let todasLasCategorias = [];
 
 let archivoImagenCrear = null;
 let archivoImagenEditar = null;
+
+let filtrosProducto = {
+  search: "",
+  category: "",
+  status: "activos"
+};
+
+let productFilterManager = null;
 
 // ============================================================
 // INIT
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
+  inicializarFiltrosProducto();
+
   cargarProductos();
   cargarCategorias();
 
-  configurarBuscador();
   configurarZonaImagen("crear");
   configurarZonaImagen("editar");
 
-  document.getElementById("btn-confirmar-crear").addEventListener("click", registrarProducto);
-  document.getElementById("btn-guardar-edicion").addEventListener("click", guardarEdicionProducto);
+  document
+    .getElementById("btn-confirmar-crear")
+    .addEventListener("click", registrarProducto);
 
-  document.getElementById("btn-confirmar-eliminar").addEventListener("click", async () => {
-    try {
-      const r = await fetch(`${API_BASE}/productos/${idProductoEliminar}/desactivar`, {
-        method: "PUT"
-      });
-      if (!r.ok) throw new Error();
-
-      bootstrap.Modal.getInstance(document.getElementById("modalEliminarProducto")).hide();
-      await cargarProductos();
-    } catch {
-      alert("Error al retirar el producto.");
-    }
-  });
-
-  document.getElementById("btn-confirmar-restaurar").addEventListener("click", async () => {
-    try {
-      const r = await fetch(`${API_BASE}/productos/${idProductoRestaurar}/activar`, {
-        method: "PUT"
-      });
-      if (!r.ok) throw new Error();
-
-      bootstrap.Modal.getInstance(document.getElementById("modalRestaurarProducto")).hide();
-      await cargarProductos();
-    } catch {
-      alert("Error al restaurar el producto.");
-    }
-  });
+  document
+    .getElementById("btn-guardar-edicion")
+    .addEventListener("click", guardarEdicionProducto);
 });
 
 // ============================================================
-// BUSCADOR
+// FILTROS COMPARTIDOS
 // ============================================================
-function configurarBuscador() {
-  const inputBuscar = document.getElementById("buscador-producto");
-  const btnLimpiar = document.getElementById("btn-limpiar-busqueda");
-
-  inputBuscar.addEventListener("input", () => {
-    filtroNombre = inputBuscar.value.trim().toLowerCase();
-    aplicarFiltros();
+function inicializarFiltrosProducto() {
+  window.renderAdminFilters({
+    containerId: "admin-filters",
+    searchPlaceholder: "Buscar producto por nombre",
+    showCategory: true,
+    showStatus: true,
+    initialStatus: "activos"
   });
 
-  btnLimpiar.addEventListener("click", () => {
-    inputBuscar.value = "";
-    filtroNombre = "";
-    aplicarFiltros();
-    inputBuscar.focus();
+  productFilterManager = window.createAdminFilterManager({
+    containerId: "admin-filters",
+    initialFilters: filtrosProducto,
+    onChange: (nextFilters) => {
+      filtrosProducto = { ...nextFilters };
+      actualizarVisibilidadColumnaFecha();
+      aplicarFiltros();
+    }
+  });
+
+  actualizarVisibilidadColumnaFecha();
+}
+
+function actualizarVisibilidadColumnaFecha() {
+  const mostrarFecha = filtrosProducto.status === "inactivos";
+
+  document.querySelectorAll(".col-fecha-retiro").forEach((columna) => {
+    columna.classList.toggle("d-none", !mostrarFecha);
   });
 }
 
@@ -85,16 +80,19 @@ function configurarBuscador() {
 // ============================================================
 async function cargarProductos() {
   try {
-    const r = await fetch(`${API_BASE}/productos`);
-    if (!r.ok) throw new Error();
+    const response = await fetch(`${API_BASE}/productos`);
+    if (!response.ok) throw new Error();
 
-    const data = await r.json();
+    const data = await response.json();
     todosLosProductos = data;
+
     aplicarFiltros();
   } catch {
     document.getElementById("tabla-producto").innerHTML = `
       <tr>
-        <td colspan="8" class="text-center">Error al cargar los datos. Verifica tu servidor.</td>
+        <td colspan="8" class="text-center">
+          Error al cargar los datos. Verifica tu servidor.
+        </td>
       </tr>
     `;
   }
@@ -105,38 +103,33 @@ async function cargarProductos() {
 // ============================================================
 async function cargarCategorias() {
   try {
-    const r = await fetch(`${API_BASE}/categorias`);
-    if (!r.ok) throw new Error();
+    const response = await fetch(`${API_BASE}/categorias`);
+    if (!response.ok) throw new Error();
 
-    const data = await r.json();
+    const data = await response.json();
     todasLasCategorias = data;
+
     llenarSelectCategorias(data);
+    llenarFiltroCategorias(data);
   } catch {
     console.error("Error al cargar categorías");
   }
 }
 
 function llenarSelectCategorias(categorias) {
-  const selectFiltro = document.getElementById("filtro-categoria");
   const selectCrear = document.getElementById("crear-categoria");
   const selectEditar = document.getElementById("editar-categoria");
 
-  const valorFiltroActual = selectFiltro.value;
   const valorCrearActual = selectCrear.value;
   const valorEditarActual = selectEditar ? selectEditar.value : "";
 
-  selectFiltro.innerHTML = `<option value="">Todas las categorías</option>`;
   selectCrear.innerHTML = `<option value="">Seleccionar categoría...</option>`;
+
   if (selectEditar) {
     selectEditar.innerHTML = `<option value="">Seleccionar categoría...</option>`;
   }
 
-  categorias.forEach(categoria => {
-    const optionFiltro = document.createElement("option");
-    optionFiltro.value = categoria.nombreCategoria;
-    optionFiltro.textContent = categoria.nombreCategoria;
-    selectFiltro.appendChild(optionFiltro);
-
+  categorias.forEach((categoria) => {
     const optionCrear = document.createElement("option");
     optionCrear.value = categoria.id;
     optionCrear.textContent = categoria.nombreCategoria;
@@ -150,51 +143,52 @@ function llenarSelectCategorias(categorias) {
     }
   });
 
-  selectFiltro.value = valorFiltroActual;
   selectCrear.value = valorCrearActual;
+
   if (selectEditar && valorEditarActual) {
     selectEditar.value = valorEditarActual;
   }
 }
 
+function llenarFiltroCategorias(categorias) {
+  if (!productFilterManager) return;
+
+  productFilterManager.setCategoryOptions(
+    categorias.map((categoria) => ({
+      value: categoria.nombreCategoria,
+      label: categoria.nombreCategoria
+    })),
+    "Todas las categorías"
+  );
+}
+
 // ============================================================
-// FILTROS
+// APLICAR FILTROS
 // ============================================================
-window.aplicarFiltro = function(tipo, btn) {
-  filtroEstadoActual = tipo;
-
-  document.querySelectorAll(".btn-filtro").forEach(b => b.classList.remove("activo"));
-  btn.classList.add("activo");
-
-  const colFecha = document.querySelectorAll(".col-fecha-retiro");
-  colFecha.forEach(col => {
-    col.classList.toggle("d-none", tipo !== "inactivos");
-  });
-
-  aplicarFiltros();
-};
-
-window.aplicarFiltroCategoria = function() {
-  aplicarFiltros();
-};
-
 function aplicarFiltros() {
-  const categoria = document.getElementById("filtro-categoria").value;
   let datos = [...todosLosProductos];
 
-  if (filtroEstadoActual === "activos") {
-    datos = datos.filter(p => p.fechaDesactivacion === null || p.fechaDesactivacion === undefined);
-  } else if (filtroEstadoActual === "inactivos") {
-    datos = datos.filter(p => p.fechaDesactivacion !== null && p.fechaDesactivacion !== undefined);
+  if (filtrosProducto.status === "activos") {
+    datos = datos.filter(
+      (p) => p.fechaDesactivacion === null || p.fechaDesactivacion === undefined
+    );
+  } else if (filtrosProducto.status === "inactivos") {
+    datos = datos.filter(
+      (p) => p.fechaDesactivacion !== null && p.fechaDesactivacion !== undefined
+    );
   }
 
-  if (categoria) {
-    datos = datos.filter(p => p.categoria?.nombreCategoria === categoria);
+  if (filtrosProducto.category) {
+    datos = datos.filter(
+      (p) => p.categoria?.nombreCategoria === filtrosProducto.category
+    );
   }
 
-  if (filtroNombre) {
-    datos = datos.filter(p =>
-      (p.nombreProducto ?? "").toLowerCase().includes(filtroNombre)
+  if (filtrosProducto.search) {
+    const texto = filtrosProducto.search.toLowerCase();
+
+    datos = datos.filter((p) =>
+      (p.nombreProducto ?? "").toLowerCase().includes(texto)
     );
   }
 
@@ -217,8 +211,9 @@ function renderTabla(datos) {
     return;
   }
 
-  datos.forEach(producto => {
-    const estaActivo = producto.fechaDesactivacion === null || producto.fechaDesactivacion === undefined;
+  datos.forEach((producto) => {
+    const estaActivo =
+      producto.fechaDesactivacion === null || producto.fechaDesactivacion === undefined;
 
     const badge = estaActivo
       ? `<span class="badge bg-success">Disponible</span>`
@@ -255,7 +250,7 @@ function renderTabla(datos) {
       <td>S/ ${Number(producto.precioActual ?? 0).toFixed(2)}</td>
       <td>${producto.descripcion ?? "—"}</td>
       <td>${badge}</td>
-      <td class="col-fecha-retiro ${filtroEstadoActual !== "inactivos" ? "d-none" : ""}">
+      <td class="col-fecha-retiro ${filtrosProducto.status !== "inactivos" ? "d-none" : ""}">
         ${producto.fechaDesactivacion ?? "—"}
       </td>
       <td>${botones}</td>
@@ -268,9 +263,11 @@ function renderTabla(datos) {
 // ============================================================
 // ABRIR MODAL CREAR
 // ============================================================
-window.abrirModalCrear = function() {
+window.abrirModalCrear = function () {
   limpiarFormularioCrear();
-  bootstrap.Modal.getOrCreateInstance(document.getElementById("modalCrearProducto")).show();
+  bootstrap.Modal.getOrCreateInstance(
+    document.getElementById("modalCrearProducto")
+  ).show();
 };
 
 // ============================================================
@@ -288,7 +285,7 @@ async function registrarProducto() {
   }
 
   try {
-    const r = await fetch(`${API_BASE}/productos`, {
+    const response = await fetch(`${API_BASE}/productos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -299,17 +296,21 @@ async function registrarProducto() {
       })
     });
 
-    if (!r.ok) throw new Error("Error al crear producto");
+    if (!response.ok) throw new Error("Error al crear producto");
 
-    const productoCreado = await r.json();
+    const productoCreado = await response.json();
 
     if (archivoImagenCrear) {
       await subirImagenProducto(productoCreado.id, archivoImagenCrear, "POST");
     }
 
-    bootstrap.Modal.getInstance(document.getElementById("modalCrearProducto")).hide();
+    bootstrap.Modal.getInstance(
+      document.getElementById("modalCrearProducto")
+    ).hide();
+
     limpiarFormularioCrear();
     await cargarProductos();
+
     alert("Producto registrado correctamente.");
   } catch (error) {
     console.error(error);
@@ -320,10 +321,13 @@ async function registrarProducto() {
 // ============================================================
 // ABRIR MODAL EDITAR
 // ============================================================
-window.editarProducto = function(btn) {
+window.editarProducto = function (btn) {
   idProductoAEditar = Number(btn.dataset.id);
 
-  const producto = todosLosProductos.find(p => Number(p.id) === idProductoAEditar);
+  const producto = todosLosProductos.find(
+    (p) => Number(p.id) === idProductoAEditar
+  );
+
   if (!producto) {
     alert("No se encontró el producto a editar.");
     return;
@@ -337,13 +341,16 @@ window.editarProducto = function(btn) {
   archivoImagenEditar = null;
 
   const urlImagenActual = construirUrlImagen(producto);
+
   if (urlImagenActual) {
     mostrarPreviewExistente("editar", urlImagenActual, "Imagen actual del producto");
   } else {
     resetZonaImagen("editar");
   }
 
-  bootstrap.Modal.getOrCreateInstance(document.getElementById("modalEditarProducto")).show();
+  bootstrap.Modal.getOrCreateInstance(
+    document.getElementById("modalEditarProducto")
+  ).show();
 };
 
 // ============================================================
@@ -366,7 +373,7 @@ async function guardarEdicionProducto() {
   }
 
   try {
-    const r = await fetch(`${API_BASE}/productos/${idProductoAEditar}`, {
+    const response = await fetch(`${API_BASE}/productos/${idProductoAEditar}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -377,14 +384,18 @@ async function guardarEdicionProducto() {
       })
     });
 
-    if (!r.ok) throw new Error("Error al actualizar producto");
+    if (!response.ok) throw new Error("Error al actualizar producto");
 
     if (archivoImagenEditar) {
       await subirImagenProducto(idProductoAEditar, archivoImagenEditar, "PUT");
     }
 
-    bootstrap.Modal.getInstance(document.getElementById("modalEditarProducto")).hide();
+    bootstrap.Modal.getInstance(
+      document.getElementById("modalEditarProducto")
+    ).hide();
+
     await cargarProductos();
+
     alert("Producto actualizado correctamente.");
   } catch (error) {
     console.error(error);
@@ -393,22 +404,79 @@ async function guardarEdicionProducto() {
 }
 
 // ============================================================
+// MODAL GLOBAL DE CONFIRMACIÓN
+// ============================================================
+window.eliminarProducto = function (btn) {
+  const idProducto = Number(btn.dataset.id);
+  const nombreProducto = btn.dataset.nombre ?? "este producto";
+
+  window.AdminModalManager.confirm({
+    title: "Retirar producto",
+    message: `¿Retirar "${nombreProducto}" del menú? El producto no se eliminará permanentemente.`,
+    confirmText: "Sí, retirar",
+    confirmClass: "btn-danger",
+    onConfirm: async () => {
+      const response = await fetch(
+        `${API_BASE}/productos/${idProducto}/desactivar`,
+        {
+          method: "PUT"
+        }
+      );
+
+      if (!response.ok) {
+        alert("Error al retirar el producto.");
+        throw new Error("No se pudo retirar el producto");
+      }
+
+      await cargarProductos();
+    }
+  });
+};
+
+window.restaurarProducto = function (btn) {
+  const idProducto = Number(btn.dataset.id);
+  const nombreProducto = btn.dataset.nombre ?? "este producto";
+
+  window.AdminModalManager.confirm({
+    title: "Restaurar producto",
+    message: `¿Restaurar "${nombreProducto}" al menú?`,
+    confirmText: "Sí, restaurar",
+    confirmClass: "btn-success",
+    onConfirm: async () => {
+      const response = await fetch(
+        `${API_BASE}/productos/${idProducto}/activar`,
+        {
+          method: "PUT"
+        }
+      );
+
+      if (!response.ok) {
+        alert("Error al restaurar el producto.");
+        throw new Error("No se pudo restaurar el producto");
+      }
+
+      await cargarProductos();
+    }
+  });
+};
+
+// ============================================================
 // SUBIR / REEMPLAZAR IMAGEN
 // ============================================================
 async function subirImagenProducto(idProducto, archivo, metodo) {
   const formData = new FormData();
   formData.append("imagen", archivo);
 
-  const r = await fetch(`${API_BASE}/productos/${idProducto}/imagen`, {
+  const response = await fetch(`${API_BASE}/productos/${idProducto}/imagen`, {
     method: metodo,
     body: formData
   });
 
-  if (!r.ok) {
+  if (!response.ok) {
     throw new Error("No se pudo subir la imagen");
   }
 
-  return await r.json();
+  return await response.json();
 }
 
 // ============================================================
@@ -464,7 +532,11 @@ function configurarZonaImagen(prefijo) {
       resetZonaImagen("crear");
     } else {
       archivoImagenEditar = null;
-      const producto = todosLosProductos.find(p => Number(p.id) === Number(idProductoAEditar));
+
+      const producto = todosLosProductos.find(
+        (p) => Number(p.id) === Number(idProductoAEditar)
+      );
+
       const urlImagenActual = construirUrlImagen(producto);
 
       if (urlImagenActual) {
@@ -510,7 +582,8 @@ function mostrarPreviewArchivo(prefijo, src, nombreArchivo) {
   btnQuitar.classList.remove("d-none");
 
   if (previewHelp) {
-    previewHelp.textContent = "Se reemplazará la imagen actual cuando guardes los cambios.";
+    previewHelp.textContent =
+      "Se reemplazará la imagen actual cuando guardes los cambios.";
   }
 }
 
@@ -529,7 +602,8 @@ function mostrarPreviewExistente(prefijo, src, texto) {
   btnQuitar.classList.add("d-none");
 
   if (previewHelp) {
-    previewHelp.textContent = "Si no seleccionas una nueva imagen, se conservará la actual.";
+    previewHelp.textContent =
+      "Si no seleccionas una nueva imagen, se conservará la actual.";
   }
 }
 
@@ -548,7 +622,8 @@ function resetZonaImagen(prefijo) {
   btnQuitar.classList.add("d-none");
 
   if (previewHelp) {
-    previewHelp.textContent = "Si no seleccionas una nueva imagen, se conservará la actual.";
+    previewHelp.textContent =
+      "Si no seleccionas una nueva imagen, se conservará la actual.";
   }
 }
 
@@ -568,27 +643,9 @@ function construirUrlImagen(producto) {
     if (producto.imagen.startsWith("http")) {
       return producto.imagen;
     }
+
     return `http://localhost:8080${producto.imagen}`;
   }
 
   return null;
 }
-
-// ============================================================
-// ELIMINAR / RESTAURAR
-// ============================================================
-window.eliminarProducto = function(btn) {
-  idProductoEliminar = btn.dataset.id;
-  document.getElementById("modal-eliminar-mensaje").textContent =
-    `¿Retirar "${btn.dataset.nombre}" del menú? El producto no se eliminará permanentemente.`;
-
-  bootstrap.Modal.getOrCreateInstance(document.getElementById("modalEliminarProducto")).show();
-};
-
-window.restaurarProducto = function(btn) {
-  idProductoRestaurar = btn.dataset.id;
-  document.getElementById("modal-restaurar-mensaje").textContent =
-    `¿Restaurar "${btn.dataset.nombre}" al menú?`;
-
-  bootstrap.Modal.getOrCreateInstance(document.getElementById("modalRestaurarProducto")).show();
-};

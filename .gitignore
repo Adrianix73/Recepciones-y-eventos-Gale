@@ -1,3 +1,6 @@
 # Ignorar contenido de uploads pero mantener la carpeta
 backend/restobar-rdr/uploads/productos/*
 !backend/restobar-rdr/uploads/productos/.gitkeep
+
+#Ignorar la carpeta .idea
+.idea/
