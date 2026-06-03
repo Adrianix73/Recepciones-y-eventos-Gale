@@ -1,4 +1,4 @@
-CREATE DATABASE restobar_db CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci; 
+CREATE DATABASE IF NOT EXISTS restobar_db CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
 USE restobar_db;
 
 CREATE TABLE categoria (
