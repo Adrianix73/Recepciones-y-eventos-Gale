@@ -88,8 +88,8 @@ es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de u
 4. MySQL Workbench = Diseñar y administrar BD
 5. Intellij IDEA = Backend (Sping Boot)
 6. VS Code = Frontend (HTML/CSS/JS)
-7. XAMPP = Servidor Tomcat para correr la app
-8. Postman = Para pruebas de API REST
+7. Postman = Para pruebas de API REST
+8. Docker = Para correr en cualquier dispositivo
 
 ## Tecnologias Utilizadas
 - Java 21
@@ -97,8 +97,8 @@ es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de u
 - MySQL 8
 - HTML5, CSS3, JavaScript
 - Intellij IDEA
-- XAMPP (Tomcat)
 - MySQL Workbench
+- Docker Desktop
 - Figma (diseño UI/UX)
 - Draw.io (Diagramas)
 
@@ -283,43 +283,80 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 - **Seguridad:** Las contraseñas se almacenan hasheadas con BCrypt (hash irreversible con salt automático), nunca entexto plano
 
 ## Como correr el proyecto
+El proyecto usa **Docker** para levantar el backend y la base de datos automáticamente.  
+No se necesitas instalar Java, MySQL ni XAMPP.  
+  
 ### Requisitos previos
-- Tener instalado Intellij IDEA
-- Tener instalado XAMPP (para MySQL)
-- Tener instalado MySQL Workbench
-- Tener instalado JDK 21 o superior
+- [ ] [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y corriendo  
+- [ ] Si usas **Windows**: tener [WSL2](https://learn.microsoft.com/es-es/windows/wsl/install) habilitado  
+- [ ] [Git](https://git-scm.com/) instalado  
+- [ ] Tener integrada tu distro WSL con Docker Desktop en:  
+  `Docker Desktop → Settings → Resources → WSL Integration`  
+  
+> **Recomendado en Windows:** clonar y ejecutar el proyecto desde la terminal de tu distro WSL (ej. AlmaLinux, Ubuntu), no desde CMD.
 
-### Backend
-1. Abrir la carpeta ```backend/``` en Intellij IDEA
-2. Configurar ```application.properties``` con los datos de MySQL
-3. Iniciar XAMPP y activar MySQL
-4. Ejecutar ```restobar-rdrApplication.java```
-5. El backend corre en: ```http://localhost:8080```
-
-### Frontend
-1. Abrir la carpeta ```frontend/``` en VS Code
-2. Abrir ```index.html``` con Live Server
-3. El frontend se comunica con el backend via fetch()
-
->El frontend y el backend corren por separado. El backend debe estar iniciado antes de abrir el frontend
-
-### Configuracion de la base de datos
-
+#### Clonar el repositorio  
+  
+```bash  
+git clone https://github.com/Adrianix73/Recepciones-y-eventos-Gale.git  
+cd Recepciones-y-eventos-Gale
 ```
-spring.application.name=restobar-rdr
-# CONEXION A MYSQL
-spring.datasource.url=jdbc:mysql://localhost:3306/restobar_db
-spring.datasource.username=root
-spring.datasource.password=
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
-#JPA / HIBERNATE
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+#### Levantar el proyecto
 
-# Puerto del servidor
-server.port=8080
+```bash  
+docker compose up --build
+```
+
+Esto descarga las imágenes necesarias, construye el backend y levanta:
+
+- MySQL 8.4 con la base de datos inicializada automáticamente
+- Spring Boot en el puerto 8080
+
+Espera hasta ver en la consola algo como:
+
+Tomcat started on port 8080  
+Started RestobarRdrApplication
+
+#### Verificar que está corriendo
+
+Abre en el navegador:
+
+http://localhost:8080/api/categorias
+
+#### Frontend
+
+1. Abre la carpeta frontend/ en VS Code
+2. Abre index.html con Live Server
+3. El frontend se comunica con el backend vía fetch()
+
+> El backend debe estar corriendo antes de abrir el frontend.
+
+### Comándos útiles
+
+| Acción | Comando |
+|---|---|
+| Levantar el proyecto | `docker compose up --build` |
+| Apagar (conservar datos) | `docker compose down` |
+| Apagar y borrar BD para empezar de cero | `docker compose down -v` |
+| Ver contenedores activos | `docker ps` |
+| Ver logs en tiempo real | `docker compose logs -f` |
+| Ver logs del backend | `docker compose logs -f backend` |
+| Entrar a MySQL por consola | `docker exec -it restobar-mysql -u root -p` |
+
+#### Nota sobre la base de datos
+
+La base de datos se inicializa automáticamente con el archivo:
+
+`recursos/script_restobar.sql`
+
+Ese script crea las tablas e inserta datos representativos la primera vez que Docker levanta MySQL. Si ya existe un volumen previo, **no vuelve a ejecutarse**.
+
+Para forzar un reinicio limpio de la BD:
+
+```bash  
+docker compose down -v
+docker compose up --build
 ```
 
 ## DIAGRAMA DE FIGMA
