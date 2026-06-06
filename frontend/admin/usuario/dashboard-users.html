@@ -21,20 +21,10 @@
     </button>  
 </div>
   
-    <!-- OVERLAY (fondo oscuro al abrir sidebar en móvil) -->  
     <div class="overlay" id="overlay"></div>  
   
-    <!-- ============================================================  
-         LAYOUT PRINCIPAL: sidebar + main lado a lado  
-         Bootstrap: d-flex = pone los hijos en fila horizontal  
-         ============================================================ -->  
     <div class="d-flex">  
   
-        <!-- ============================================================  
-             SIDEBAR  
-             Bootstrap NO tiene sidebar nativo, lo hacemos con CSS propio  
-             pero usamos clases de Bootstrap para padding, texto, etc.  
-             ============================================================ -->  
        <aside class="sidebar" id="sidebar"></aside> 
   
         <!-- ============================================================  
@@ -71,11 +61,76 @@
                     <i class="fa-solid fa-plus me-1"></i> REGISTRAR  
                 </button>  
             </div>  
+
+            <section class="mb-3">
+  <div class="d-flex flex-wrap align-items-center gap-2 gap-lg-3">
+    <div class="d-flex flex-wrap gap-2">
+      <button
+        type="button"
+        class="btn btn-filtro activo"
+        onclick="aplicarFiltroEstado('habilitados', this)"
+      >
+        <i class="fa-solid fa-user-check"></i>
+        Habilitados
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-filtro"
+        onclick="aplicarFiltroEstado('deshabilitados', this)"
+      >
+        <i class="fa-solid fa-user-slash"></i>
+        Deshabilitados
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-filtro"
+        onclick="aplicarFiltroEstado('todos', this)"
+      >
+        <i class="fa-solid fa-users"></i>
+        Todos
+      </button>
+    </div>
+
+    <div class="busqueda flex-grow-1">
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+
+        <input
+          type="text"
+          id="buscador-usuario"
+          class="form-control"
+          placeholder="Buscar por nombre o apellido..."
+          autocomplete="off"
+        />
+
+        <button
+          type="button"
+          id="btn-limpiar-busqueda-usuario"
+          class="btn btn-limpiar-busqueda"
+          aria-label="Limpiar búsqueda"
+          title="Limpiar búsqueda"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-grow-1 flex-md-grow-0" style="min-width: 220px;">
+      <select
+        id="filtro-rol"
+        class="form-select"
+        onchange="aplicarFiltroRol()"
+      >
+        <option value="">Todos los roles</option>
+      </select>
+    </div>
+  </div>
+</section>
   
-            <!-- ============================================================  
-                 TABLA BOOTSTRAP  
-                 table-responsive = hace la tabla scrolleable en pantallas pequeñas  
-                 ============================================================ -->  
             <div class="table-responsive">
     <table class="table table-hover table-bordered">
         <thead>
@@ -86,7 +141,7 @@
                 <th>Rol</th>
                 <th>Último inicio de sesión</th>
                 <th class="text-center">Estado</th>
-                <th>Fecha/hora de retiro</th>
+                <th class="col-fecha-retiro d-none">Fecha/hora de retiro</th>
                 <th class="text-center">Opciones</th>
             </tr>
         </thead>
@@ -102,45 +157,79 @@
     </div>  
     <!-- FIN d-flex (layout principal) -->  
 
-    <!-- ============================================================
-     MODAL DE ADVERTENCIA - Bootstrap
-     modal = clase base | fade = animación de entrada
-     ============================================================ -->
+    MODAL EDITAR USUARIO
 <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <!-- modal-dialog-centered = centrado vertical en pantalla -->
-        <div class="modal-content">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fa-solid fa-pen-to-square me-2"></i>Editar Usuario
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
 
-            <!-- CABECERA del modal -->
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
-                    Advertencia
-                </h5>
-                <!-- Botón X para cerrar — data-bs-dismiss lo maneja Bootstrap solo -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-body">
+        <p id="editar-usuario-subtitulo" class="text-muted mb-3">
+          Modifique solo lo que necesite.
+        </p>
+
+        <form id="form-editar-usuario">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="editar-nombre-usuario" class="form-label">Nombre</label>
+              <input type="text" id="editar-nombre-usuario" class="form-control" required />
             </div>
 
-            <!-- CUERPO del modal -->
-            <div class="modal-body">
-                ¿Estás seguro de querer editar a este empleado?
+            <div class="col-md-6">
+              <label for="editar-apellido-usuario" class="form-label">Apellido</label>
+              <input type="text" id="editar-apellido-usuario" class="form-control" required />
             </div>
 
-            <!-- PIE del modal — botones de acción -->
-            <div class="modal-footer">
-                <!-- Cancelar: data-bs-dismiss cierra el modal automáticamente -->
-                <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
-                    <i class="fa-solid fa-xmark me-1"></i> Cancelar
-                </button>
-
-                <!-- Confirmar: llama a la función JS -->
-                <button type="button" class="btn btn-primary" id="btn-si-editar-user">
-                    <i class="fa-solid fa-check me-1"></i> Sí, editar
-                </button>
+            <div class="col-12">
+              <label for="editar-rol-usuario" class="form-label">Rol</label>
+              <select id="editar-rol-usuario" class="form-select" required>
+                <option value="">Seleccionar rol...</option>
+                <option value="Admin">Admin</option>
+                <option value="Cajero">Cajero</option>
+                <option value="Mozo">Mozo</option>
+              </select>
             </div>
 
-        </div>
+            <div class="col-12">
+              <p class="text-muted mb-1">
+                Si desea modificar la contraseña, complete ambos campos.
+              </p>
+            </div>
+
+            <div class="col-md-6">
+              <label for="editar-clave-usuario" class="form-label">Nueva contraseña</label>
+              <input type="password" id="editar-clave-usuario" class="form-control" />
+            </div>
+
+            <div class="col-md-6">
+              <label for="editar-confirmar-clave-usuario" class="form-label">
+                Confirmar nueva contraseña
+              </label>
+              <input
+                type="password"
+                id="editar-confirmar-clave-usuario"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-guardar-edicion-usuario">
+          Guardar cambios
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- MODAL CREAR USUARIO -->

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     categorias: `${API_BASE}/api/categorias`,
     productos:  `${API_BASE}/api/productos`
   };
+  const basePath = document.body.dataset.base || '';
 
   const categoriasContainer = document.getElementById('categorias-container');
   const menuStatus          = document.getElementById('menu-status');
@@ -155,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
               src="${img}"
               alt="${escapeHtml(p.nombreProducto || 'Producto')}"
               class="product-image"
-              onerror="this.src='img/logo-rdr-madera.webp'"
+              onerror="this.src='${basePath}img/logo-rdr-madera.webp'"
             />
           </div>
 
@@ -183,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function resolverImagen(ruta) {
-    if (!ruta) return 'img/logo-rdr-madera.webp';
+    if (!ruta) return basePath + 'img/logo-rdr-madera.webp';
     if (ruta.startsWith('http://') || ruta.startsWith('https://')) return ruta;
     if (ruta.startsWith('/')) return `${API_BASE}${ruta}`;
     return `${API_BASE}/${ruta}`;

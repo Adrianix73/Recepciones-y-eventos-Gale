@@ -42,7 +42,7 @@ document.getElementById("btnIngresar").addEventListener("click", () => { //El bo
         } else if (usuario.rol === "Cajero") {
             window.location.href = "../cajero/caja.html";
         } else {
-            window.location.href = "../mozo/menu-usuario.html";
+            window.location.href = "../mozo/menu-mozo.html";
         }
     })
 

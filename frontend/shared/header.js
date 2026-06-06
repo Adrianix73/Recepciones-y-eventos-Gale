@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  const basePath = document.body.dataset.base || '';
   const header = document.getElementById('header');
   if (!header) return;
 
@@ -8,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <a class="navbar-brand d-flex align-items-center gap-2">
           <img
-            src="img/logo-rdr-madera.webp"
+            src="${basePath}img/logo-rdr-madera.webp"
             alt="Logo Rincón de Rango"
             class="menu-logo"
           />
@@ -63,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </select>
             </div>
 
-            <a href="auth/login.html" class="btn menu-btn-login d-flex align-items-center gap-2 justify-content-center">
+            <a href="${basePath}auth/login.html" class="btn menu-btn-login d-flex align-items-center gap-2 justify-content-center">
               <i class="fa-solid fa-user"></i>
               <span class="d-md-none">Mi cuenta</span>
             </a>
