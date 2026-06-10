@@ -269,18 +269,17 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 (4, 7, 1, 65.00, 65.00 );
 ```
 
+### Decisiones de Diseño
+- **Borrado lógico:** Los productos y usuarios no se eliminan. Se utilizan ```fecha_desactivacion``` (productos) y ```fecha_baja``` (usuarios) para desactivarlos, preservando la integridad histórica de ventas y reportes.
+- **Precio histórico:** El campo ```precio_unitario``` en detalle_venta almacena el precio al momento de la venta, independientemente de cambios futuros en ```precio_actual``` del producto.
+- **Seguridad:** Las contraseñas se almacenan hasheadas con BCrypt (hash irreversible con salt automático), nunca entexto plano
+
 ## Evidencias del negocio
 ### Foto del negocio
 <img width="1600" height="1200" alt="letrero_3d_acrilico_pucallpa_002" src="https://github.com/user-attachments/assets/65c0401c-b846-4656-9634-90b5d9c9df66" />
 
 ### Foto del problema
 <img width="1000" height="666" alt="Menu-elegante" src="https://github.com/user-attachments/assets/4fb46720-902a-487a-ac48-7d0bec237b8d" />
-
-
-### Decisiones de Diseño
-- **Borrado lógico:** Los productos y usuarios no se eliminan. Se utilizan ```fecha_desactivacion``` (productos) y ```fecha_baja``` (usuarios) para desactivarlos, preservando la integridad histórica de ventas y reportes.
-- **Precio histórico:** El campo ```precio_unitario``` en detalle_venta almacena el precio al momento de la venta, independientemente de cambios futuros en ```precio_actual``` del producto.
-- **Seguridad:** Las contraseñas se almacenan hasheadas con BCrypt (hash irreversible con salt automático), nunca entexto plano
 
 ## Como correr el proyecto
 El proyecto usa **Docker** para levantar el backend y la base de datos automáticamente.  
