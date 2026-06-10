@@ -1,5 +1,6 @@
 package com.restobar1.restobar_rdr.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class Usuario {
     private String rol;
 
     //En producción real se usará BCrypt para hashear
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //Esto evitará que la clave se vea en niguna respuesta JSON
     @Column(name = "clave", nullable = false)
     private String clave;
 

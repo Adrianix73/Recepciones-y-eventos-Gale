@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ventas:    '../venta/dashboard-venta.html',
     bug:       '../soporte/report-bug.html',
     ayuda:     '../soporte/help.html',
-    logout:    '../../index.html'
   };
 
   // 4) Esta función devuelve la clase correcta para cada enlace
@@ -63,20 +62,29 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
 
     <div class="sidebar-footer">
-      <a href="${routes.bug}" class="${getLinkClass('bug')}">
+      <a class="${getLinkClass('bug')}" id="btn-reportar-bug">
         <i class="fa-solid fa-bug"></i>
         <span>Reportar bug</span>
       </a>
-      <a href="${routes.ayuda}" class="${getLinkClass('ayuda')}">
+      <a class="${getLinkClass('ayuda')}">
         <i class="fa-solid fa-circle-question"></i>
         <span>Ayuda</span>
       </a>
-      <a href="${routes.logout}" class="${getLinkClass('logout')}">
+      <a class="${getLinkClass('logout')}" id="btn-cerrar-sesion">
         <i class="fa-solid fa-right-from-bracket"></i>
         <span>Cerrar Sesión</span>
       </a>
     </div>
   `;
+
+    // Botón de cerrar sesión
+const btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
+if (btnCerrarSesion) {
+  btnCerrarSesion.addEventListener("click", () => {
+    localStorage.removeItem("usuarioLogueado");
+    window.location.href = "../../auth/login.html";
+  });
+}
 
   // 6) Lógica del botón hamburguesa para mobile
   //    Cuando se hace click, abrimos/cerramos el sidebar

@@ -1,4 +1,4 @@
-document.getElementById("btnIngresar").addEventListener("click", () => { //El botón de ingresar fue presionado
+document.getElementById("btnIngresar").addEventListener("click", () => { 
     
 
     // Captura lo que se escribió en los imputs
