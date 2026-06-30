@@ -85,7 +85,7 @@ es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de u
 1. Trello = Gestión del proyecto (Kanban)
 2. Draw.io = Diagrama DER y MR
 3. Figma = Wireframe + Diseño UI/UX
-4. MySQL Workbench = Diseñar y administrar BD
+4. pgAdmin = Diseñar y administrar BD
 5. Intellij IDEA = Backend (Sping Boot)
 6. VS Code = Frontend (HTML/CSS/JS)
 7. Postman = Para pruebas de API REST
@@ -94,10 +94,10 @@ es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de u
 ## Tecnologias Utilizadas
 - Java 21
 - Spring Boot 3
-- MySQL 8
+- PostgreSQL 16
 - HTML5, CSS3, JavaScript
 - Intellij IDEA
-- MySQL Workbench
+- pgAdmin
 - Docker Desktop
 - Figma (diseño UI/UX)
 - Draw.io (Diagramas)
@@ -162,111 +162,111 @@ Un producto puede estar muchos detalles (Detalle_Venta), pero un detalle (Detall
 El sistema cuenta con 5 tablas principales:
 
 ```sql
-CREATE DATABASE restobar_db CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci; 
-USE restobar_db;
+-- POSTGRESQL
 
-CREATE TABLE categoria (
-id_categoria INT PRIMARY KEY AUTO_INCREMENT,
-nombre_categoria VARCHAR(50) NOT NULL
-) ENGINE = InnoDB;
+ CREATE TABLE categoria (
+  id_categoria SERIAL PRIMARY KEY,
+  nombre_categoria VARCHAR(50) NOT NULL
+);
 
-CREATE TABLE producto (
-id_producto INT PRIMARY KEY AUTO_INCREMENT,
-id_categoria INT NOT NULL,
-nombre_producto VARCHAR(100) NOT NULL,
-precio_actual DECIMAL(10,2) NOT NULL,
-descripcion TEXT,
-imagen_url VARCHAR(255) DEFAULT NULL,
-fecha_desactivacion DATETIME DEFAULT NULL,
-CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
-CONSTRAINT uq_nombre_producto UNIQUE (nombre_producto)
-) ENGINE = InnoDB;
+ CREATE TABLE producto (
+  id_producto SERIAL PRIMARY KEY,
+  id_categoria INT NOT NULL,
+  nombre_producto VARCHAR(100) NOT NULL,
+  precio_actual NUMERIC(10,2) NOT NULL,
+  descripcion TEXT,
+  imagen_url VARCHAR(255) DEFAULT NULL,
+  fecha_desactivacion TIMESTAMP DEFAULT NULL,
+  CONSTRAINT fk_producto_categoria FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
+  CONSTRAINT uq_nombre_producto UNIQUE (nombre_producto)
+);
 
-CREATE TABLE usuario (
-id_usuario INT PRIMARY KEY AUTO_INCREMENT,
-nombre VARCHAR(60),
-apellido VARCHAR(40),
-rol VARCHAR(20) NOT NULL,
-clave VARCHAR(255) NOT NULL, -- Se aplicará Hash BCrypt
-ultimo_login DATETIME NULL,
-fecha_baja DATETIME DEFAULT NULL
-) ENGINE = InnoDB;
+ CREATE TABLE usuario (
+  id_usuario SERIAL PRIMARY KEY,
+  nombre VARCHAR(60),
+  apellido VARCHAR(40),
+  rol VARCHAR(20) NOT NULL,
+  clave VARCHAR(255) NOT NULL, -- Se aplicará Hash BCrypt
+  ultimo_login TIMESTAMP NULL,
+  fecha_baja TIMESTAMP DEFAULT NULL
+);
 
-CREATE TABLE venta (
-id_venta INT PRIMARY KEY AUTO_INCREMENT,
-id_usuario INT NOT NULL,
-fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-total_venta DECIMAL(10,2) DEFAULT 0.00,
-metodo_pago VARCHAR(30),
-estado VARCHAR(20) DEFAULT 'pendiente',
-CONSTRAINT fk_venta_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-) ENGINE = InnoDB;
+ CREATE TABLE venta (
+  id_venta SERIAL PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  total_venta NUMERIC(10,2) DEFAULT 0.00,
+  metodo_pago VARCHAR(30),
+  estado VARCHAR(20) DEFAULT 'pendiente',
+  CONSTRAINT fk_venta_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
 
-CREATE TABLE detalle_venta (
-id_detalle_venta INT PRIMARY KEY AUTO_INCREMENT,
-id_venta INT NOT NULL,
-id_producto INT NOT NULL,
-cantidad INT NOT NULL,
-precio_unitario DECIMAL(10,2) NOT NULL,
-subtotal DECIMAL(10,2) NOT NULL,
-notas_especificas VARCHAR(255) NULL,
-CONSTRAINT fk_detalle_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta),
-CONSTRAINT fk_detalle_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-CONSTRAINT chk_cantidad_positiva CHECK (cantidad > 0)
-) ENGINE = InnoDB;
+ CREATE TABLE detalle_venta (
+  id_detalle_venta SERIAL PRIMARY KEY,
+  id_venta INT NOT NULL,
+  id_producto INT NOT NULL,
+  cantidad INT NOT NULL,
+  precio_unitario NUMERIC(10,2) NOT NULL,
+  subtotal NUMERIC(10,2) NOT NULL,
+  notas_especificas VARCHAR(255) NULL,
+  CONSTRAINT fk_detalle_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta),
+  CONSTRAINT fk_detalle_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+  CONSTRAINT chk_cantidad_positiva CHECK (cantidad > 0)
+);
 
--- INSERCIÓN DATOS REPRENSETATIVOS
+ -- INSERCIÓN DATOS REPRENSETATIVOS
 
--- CATEGORÍA
-INSERT INTO categoria (nombre_categoria) VALUES 
+ -- CATEGORÍA
+ INSERT INTO categoria (nombre_categoria) VALUES
 ('Sopas'),
-('Entradas'), 
-('Platos de Fondo'), 
+('Entradas'),
+('Platos de Fondo'),
 ('Bebidas');
 
--- PRODUCTO
-INSERT INTO producto (id_categoria, nombre_producto, precio_actual, descripcion) VALUES 
+ -- PRODUCTO
+ INSERT INTO producto (id_categoria, nombre_producto, precio_actual, descripcion) VALUES
 (1, 'Caldo de gallina', 9.00, 'Gallina, huevo, apio, papa'),
 (2, 'Rocoto relleno', 20.00, 'Rocoto, carne, cebolla'),
 (3, 'Ceviche Mixto', 45.00, 'Pescado, mariscos, limón y ají'),
 (3, 'Juane especial', 50.00, 'Pollo, maduro, huevo, aceituna, arroz'),
 (3, 'Parrillada Rango', 80.00, 'Carne de res, pollo, chuleta y guarniciones'),
 (4, 'Jarra de Chicha', 15.00, 'Chicha morada natural 1L'),
-(4, "Coca Cola", 65.00, 'Sabor original');
+(4, 'Coca Cola', 65.00, 'Sabor original');
 
--- USUARIO
-INSERT INTO usuario (nombre, apellido, rol, clave) VALUES 
+ -- USUARIO
+ INSERT INTO usuario (nombre, apellido, rol, clave) VALUES
 ('Harry', 'Gale', 'Admin', '$2a$12$eLwOU4MpOG6xYUFQnB0xquxn57T4ndezbL9eeJnlKcm1nt6d7ZiX6'),
 ('Andrea', 'Vega', 'Cajero', '$2a$12$6/eZfqIvYnYhiiNPUhXOfu9z0pdgKDHlkK9RGmPLl4S1K5zHhC/im'),
-('Juan', 'Perez', 'Mozo', '$2a$12$XdJzPwj4SyUu0OLHiRfVueba/PLe914j.1.0nOAyOz5mJSojpNtI'),
+('Juan', 'Perez', 'Mozo', '$2a$12$XdJzPwj4SyUu0OLHiRfVueba/PLe914j.1.0nOAyOz5mJSojpNtI.'),
 ('Carlos', 'Villa', 'Mozo', '$2a$12$Btpl36.l5t5AFrkB7hYWG.PU7i5pMR.iYQzSvSVaSgkU.q5Y4jjLC');
 
--- VENTA
-INSERT INTO venta (id_usuario, total_venta, metodo_pago, estado) VALUES 
+ -- VENTA
+ INSERT INTO venta (id_usuario, total_venta, metodo_pago, estado) VALUES
 (3, 345.00, 'Yape', 'pagado'),
 (3, 60.00, '-', 'pendiente'),
 (4, 135.00, 'Efectivo', 'pagado'),
 (4, 65.00, 'Tarjeta', 'pagado');
 
--- DETALLE VENTA
-INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, subtotal) VALUES 
-# Venta 1
-(1, 1, 5, 9.00, 45.00),
-(1, 4, 2, 50.00, 100.00),
-(1, 3, 2, 45.00, 90.00),
-(1, 5, 1, 80.00, 80.00),
-(1, 6, 2, 15.00, 30.00),
+ -- DETALLE VENTA
+ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, subtotal) VALUES
+-- Venta 1
+ (1, 1, 5, 9.00, 45.00),
+ (1, 4, 2, 50.00, 100.00),
+ (1, 3, 2, 45.00, 90.00),
+ (1, 5, 1, 80.00, 80.00),
+ (1, 6, 2, 15.00, 30.00),
 
-# Venta 2
-(2, 3, 1, 45.00, 45.00),
-(2, 6, 1, 15.00, 15.00),
+-- Venta 2
+ (2, 3, 1, 45.00, 45.00),
+ (2, 6, 1, 15.00, 15.00),
 
-# Venta 3
-(3, 5, 2, 80.00, 160.00),
-(3, 6, 1, 15.00, 15.00),
+-- Venta 3
+ (3, 5, 2, 80.00, 160.00),
+ (3, 6, 1, 15.00, 15.00),
 
-# Venta 4
-(4, 7, 1, 65.00, 65.00 );
+ -- Venta 4
+ (4, 7, 1, 65.00, 65.00 );
+
 ```
 
 ### Decisiones de Diseño
@@ -283,7 +283,7 @@ INSERT INTO detalle_venta (id_venta, id_producto, cantidad, precio_unitario, sub
 
 ## Como correr el proyecto
 El proyecto usa **Docker** para levantar el backend y la base de datos automáticamente.  
-No se necesitas instalar Java, MySQL ni XAMPP.  
+No necesitas instalar Java, PostgreSQL ni XAMPP.  
   
 ### Requisitos previos
 - [ ] [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y corriendo  
@@ -309,7 +309,7 @@ docker compose up --build
 
 Esto descarga las imágenes necesarias, construye el backend y levanta:
 
-- MySQL 8.4 con la base de datos inicializada automáticamente
+- PostgreSQL 16 con la base de datos inicializada automáticamente
 - Spring Boot en el puerto 8080
 
 Espera hasta ver en la consola algo como:
@@ -341,15 +341,14 @@ http://localhost:8080/api/categorias
 | Ver contenedores activos | `docker ps` |
 | Ver logs en tiempo real | `docker compose logs -f` |
 | Ver logs del backend | `docker compose logs -f backend` |
-| Entrar a MySQL por consola | `docker exec -it restobar-mysql -u root -p` |
 
 #### Nota sobre la base de datos
 
-La base de datos se inicializa automáticamente con el archivo:
+La base de datos se inicializa en local automáticamente con el archivo:
 
-`recursos/script_restobar.sql`
+`recursos/postgre_rdr.sql`
 
-Ese script crea las tablas e inserta datos representativos la primera vez que Docker levanta MySQL. Si ya existe un volumen previo, **no vuelve a ejecutarse**.
+Ese script crea las tablas e inserta datos representativos la primera vez que Docker levanta PostgreSQL. Si ya existe un volumen previo, **no vuelve a ejecutarse**.
 
 Para forzar un reinicio limpio de la BD:
 
@@ -360,10 +359,4 @@ docker compose up --build
 
 ## DIAGRAMA DE FIGMA
 https://www.figma.com/design/VaGY5zk4hwqLfsuftBrOuK/Untitled?node-id=0-1&t=f5fw57nCb4pSx9Py-1
-
-
-
-
-
-
 
