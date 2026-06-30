@@ -296,7 +296,7 @@ function renderTablaUsuarios(datos) {
       <td>${usuario.nombre ?? "—"}</td>
       <td>${usuario.apellido ?? "—"}</td>
       <td>${usuario.rol ?? "—"}</td>
-      <td>${formatearFecha(usuario.ultimoLogin)}</td>
+      <td class="d-none">${formatearFecha(usuario.ultimoLogin)}</td>
       <td>${badgeEstado}</td>
       <td class="col-fecha-retiro ${filtroEstadoUsuario !== "deshabilitados" ? "d-none" : ""}">
         ${formatearFecha(usuario.fechaBaja)}

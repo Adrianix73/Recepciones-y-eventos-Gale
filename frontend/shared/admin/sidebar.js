@@ -13,12 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3) Centralizamos aquí las rutas del sidebar
   const routes = {
-    reportes:  '../reporte/dashboard-report.html',
+    inicio:    '../inicio/dashboard-inicio.html',
     productos: '../producto/dashboard-product.html',
     usuarios:  '../usuario/dashboard-users.html',
     categorias:'../categoria/dashboard-categoria.html',
     ventas:    '../venta/dashboard-venta.html',
-    bug:       '../soporte/report-bug.html',
     ayuda:     '../soporte/help.html',
   };
 
@@ -38,9 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="sidebar-category-title">Reportes:</div>
-    <a href="${routes.reportes}" class="${getLinkClass('reportes')}">
-      <i class="fa-solid fa-chart-line"></i>
-      <span>Reportes</span>
+    <a href="${routes.inicio}" class="${getLinkClass('inicio')}">
+      <i class="fa-solid fa-house"></i>
+      <span>Inicio</span>
     </a>
 
     <div class="sidebar-category-title">Actualizar datos:</div>
@@ -62,10 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
 
     <div class="sidebar-footer">
-      <a class="${getLinkClass('bug')}" id="btn-reportar-bug">
-        <i class="fa-solid fa-bug"></i>
-        <span>Reportar bug</span>
-      </a>
       <a class="${getLinkClass('ayuda')}">
         <i class="fa-solid fa-circle-question"></i>
         <span>Ayuda</span>
@@ -82,7 +77,7 @@ const btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
 if (btnCerrarSesion) {
   btnCerrarSesion.addEventListener("click", () => {
     localStorage.removeItem("usuarioLogueado");
-    window.location.href = "../../auth/login.html";
+    window.location.href = "../../index.html";
   });
 }
 

@@ -307,9 +307,15 @@ async function registrarProducto() {
   const precio = document.getElementById("crear-precio").value.trim();
   const descripcion = document.getElementById("crear-descripcion").value.trim();
   const categoriaId = document.getElementById("crear-categoria").value;
+  const precioValue = parseFloat(precio);
 
   if (!nombre || !precio || !categoriaId) {
     alert("Nombre, precio y categoría son obligatorios.");
+    return;
+  }
+
+  if (precioValue < 0) {
+    alert("El precio no puede ser un número negativo.");
     return;
   }
 
@@ -319,7 +325,7 @@ async function registrarProducto() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         nombreProducto: nombre,
-        precioActual: parseFloat(precio),
+        precioActual: precioValue,
         descripcion: descripcion,
         categoriaId: parseInt(categoriaId)
       })
@@ -391,9 +397,15 @@ async function guardarEdicionProducto() {
   const precio = document.getElementById("editar-precio").value.trim();
   const descripcion = document.getElementById("editar-descripcion").value.trim();
   const categoriaId = document.getElementById("editar-categoria").value;
+  const precioValue = parseFloat(precio);
 
   if (!nombre || !precio || !categoriaId) {
     alert("Nombre, precio y categoría son obligatorios.");
+    return;
+  }
+
+  if (precioValue < 0) {
+    alert("El precio no puede ser un número negativo.");
     return;
   }
 
@@ -403,7 +415,7 @@ async function guardarEdicionProducto() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         nombreProducto: nombre,
-        precioActual: parseFloat(precio),
+        precioActual: precioValue,
         descripcion: descripcion,
         categoriaId: parseInt(categoriaId)
       })

@@ -38,7 +38,7 @@ document.getElementById("btnIngresar").addEventListener("click", () => {
 
         // Redireción según rol
         if (usuario.rol === "Admin") {
-            window.location.href = "../admin/producto/dashboard-product.html";
+            window.location.href = "../admin/inicio/dashboard-inicio.html";
         } else if (usuario.rol === "Cajero") {
             window.location.href = "../cajero/caja.html";
         } else {

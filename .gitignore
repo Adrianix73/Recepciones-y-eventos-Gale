@@ -2,5 +2,24 @@
 backend/restobar-rdr/uploads/productos/*
 !backend/restobar-rdr/uploads/productos/.gitkeep
 
-#Ignorar la carpeta .idea
+#Ignorar la carpeta .idea y .vscode
 .idea/
+.vscode/
+
+# Variables de entorno locales
+.env
+.env.local
+.env.production
+
+#Integración con MySQL
+.envMySQL
+docker-compose.ymlMySQL
+
+#Ignorar apuntes
+reporteConsultaPostgreSQL.txt
+
+#Ignorar la carpeta taste
+taste/
+
+#Comandos de OpenCode
+.openccode/

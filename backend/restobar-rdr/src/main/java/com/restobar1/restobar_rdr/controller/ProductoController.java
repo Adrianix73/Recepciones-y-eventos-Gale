@@ -25,13 +25,13 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    // ── LISTAR ────────────────────────────────────────────────
+    // ── LISTAR 
     @GetMapping
     public List<Producto> listar() {
         return productoService.listarTodos();
     }
 
-    // ── OBTENER POR ID ────────────────────────────────────────
+    // ── OBTENER POR ID 
     @GetMapping("/{id}")
     public ResponseEntity<Producto> obtenerPorId(@PathVariable Long id) {
         Producto producto = productoService.obtenerPorId(id);
@@ -41,7 +41,7 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
-    // ── CREAR PRODUCTO (SOLO DATOS) ───────────────────────────
+    // ── CREAR PRODUCTO (SOLO DATOS) 
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody Map<String, Object> body) {
         try {
@@ -60,7 +60,7 @@ public class ProductoController {
         }
     }
 
-    // ── EDITAR PRODUCTO (SOLO DATOS) ──────────────────────────
+    // ── EDITAR PRODUCTO (SOLO DATOS) 
     @PutMapping("/{id}")
     public ResponseEntity<?> editar(@PathVariable Long id,
                                     @RequestBody Map<String, Object> body) {
@@ -83,7 +83,7 @@ public class ProductoController {
         }
     }
 
-    // ── SUBIR IMAGEN POR PRIMERA VEZ ──────────────────────────
+    // ── SUBIR IMAGEN POR PRIMERA VEZ 
     @PostMapping("/{id}/imagen")
     public ResponseEntity<?> subirImagen(@PathVariable Long id,
                                          @RequestParam("imagen") MultipartFile imagen) {
@@ -100,7 +100,7 @@ public class ProductoController {
         }
     }
 
-    // ── REEMPLAZAR IMAGEN ─────────────────────────────────────
+    // ── REEMPLAZAR IMAGEN 
     @PutMapping("/{id}/imagen")
     public ResponseEntity<?> reemplazarImagen(@PathVariable Long id,
                                               @RequestParam("imagen") MultipartFile imagen) {
@@ -117,7 +117,7 @@ public class ProductoController {
         }
     }
 
-    // ── OBTENER IMAGEN POR ID DEL PRODUCTO ────────────────────
+    // ── OBTENER IMAGEN POR ID DEL PRODUCTO 
     @GetMapping("/{id}/imagen")
     public ResponseEntity<Resource> obtenerImagen(@PathVariable Long id) {
         try {
@@ -145,19 +145,19 @@ public class ProductoController {
         }
     }
 
-    // ── DESACTIVAR ────────────────────────────────────────────
+    // ── DESACTIVAR 
     @PutMapping("/{id}/desactivar")
     public void desactivar(@PathVariable Long id) {
         productoService.desactivar(id);
     }
 
-    // ── ACTIVAR ───────────────────────────────────────────────
+    // ── ACTIVAR 
     @PutMapping("/{id}/activar")
     public void activar(@PathVariable Long id) {
         productoService.activar(id);
     }
 
-    // ── HELPERS PARA LEER EL JSON DEL FRONTEND ────────────────
+    // ── HELPERS PARA LEER EL JSON DEL FRONTEND 
     private String extraerTexto(Map<String, Object> body, String key) {
         Object value = body.get(key);
         return value == null ? null : value.toString().trim();
