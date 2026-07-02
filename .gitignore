@@ -11,12 +11,10 @@ backend/restobar-rdr/uploads/productos/*
 .env.local
 .env.production
 
-#Integración con MySQL
+#Residuos MySQL
 .envMySQL
 docker-compose.ymlMySQL
-
-#Ignorar apuntes
-reporteConsultaPostgreSQL.txt
+recursos/script_restobar.sql
 
 #Ignorar la carpeta taste
 taste/
