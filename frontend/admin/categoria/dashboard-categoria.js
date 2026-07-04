@@ -1,6 +1,7 @@
 // ============================================================
 // VARIABLES GLOBALES
 // ============================================================
+const API_BASE = "https://rdr1api.asandym.dev";
 let filtroNombre = "";
 let idCategoriaEditar = null;
 let idCategoriaEliminar = null;
@@ -46,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      fetch(`http://localhost:8080/api/categorias/${idCategoriaEditar}`, {
+      fetch(`${API_BASE}/categorias/${idCategoriaEditar}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -80,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      fetch("http://localhost:8080/api/categorias", {
+      fetch(`${API_BASE}/categorias`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -108,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnEliminar = document.getElementById("btn-confirmar-eliminar");
   if (btnEliminar) {
     btnEliminar.addEventListener("click", () => {
-      fetch(`http://localhost:8080/api/categorias/${idCategoriaEliminar}`, {
+      fetch(`${API_BASE}/categorias/${idCategoriaEliminar}`, {
         method: "DELETE"
       })
         .then((r) => {
@@ -137,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // CARGAR CATEGORÍAS
 // ============================================================
 function cargarCategorias() {
-  fetch("http://localhost:8080/api/categorias")
+  fetch(`${API_BASE}/categorias`)
     .then((r) => {
       if (!r.ok) throw new Error();
       return r.json();

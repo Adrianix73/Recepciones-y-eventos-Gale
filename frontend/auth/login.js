@@ -12,7 +12,7 @@ document.getElementById("btnIngresar").addEventListener("click", () => {
     };
 
     // Envía ese JSON al backend usando fetch
-    fetch("http://localhost:8080/api/auth/login", {
+    fetch("https://rdr1api.asandym.dev/api/auth/login", {
         method: "POST", // Método para enviar datos
         headers: { "Content-Type": "application/json" }, // le dice al backend que es JSON
         body: JSON.stringify(loginData) // Covierte el JS a texto JSON

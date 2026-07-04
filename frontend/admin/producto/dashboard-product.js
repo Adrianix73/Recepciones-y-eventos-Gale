@@ -1,7 +1,7 @@
 // ============================================================
 // CONFIG
 // ============================================================
-const API_BASE = "http://localhost:8080/api";
+const API_BASE = "https://rdr1api.asandym.dev";
 
 // ============================================================
 // VARIABLES GLOBALES
@@ -617,7 +617,7 @@ function construirUrlImagen(producto) {
     if (producto.imagen.startsWith("http")) {
       return producto.imagen;
     }
-    return `http://localhost:8080${producto.imagen}`;
+    return `https://rdr1api.asandym.dev${producto.imagen}`;
   }
 
   return null;
