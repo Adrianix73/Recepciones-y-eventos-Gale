@@ -30,7 +30,7 @@ public class DetalleVenta {
     @Column(nullable = false)
     private Double subtotal;
 
-    @Column(name = "notas_especifica")
+    @Column(name = "notas_especificas")
     private String notaEspecifica;
 
     public Integer getId() {
