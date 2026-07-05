@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ProductoController {
         try {
             Producto producto = productoService.guardar(
                     extraerTexto(body, "nombreProducto"),
-                    extraerDouble(body, "precioActual"),
+                    extraerBigDecimal(body, "precioActual"),
                     extraerTexto(body, "descripcion"),
                     extraerCategoriaId(body)
             );
@@ -68,7 +69,7 @@ public class ProductoController {
             Producto producto = productoService.actualizar(
                     id,
                     extraerTexto(body, "nombreProducto"),
-                    extraerDouble(body, "precioActual"),
+                    extraerBigDecimal(body, "precioActual"),
                     extraerTexto(body, "descripcion"),
                     extraerCategoriaId(body)
             );
@@ -163,7 +164,7 @@ public class ProductoController {
         return value == null ? null : value.toString().trim();
     }
 
-    private Double extraerDouble(Map<String, Object> body, String key) {
+    private BigDecimal extraerBigDecimal(Map<String, Object> body, String key) {
         Object value = body.get(key);
 
         if (value == null) {
@@ -171,10 +172,10 @@ public class ProductoController {
         }
 
         if (value instanceof Number numero) {
-            return numero.doubleValue();
+            return BigDecimal.valueOf(numero.doubleValue());
         }
 
-        return Double.valueOf(value.toString());
+        return new BigDecimal(value.toString());
     }
 
     private Integer extraerCategoriaId(Map<String, Object> body) {

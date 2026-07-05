@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +39,7 @@ public class ProductoService {
 
     // ── CREAR PRODUCTO (SOLO DATOS) ───────────────────────────
     public Producto guardar(String nombreProducto,
-                            Double precioActual,
+                            BigDecimal precioActual,
                             String descripcion,
                                Integer categoriaId) {
 
@@ -59,7 +60,7 @@ public class ProductoService {
     // ── EDITAR PRODUCTO (SOLO DATOS) ──────────────────────────
     public Producto actualizar(Integer id,
                                String nombreProducto,
-                               Double precioActual,
+                               BigDecimal precioActual,
                                String descripcion,
                             Integer categoriaId) {
 
@@ -149,7 +150,7 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
-    private void validarDatos(String nombreProducto, Double precioActual, Integer categoriaId) {
+    private void validarDatos(String nombreProducto, BigDecimal precioActual, Integer categoriaId) {
         if (nombreProducto == null || nombreProducto.isBlank()) {
             throw new IllegalArgumentException("El nombre del producto es obligatorio.");
         }

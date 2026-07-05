@@ -2,6 +2,7 @@ package com.restobar1.restobar_rdr.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,7 +23,7 @@ public class Venta {
     private LocalDateTime fechaHora;
 
     @Column(name = "total_venta", nullable = false)
-    private Double totalVenta;
+    private BigDecimal totalVenta;
 
     @Column(name = "metodo_pago")
     private String metodoPago;
@@ -53,11 +54,11 @@ public class Venta {
         this.fechaHora = fechaHora;
     }
 
-    public Double getTotalVenta() {
+    public BigDecimal getTotalVenta() {
         return totalVenta;
     }
 
-    public void setTotalVenta(Double totalVenta) {
+    public void setTotalVenta(BigDecimal totalVenta) {
         this.totalVenta = totalVenta;
     }
 

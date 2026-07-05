@@ -2,6 +2,8 @@ package com.restobar1.restobar_rdr.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "detalle_venta")
 public class DetalleVenta {
@@ -25,10 +27,10 @@ public class DetalleVenta {
     private Integer cantidad;
 
     @Column(name = "precio_unitario", nullable = false)
-    private Double precioUnitario;
+    private BigDecimal precioUnitario;
 
     @Column(nullable = false)
-    private Double subtotal;
+    private BigDecimal subtotal;
 
     @Column(name = "notas_especificas")
     private String notaEspecifica;
@@ -65,19 +67,19 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
 
-    public Double getPrecioUnitario() {
+    public BigDecimal getPrecioUnitario() {
         return precioUnitario;
     }
 
-    public void setPrecioUnitario(Double precioUnitario) {
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
 
-    public Double getSubtotal() {
+    public BigDecimal getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(Double subtotal) {
+    public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 

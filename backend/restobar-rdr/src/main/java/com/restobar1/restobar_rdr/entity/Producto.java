@@ -2,6 +2,7 @@ package com.restobar1.restobar_rdr.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,7 +24,7 @@ public class Producto {
     private String nombreProducto;
 
     @Column(name = "precio_actual", nullable = false)
-    private Double precioActual;
+    private BigDecimal precioActual;
 
     private String descripcion;
 
@@ -57,11 +58,11 @@ public class Producto {
         this.nombreProducto = nombreProducto;
     }
 
-    public Double getPrecioActual() {
+    public BigDecimal getPrecioActual() {
         return precioActual;
     }
 
-    public void setPrecioActual(Double precioActual) {
+    public void setPrecioActual(BigDecimal precioActual) {
         this.precioActual = precioActual;
     }
 
