@@ -24,7 +24,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<?> obtenerPorId(@PathVariable Integer id) {
         Usuario user = usuarioService.obtenerPorId(id);
 
         if (user == null) {
@@ -39,17 +39,17 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public Usuario editar(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public Usuario editar(@PathVariable Integer id, @RequestBody Usuario usuario) {
         return usuarioService.actualizar(id, usuario);
     }
 
     @PutMapping("/{id}/desactivar")
-    public void desactivar(@PathVariable Long id) {
+    public void desactivar(@PathVariable Integer id) {
         usuarioService.desactivar(id);
     }
 
     @PutMapping("/{id}/activar")
-    public void activar(@PathVariable Long id) {
+    public void activar(@PathVariable Integer id) {
         usuarioService.activar(id);
     }
 }

@@ -9,16 +9,16 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
-    private Long id;
+    private Integer id;
 
     @Column(name = "nombre_categoria", nullable = false)
     private String nombreCategoria;
 
-    public long getId() { return id; }
+    public int getId() { return id; }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

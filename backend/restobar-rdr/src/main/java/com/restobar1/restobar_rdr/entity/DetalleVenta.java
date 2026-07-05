@@ -9,7 +9,7 @@ public class DetalleVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_venta")
-    private Long id;
+    private Integer id;
 
     // FK a Producto
     @ManyToOne
@@ -33,11 +33,11 @@ public class DetalleVenta {
     @Column(name = "nota_especifica")
     private String notaEspecifica;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

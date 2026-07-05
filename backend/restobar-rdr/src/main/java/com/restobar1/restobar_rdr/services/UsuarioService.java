@@ -24,7 +24,7 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario obtenerPorId(Long id) {
+    public Usuario obtenerPorId(Integer id) {
         return usuarioRepository.findById(id).orElse(null);
     }
 
@@ -35,7 +35,7 @@ public class UsuarioService {
     }
 
     // Función de actualizar a un usuario
-    public Usuario actualizar(Long id, Usuario datos) {
+    public Usuario actualizar(Integer id, Usuario datos) {
         Usuario user = usuarioRepository.findById(id).orElse(null);
 
         if (user == null) return null;
@@ -52,7 +52,7 @@ public class UsuarioService {
         return usuarioRepository.save(user);
     }
 // Funciones de borrado lógico activar/desactivar
-    public void desactivar(Long id) {
+    public void desactivar(Integer id) {
         Usuario user = usuarioRepository.findById(id).orElse(null);
         if (user != null) {
             user.setFechaBaja(LocalDateTime.now());
@@ -60,7 +60,7 @@ public class UsuarioService {
         }
     }
 
-    public void activar (Long id){
+    public void activar (Integer id){
         Usuario user = usuarioRepository.findById(id).orElse(null);
         if (user != null) {
              user.setFechaBaja(null);

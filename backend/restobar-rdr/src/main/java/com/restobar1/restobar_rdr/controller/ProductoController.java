@@ -33,7 +33,7 @@ public class ProductoController {
 
     // ── OBTENER POR ID 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<Producto> obtenerPorId(@PathVariable Integer id) {
         Producto producto = productoService.obtenerPorId(id);
         if (producto == null) {
             return ResponseEntity.notFound().build();
@@ -62,7 +62,7 @@ public class ProductoController {
 
     // ── EDITAR PRODUCTO (SOLO DATOS) 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable Long id,
+    public ResponseEntity<?> editar(@PathVariable Integer id,
                                     @RequestBody Map<String, Object> body) {
         try {
             Producto producto = productoService.actualizar(
@@ -85,7 +85,7 @@ public class ProductoController {
 
     // ── SUBIR IMAGEN POR PRIMERA VEZ 
     @PostMapping("/{id}/imagen")
-    public ResponseEntity<?> subirImagen(@PathVariable Long id,
+    public ResponseEntity<?> subirImagen(@PathVariable Integer id,
                                          @RequestParam("imagen") MultipartFile imagen) {
         try {
             Producto producto = productoService.subirImagen(id, imagen);
@@ -102,7 +102,7 @@ public class ProductoController {
 
     // ── REEMPLAZAR IMAGEN 
     @PutMapping("/{id}/imagen")
-    public ResponseEntity<?> reemplazarImagen(@PathVariable Long id,
+    public ResponseEntity<?> reemplazarImagen(@PathVariable Integer id,
                                               @RequestParam("imagen") MultipartFile imagen) {
         try {
             Producto producto = productoService.reemplazarImagen(id, imagen);
@@ -119,7 +119,7 @@ public class ProductoController {
 
     // ── OBTENER IMAGEN POR ID DEL PRODUCTO 
     @GetMapping("/{id}/imagen")
-    public ResponseEntity<Resource> obtenerImagen(@PathVariable Long id) {
+    public ResponseEntity<Resource> obtenerImagen(@PathVariable Integer id) {
         try {
             Path rutaImagen = productoService.obtenerRutaImagen(id);
 
@@ -147,13 +147,13 @@ public class ProductoController {
 
     // ── DESACTIVAR 
     @PutMapping("/{id}/desactivar")
-    public void desactivar(@PathVariable Long id) {
+    public void desactivar(@PathVariable Integer id) {
         productoService.desactivar(id);
     }
 
     // ── ACTIVAR 
     @PutMapping("/{id}/activar")
-    public void activar(@PathVariable Long id) {
+    public void activar(@PathVariable Integer id) {
         productoService.activar(id);
     }
 
@@ -177,15 +177,15 @@ public class ProductoController {
         return Double.valueOf(value.toString());
     }
 
-    private Long extraerCategoriaId(Map<String, Object> body) {
+    private Integer extraerCategoriaId(Map<String, Object> body) {
         Object categoriaId = body.get("categoriaId");
 
         if (categoriaId instanceof Number numero) {
-            return numero.longValue();
+            return numero.intValue();
         }
 
         if (categoriaId != null && !categoriaId.toString().isBlank()) {
-            return Long.valueOf(categoriaId.toString());
+            return Integer.valueOf(categoriaId.toString());
         }
 
         Object categoria = body.get("categoria");
@@ -194,11 +194,11 @@ public class ProductoController {
             Object id = categoriaMap.get("id");
 
             if (id instanceof Number numero) {
-                return numero.longValue();
+                return numero.intValue();
             }
 
             if (id != null && !id.toString().isBlank()) {
-                return Long.valueOf(id.toString());
+                return Integer.valueOf(id.toString());
             }
         }
 

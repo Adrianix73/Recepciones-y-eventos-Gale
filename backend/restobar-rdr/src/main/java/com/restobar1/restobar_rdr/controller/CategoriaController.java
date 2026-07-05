@@ -31,12 +31,12 @@ public class CategoriaController {
 
     // PUT /api/categorias/{id} -> edita una categoría existente
     @PutMapping("/{id}")
-    public Categoria editar(@PathVariable Long id, @RequestBody Categoria categoria) {
+    public Categoria editar(@PathVariable Integer id, @RequestBody Categoria categoria) {
         return categoriaService.editar(id, categoria);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
+    public void eliminar(@PathVariable Integer id) {
         categoriaService.eliminar(id);
     }
 }

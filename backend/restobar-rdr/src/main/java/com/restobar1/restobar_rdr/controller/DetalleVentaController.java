@@ -29,7 +29,7 @@ public class DetalleVentaController {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
+    public void eliminar(@PathVariable Integer id) {
         detalleVentaService.eliminar(id);
     }
 }

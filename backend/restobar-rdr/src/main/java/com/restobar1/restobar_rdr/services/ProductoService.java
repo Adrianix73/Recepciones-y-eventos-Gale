@@ -32,7 +32,7 @@ public class ProductoService {
     }
 
     // ── OBTENER POR ID ────────────────────────────────────────
-    public Producto obtenerPorId(Long id) {
+    public Producto obtenerPorId(Integer id) {
         return productoRepository.findById(id).orElse(null);
     }
 
@@ -40,7 +40,7 @@ public class ProductoService {
     public Producto guardar(String nombreProducto,
                             Double precioActual,
                             String descripcion,
-                            Long categoriaId) {
+                               Integer categoriaId) {
 
         validarDatos(nombreProducto, precioActual, categoriaId);
 
@@ -57,11 +57,11 @@ public class ProductoService {
     }
 
     // ── EDITAR PRODUCTO (SOLO DATOS) ──────────────────────────
-    public Producto actualizar(Long id,
+    public Producto actualizar(Integer id,
                                String nombreProducto,
                                Double precioActual,
                                String descripcion,
-                               Long categoriaId) {
+                            Integer categoriaId) {
 
         validarDatos(nombreProducto, precioActual, categoriaId);
 
@@ -80,17 +80,17 @@ public class ProductoService {
     }
 
     // ── SUBIR IMAGEN ──────────────────────────────────────────
-    public Producto subirImagen(Long id, MultipartFile imagen) throws IOException {
+    public Producto subirImagen(Integer id, MultipartFile imagen) throws IOException {
         return guardarOReemplazarImagen(id, imagen);
     }
 
     // ── REEMPLAZAR IMAGEN ─────────────────────────────────────
-    public Producto reemplazarImagen(Long id, MultipartFile imagen) throws IOException {
+    public Producto reemplazarImagen(Integer id, MultipartFile imagen) throws IOException {
         return guardarOReemplazarImagen(id, imagen);
     }
 
     // ── OBTENER RUTA DE IMAGEN POR ID ─────────────────────────
-    public Path obtenerRutaImagen(Long id) throws IOException {
+    public Path obtenerRutaImagen(Integer id) throws IOException {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
@@ -108,7 +108,7 @@ public class ProductoService {
     }
 
     // ── DESACTIVAR ────────────────────────────────────────────
-    public void desactivar(Long id) {
+    public void desactivar(Integer id) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
@@ -117,7 +117,7 @@ public class ProductoService {
     }
 
     // ── ACTIVAR ───────────────────────────────────────────────
-    public void activar(Long id) {
+    public void activar(Integer id) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
@@ -126,7 +126,7 @@ public class ProductoService {
     }
 
     // ── HELPER PRINCIPAL DE IMAGEN ────────────────────────────
-    private Producto guardarOReemplazarImagen(Long id, MultipartFile imagen) throws IOException {
+    private Producto guardarOReemplazarImagen(Integer id, MultipartFile imagen) throws IOException {
         validarImagen(imagen);
 
         Producto producto = productoRepository.findById(id)
@@ -149,7 +149,7 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
-    private void validarDatos(String nombreProducto, Double precioActual, Long categoriaId) {
+    private void validarDatos(String nombreProducto, Double precioActual, Integer categoriaId) {
         if (nombreProducto == null || nombreProducto.isBlank()) {
             throw new IllegalArgumentException("El nombre del producto es obligatorio.");
         }
@@ -187,7 +187,7 @@ public class ProductoService {
         };
     }
 
-    private void eliminarImagenAnterior(Long id) throws IOException {
+    private void eliminarImagenAnterior(Integer id) throws IOException {
         if (!Files.exists(CARPETA_IMAGENES)) {
             return;
         }

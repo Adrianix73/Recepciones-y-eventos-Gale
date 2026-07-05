@@ -11,7 +11,7 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
-    private Long id;
+    private Integer id;
 
     // @ManyToOne = Muchos productos pertenecen a UNA categoría
     // @JoinColumn indica qué columna en la tabla "producto" es la FK
@@ -33,11 +33,11 @@ public class Producto {
     @Column(name = "fecha_desactivacion")
     private LocalDateTime fechaDesactivacion;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

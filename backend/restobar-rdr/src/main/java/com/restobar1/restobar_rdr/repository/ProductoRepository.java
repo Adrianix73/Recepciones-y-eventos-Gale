@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductoRepository extends JpaRepository<Producto, Long> {
-    // Spring genera la consulta automáticamnete por el nombre del método
-    boolean existsByCategoria_Id(Long id);
+public interface ProductoRepository extends JpaRepository<Producto, Integer> {
+    // Spring genera la consulta automaticamente por el nombre del metodo
+    boolean existsByCategoria_Id(Integer id);
 }
