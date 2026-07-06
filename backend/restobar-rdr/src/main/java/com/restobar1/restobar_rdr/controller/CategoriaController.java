@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController // Maneja peticiones HTTP, devuelve JSON
 @RequestMapping("/api/categorias") // URL base: /api/categorias
-@CrossOrigin(origins = "*") // Permite peticiones desde cualquier origen
+
 public class CategoriaController {
 
     private final CategoriaService categoriaService;
