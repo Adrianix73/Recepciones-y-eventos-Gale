@@ -1,5 +1,3 @@
-<img width="676" height="347" alt="Captura de pantalla 2026-07-23 103235" src="https://github.com/user-attachments/assets/8cd7f596-c7d9-4973-a1ab-f6c71a404617" />
-<img width="676" height="347" alt="Captura de pantalla 2026-07-23 103235" src="https://github.com/user-attachments/assets/5ec7ebee-1aae-4df3-a6c6-39865135d5f2" />
 ## Trello
 Más info en https://trello.com/b/SSyNjcTW/recepciones-y-eventos-gale-eirl
 
@@ -368,7 +366,7 @@ docker compose up --build
 
 El sistema está desplegado en producción con la siguiente arquitectura:
 
-<img width="676" height="347" alt="Captura de pantalla 2026-07-23 103235" src="https://github.com/user-attachments/assets/e6e70eef-0487-4c13-b981-2f402c8ee9f6" />
+<img width="1354" height="803" alt="Diagrama de Despliegue" src="https://github.com/user-attachments/assets/d48a0398-5e26-403e-9127-dbb07281e5db" />
 
 ### Componentes desplegados
 
