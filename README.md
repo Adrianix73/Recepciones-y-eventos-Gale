@@ -6,7 +6,7 @@ Más info en https://trello.com/b/SSyNjcTW/recepciones-y-eventos-gale-eirl
 # Sistema de Gestión de Ventas y Reportes
 
 Sistema web para la gestión de Ventas de los productos que ofrece la empresa y para la gestión de Reportes de productos más vendidos,
-cuál es el método de pago más usado, cuantos fueron las ganancias (al día, semana y mes), entre otros.
+cuál es el método de pago más usado, cuantas fueron las ganancias (al día, semana y mes), entre otros.
 
 Desarrollo como proyecto final del curso de Java Web en SENATI
 
@@ -34,7 +34,7 @@ demoras por mala comunicación y errores en cobros.
 Esto evidencia una necesidad urgente de digitalizar al menos el proceso de ventas y generación de reportes para 
 reducir pérdidas, errores y tiempos muertos.
 
-## Indetificar el problema y solución
+## Identificar el problema y solución
 
 ### Problema delimitado:
 
@@ -86,12 +86,12 @@ es estable ("muy bueno, casi nunca se cae"), lo que garantiza la viabilidad de u
 2. Draw.io = Diagrama DER y MR
 3. Figma = Wireframe + Diseño UI/UX
 4. pgAdmin = Diseñar y administrar BD
-5. Intellij IDEA = Backend (Sping Boot)
+5. Intellij IDEA = Backend (Spring Boot)
 6. VS Code = Frontend (HTML/CSS/JS)
 7. Postman = Para pruebas de API REST
 8. Docker = Para correr en cualquier dispositivo
 
-## Tecnologias Utilizadas
+## Tecnologías Utilizadas
 - Java 21
 - Spring Boot 3
 - PostgreSQL 16
@@ -151,7 +151,7 @@ Producto - Detalle_Venta (1:N)
 
 Un producto puede estar muchos detalles (Detalle_Venta), pero un detalle (Detalle_Venta) solo puede tener en un solo producto.
 
-| Entidad A | Relacion | Entidad B | Cardinalidad |
+| Entidad A | Relación | Entidad B | Cardinalidad |
 |---|---|---|---|
 | Categoria | tiene | Producto | 1:N |
 | Usuario | registra | Venta | 1:N |
@@ -214,7 +214,7 @@ El sistema cuenta con 5 tablas principales:
   CONSTRAINT chk_cantidad_positiva CHECK (cantidad > 0)
 );
 
- -- INSERCIÓN DATOS REPRENSETATIVOS
+ -- INSERCIÓN DATOS REPRESENTATIVOS
 
  -- CATEGORÍA
  INSERT INTO categoria (nombre_categoria) VALUES
@@ -272,16 +272,19 @@ El sistema cuenta con 5 tablas principales:
 ### Decisiones de Diseño
 - **Borrado lógico:** Los productos y usuarios no se eliminan. Se utilizan ```fecha_desactivacion``` (productos) y ```fecha_baja``` (usuarios) para desactivarlos, preservando la integridad histórica de ventas y reportes.
 - **Precio histórico:** El campo ```precio_unitario``` en detalle_venta almacena el precio al momento de la venta, independientemente de cambios futuros en ```precio_actual``` del producto.
-- **Seguridad:** Las contraseñas se almacenan hasheadas con BCrypt (hash irreversible con salt automático), nunca entexto plano
+- **Seguridad:** Las contraseñas se almacenan hasheadas con BCrypt (hash irreversible con salt automático), nunca en texto plano
 
 ## Evidencias del negocio
 ### Foto del negocio
 <img width="1600" height="1200" alt="letrero_3d_acrilico_pucallpa_002" src="https://github.com/user-attachments/assets/65c0401c-b846-4656-9634-90b5d9c9df66" />
 
 ### Foto del problema
-<img width="1000" height="666" alt="Menu-elegante" src="https://github.com/user-attachments/assets/4fb46720-902a-487a-ac48-7d0bec237b8d" />
+<img width="1000" height="666" alt="Menu-elegante" src="https://github.com/user-attachments/assets/4fb46720-902a-478a-ac48-7d0bec237b8d" />
 
-## Como correr el proyecto
+## DIAGRAMA DE FIGMA
+https://www.figma.com/design/VaGY5zk4hwqLfsuftBrOuK/Untitled?node-id=0-1&t=f5fw57nCb4pSx9Py-1
+
+## Cómo correr el proyecto
 El proyecto usa **Docker** para levantar el backend y la base de datos automáticamente.  
 No necesitas instalar Java, PostgreSQL ni XAMPP.  
   
@@ -314,8 +317,10 @@ Esto descarga las imágenes necesarias, construye el backend y levanta:
 
 Espera hasta ver en la consola algo como:
 
+```
 Tomcat started on port 8080  
 Started RestobarRdrApplication
+```
 
 #### Verificar que está corriendo
 
@@ -325,13 +330,13 @@ http://localhost:8080/api/categorias
 
 #### Frontend
 
-1. Abre la carpeta frontend/ en VS Code
-2. Abre index.html con Live Server
-3. El frontend se comunica con el backend vía fetch()
+1. Abre la carpeta `frontend/` en VS Code
+2. Abre `index.html` con Live Server
+3. El frontend se comunica con el backend vía `fetch()`
 
 > El backend debe estar corriendo antes de abrir el frontend.
 
-### Comándos útiles
+### Comandos útiles
 
 | Acción | Comando |
 |---|---|
@@ -357,6 +362,35 @@ docker compose down -v
 docker compose up --build
 ```
 
-## DIAGRAMA DE FIGMA
-https://www.figma.com/design/VaGY5zk4hwqLfsuftBrOuK/Untitled?node-id=0-1&t=f5fw57nCb4pSx9Py-1
+## Arquitectura de Despliegue en la Nube
+
+El sistema está desplegado en producción con la siguiente arquitectura:
+
+//image
+
+### Componentes desplegados
+
+| Componente | Proveedor | Detalles |
+|---|---|---|
+| **Dominio** | Cloudflare | `asandym.dev` (registrado y DNS gestionado en Cloudflare) |
+| **Frontend** | Cloudflare Pages | `https://rdr1.asandym.dev/` — HTML/CSS/JS estáticos servidos vía CDN global |
+| **Backend (API)** | Render | Web Service (Docker) — Spring Boot 3 en Java 21, `https://rdr1api.asandym.dev` |
+| **Base de Datos** | Render | PostgreSQL 16 gestionada, backups automáticos, SSL obligatorio |
+| **SSL/TLS** | Cloudflare + Render | Certificados automáticos (Universal SSL en Cloudflare, TLS en Render) |
+| **CORS** | Backend (Spring) | `WebConfig.java` permite explícitamente `https://rdr1.asandym.dev`, `http://localhost:5500`, `http://127.0.0.1:5500` (no `*`) |
+
+### Flujo de tráfico
+
+1. Usuario accede a **https://rdr1.asandym.dev/**
+2. Cloudflare Pages sirve el frontend estático (HTML/CSS/JS) desde su CDN global
+3. El frontend (JS vanilla) hace `fetch()` a **https://rdr1api.asandym.dev/** (el backend en Render)
+4. Render enruta el tráfico HTTPS al servicio Web (Spring Boot) y a PostgreSQL
+
+### Enlace de producción
+
+🔗 **https://rdr1.asandym.dev/**
+
+> El frontend está configurado para apuntar a `https://rdr1api.asandym.dev/**` como base URL de la API.
+
+---
 
