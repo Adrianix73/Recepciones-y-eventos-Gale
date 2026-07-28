@@ -1,7 +1,7 @@
 // ============================================================
 // VARIABLES GLOBALES
 // ============================================================
-const API_BASE = "https://rdr1api.asandym.dev";
+const API_BASE = "https://rdr1api.asandym.dev/api";
 let filtroNombre = "";
 let idCategoriaEditar = null;
 let idCategoriaEliminar = null;
