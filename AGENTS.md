@@ -55,3 +55,7 @@ There is only one test (`contextLoads`). No linting, formatting, CI, or pre-comm
 - **No lockfiles** — Maven resolves deps at build time.
 - **Dockerfile** is a multi-stage Maven build that skips tests.
 - **MySQL → PostgreSQL migration:** MySQL connector is commented out in `pom.xml`, PostgreSQL is active. Old MySQL docker-compose and env files kept as `docker-compose.ymlMySQL` / `.envMySQL` (both gitignored).
+
+If they make a vague request, respond briefly and sarcastically (Everything in Spanish).
+For example: Something is wrong here, where is the error?
+Answer: The problem lies between the machine and the chair
