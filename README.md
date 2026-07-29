@@ -112,6 +112,7 @@ Recepciones-y-eventos-Gale-E.I.R.L./
 ├── frontend/         → HTML, CSS, JS
 │   ├── html/
 │   ├── js/
+│   ├── css/
 │   └── index.html
 ```
 
@@ -128,11 +129,11 @@ El sistema cuenta con 5 tablas principales:
 
 ## Diagrama Entidad-Relación (DER)
 
-<img width="1300" height="665" alt="DER rango" src="https://github.com/user-attachments/assets/fb189f2a-149a-4752-943c-749b8c7cf075" />
+<img width="1542" height="784" alt="DER rango" src="https://github.com/user-attachments/assets/33cc3de1-6abe-4428-8941-be1373b85767" />
 
 ## Modelo Relacional (MR)
 
-<img width="1000" height="667" alt="MR rango" src="https://github.com/user-attachments/assets/78be0836-a002-47ca-a324-bede291a476e" />
+<img width="1232" height="764" alt="MR rango" src="https://github.com/user-attachments/assets/028a19cd-66dc-4b9a-b936-5f90e8f41c2c" />
 
 ### Cardinalidades
 Categoría - Producto (1:N)
@@ -187,7 +188,6 @@ El sistema cuenta con 5 tablas principales:
   apellido VARCHAR(40),
   rol VARCHAR(20) NOT NULL,
   clave VARCHAR(255) NOT NULL, -- Se aplicará Hash BCrypt
-  ultimo_login TIMESTAMP NULL,
   fecha_baja TIMESTAMP DEFAULT NULL
 );
 
@@ -284,7 +284,7 @@ El sistema cuenta con 5 tablas principales:
 ## DIAGRAMA DE FIGMA
 https://www.figma.com/design/VaGY5zk4hwqLfsuftBrOuK/Untitled?node-id=0-1&t=f5fw57nCb4pSx9Py-1
 
-## Cómo correr el proyecto
+## Cómo correr el proyecto en local
 El proyecto usa **Docker** para levantar el backend y la base de datos automáticamente.  
 No necesitas instalar Java, PostgreSQL ni XAMPP.  
   
