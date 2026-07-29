@@ -28,9 +28,6 @@ public class Usuario {
     @Column(name = "clave", nullable = false)
     private String clave;
 
-    @Column(name = "ultimo_login")
-    private LocalDateTime ultimoLogin;
-
     @Column(name = "fecha_baja")
     private LocalDateTime fechaBaja;
 
@@ -72,14 +69,6 @@ public class Usuario {
 
     public void setClave(String clave) {
         this.clave = clave;
-    }
-
-    public LocalDateTime getUltimoLogin() {
-        return ultimoLogin;
-    }
-
-    public void setUltimoLogin(LocalDateTime ultimoLogin) {
-        this.ultimoLogin = ultimoLogin;
     }
 
     public LocalDateTime getFechaBaja() {

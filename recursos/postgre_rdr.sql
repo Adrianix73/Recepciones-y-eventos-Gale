@@ -23,7 +23,6 @@
   apellido VARCHAR(40),
   rol VARCHAR(20) NOT NULL,
   clave VARCHAR(255) NOT NULL, -- Se aplicará Hash BCrypt
-  ultimo_login TIMESTAMP NULL,
   fecha_baja TIMESTAMP DEFAULT NULL
 );
 
